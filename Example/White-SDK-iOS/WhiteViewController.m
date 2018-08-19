@@ -7,7 +7,7 @@
 //
 
 #import "WhiteViewController.h"
-#import <WhiteSDK/WhiteSDK.h>
+#import <White-SDK-iOS/WhiteSDK.h>
 
 @interface WhiteViewController ()
 @property (nonatomic, copy) NSString *sdkToken;

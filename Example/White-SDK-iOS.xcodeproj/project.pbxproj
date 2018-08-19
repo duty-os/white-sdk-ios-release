@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39EFC90C21291BA3000FC86F /* White-SDK-iOS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */; };
 		438FEAC9AF61AD7EA6130CC5 /* Pods_White_SDK_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914CE42C55626CA054C5EC6D /* Pods_White_SDK_iOS_Tests.framework */; };
 		59DF736B9BB4502AED3F7088 /* Pods_White_SDK_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2E6B3E5A202ACED988DEED /* Pods_White_SDK_iOS_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		08945AFE9663D55516327E2F /* Pods-White-SDK-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "White-SDK-iOS.podspec"; path = "../White-SDK-iOS.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5C2E6B3E5A202ACED988DEED /* Pods_White_SDK_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_White_SDK_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* White-SDK-iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "White-SDK-iOS_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -64,7 +66,6 @@
 		914CE42C55626CA054C5EC6D /* Pods_White_SDK_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_White_SDK_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20D4A07D3B766C81AF86178 /* Pods-White-SDK-iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E1E0ED0E32D39C7FCFA4EB5E /* Pods-White-SDK-iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
-		F6BC4F870D72108087CD4233 /* WhiteSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WhiteSDK.podspec; path = ../WhiteSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F9CAB54594A22721C04670AF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		FEADABC83785E3856CE422A5 /* Pods-White-SDK-iOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,7 +179,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				F6BC4F870D72108087CD4233 /* WhiteSDK.podspec */,
+				39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */,
 				F9CAB54594A22721C04670AF /* README.md */,
 				213A8F9A8B80E833CF703658 /* LICENSE */,
 			);
@@ -248,6 +249,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = leavesster;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = NVV3VGDMQW;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -281,6 +285,7 @@
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				39EFC90C21291BA3000FC86F /* White-SDK-iOS.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +345,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/WhiteSDK/WhiteSDK.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/White-SDK-iOS/WhiteSDK.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -506,6 +511,7 @@
 			baseConfigurationReference = FEADABC83785E3856CE422A5 /* Pods-White-SDK-iOS_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = NVV3VGDMQW;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "White-SDK-iOS/White-SDK-iOS-Prefix.pch";
 				INFOPLIST_FILE = "White-SDK-iOS/White-SDK-iOS-Info.plist";
@@ -521,6 +527,7 @@
 			baseConfigurationReference = E1E0ED0E32D39C7FCFA4EB5E /* Pods-White-SDK-iOS_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = NVV3VGDMQW;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "White-SDK-iOS/White-SDK-iOS-Prefix.pch";
 				INFOPLIST_FILE = "White-SDK-iOS/White-SDK-iOS-Info.plist";

@@ -10,6 +10,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+iOS 8+
+
 ## Installation
 
 White-SDK-iOS is available through [CocoaPods](https://cocoapods.org). To install
