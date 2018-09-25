@@ -157,7 +157,7 @@
     [modifyRequest setHTTPMethod:@"POST"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    NSDictionary *params = @{@"name": @"test", @"limit": @110, @"width": @1024, @"height": @768};
+    NSDictionary *params = @{@"name": @"test", @"limit": @110, @"width": @1024, @"height": @768, @"mode": @"persistent"};
     NSData *postData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
     [modifyRequest setHTTPBody:postData];
     
