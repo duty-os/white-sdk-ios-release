@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'White-SDK-iOS'
-  s.version          = '0.2.5'
+  s.version          = '1.0.0'
   s.summary          = 'White iOS端 SDK 仓库。'
   s.description      = <<-DESC
    White 白板，使用White SDK 创建自己的互动白板

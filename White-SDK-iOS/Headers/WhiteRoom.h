@@ -49,7 +49,6 @@
 - (void)getRoomMembersWithResult:(void (^) (NSArray<WhiteRoomMember *> *roomMembers))result;
 //push 时，用的是WhitePptPage
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result;
-- (void)getTransformWithResult:(void (^) (WhiteLinearTransformationDescription *transform))result;
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
 
 @end
