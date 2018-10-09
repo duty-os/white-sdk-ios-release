@@ -16,6 +16,7 @@
 #import "WhiteBroadcastState.h"
 #import "WhiteRoomCallbacks.h"
 #import "WhiteRoomState.h"
+#import "WhiteEvent.h"
 
 @class WhiteBoardView;
 
@@ -36,8 +37,9 @@
 - (void)insertImage:(WhiteImageInformation *)imageInfo;
 - (void)pushPptPages:(NSArray<WhitePptPage *>*)pptPages;
 - (void)completeImageUploadWithUuid:(NSString *)uuid src:(NSString *)src;
-
-//- (void)dispatchMagixEvent:(NSString *)eventName payload:(NSString *)payload;
+- (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
+- (void)addMagixEventListener:(NSString *)eventName;
+- (void)removeMagixEventListener:(NSString *)eventName;
 //- (void)waitMagixEvent:(BOOL (^) (id akkoEvent))filter completeHandler:(void (^)(id akkoEvent))completeHandler;
 - (void)convertToPointInWorld:(CGPoint)point result:(void (^) (CGPoint point))result;
 //- (void)zoomChangeScale:(CGFloat)scale;
@@ -49,6 +51,7 @@
 - (void)getRoomMembersWithResult:(void (^) (NSArray<WhiteRoomMember *> *roomMembers))result;
 //push 时，用的是WhitePptPage
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result;
+//- (void)getTransformWithResult:(void (^) (WhiteLinearTransformationDescription *transform))result;
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
 
 @end

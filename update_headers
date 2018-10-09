@@ -1,0 +1,6 @@
+#!/bin/bash
+BASEDIR=$(cd $(dirname "$0"); pwd -P)
+set -exo pipefail
+
+cp ../white-sdk-iOS/WhiteSDK/Classes/*/*.h ./White-SDK-iOS/Headers
+cp ../white-sdk-iOS/WhiteSDK/Classes/*.h ./White-SDK-iOS/Headers

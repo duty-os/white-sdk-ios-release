@@ -9,16 +9,19 @@
 
 typedef NSString * WhiteApplianceNameKey;
 
-UIKIT_EXTERN WhiteApplianceNameKey const AppliancePencil;
-UIKIT_EXTERN WhiteApplianceNameKey const ApplianceSelector;
-UIKIT_EXTERN WhiteApplianceNameKey const ApplianceText;
-UIKIT_EXTERN WhiteApplianceNameKey const ApplianceEllipse;
-UIKIT_EXTERN WhiteApplianceNameKey const ApplianceRectangle;
-UIKIT_EXTERN WhiteApplianceNameKey const ApplianceEraser;
+extern WhiteApplianceNameKey const AppliancePencil;
+extern WhiteApplianceNameKey const ApplianceSelector;
+extern WhiteApplianceNameKey const ApplianceText;
+extern WhiteApplianceNameKey const ApplianceEllipse;
+extern WhiteApplianceNameKey const ApplianceRectangle;
+extern WhiteApplianceNameKey const ApplianceEraser;
 
 @interface WhiteMemberState : WhiteObject
+/** 教具，初始教具为pencil，无默认值 */
 @property (nonatomic, copy) WhiteApplianceNameKey currentApplianceName;
+/** 传入格式为[@(0-255),@(0-255),@(0-255)]的RGB */
 @property (nonatomic, copy) NSArray<NSNumber *> *strokeColor;
+/** 画笔粗细 */
 @property (nonatomic, strong) NSNumber *strokeWidth;
 @property (nonatomic, strong) NSNumber *textSize;
 @end
