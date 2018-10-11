@@ -64,6 +64,8 @@
     pptPage.height = 600;
     [self.room pushPptPages:@[pptPage]];
     
+    [self.room addMagixEventListener:@"test"];
+    [self.room dispatchMagixEvent:@"test" payload:@{@"23": @"3333"}];
     //    WhiteTextareaBox *textBox = [[WhiteTextareaBox alloc] init];
     //    textBox.width = 200;
     //    textBox.height = 200;
@@ -85,9 +87,9 @@
         
     }];
     
-    [self.room getTransformWithResult:^(WhiteLinearTransformationDescription *transform) {
-        NSLog(@"%@", [transform jsonString]);
-    }];
+//    [self.room getTransformWithResult:^(WhiteLinearTransformationDescription *transform) {
+//        NSLog(@"%@", [transform jsonString]);
+//    }];
     
     [self.room getGlobalStateWithResult:^(WhiteGlobalState *state) {
         NSLog(@"%@", [state jsonString]);
@@ -148,6 +150,10 @@
     NSLog(@"%s, %luu %@", __func__,(unsigned long) (unsigned long)userId, error);
 }
 
+- (void)fireMagixEvent:(WhiteEvent *)event
+{
+    NSLog(@"fireMagixEvent: %@", [event jsonString]);
+}
 
 #pragma mark - CreateRoom
 - (void)createRoomWithResult:(void (^) (BOOL success, id response))result;
