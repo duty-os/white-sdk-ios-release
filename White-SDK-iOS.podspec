@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.author           = { 'white' => 'support@herewhite.com' }
   s.source           = { :git => 'https://github.com/duty-os/white-sdk-ios-release.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.vendored_libraries = 'White-SDK-iOS/libWhiteSDK.a'
   
   s.resource_bundles = {
