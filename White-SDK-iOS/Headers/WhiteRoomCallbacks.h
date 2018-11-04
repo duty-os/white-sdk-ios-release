@@ -8,12 +8,11 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
-    WhiteRoomPhaseReady,
     WhiteRoomPhaseConnecting,
     WhiteRoomPhaseConnected,
     WhiteRoomPhaseReconnecting,
     WhiteRoomPhaseDisconnecting,
-    WhiteRoomPhaseClosed,
+    WhiteRoomPhaseDisconnected,
 };
 
 @class WhiteRoomState, WhiteEvent;
