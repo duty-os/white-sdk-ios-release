@@ -41,8 +41,9 @@
 - (void)addMagixEventListener:(NSString *)eventName;
 - (void)removeMagixEventListener:(NSString *)eventName;
 //- (void)waitMagixEvent:(BOOL (^) (id akkoEvent))filter completeHandler:(void (^)(id akkoEvent))completeHandler;
-- (void)convertToPointInWorld:(CGPoint)point result:(void (^) (CGPoint point))result;
-//- (void)zoomChangeScale:(CGFloat)scale;
+//- (void)convertToPointInWorld:(CGPoint)point result:(void (^) (CGPoint point))result;
+- (void)zoomChange:(CGFloat)scale;
+- (void)disableOperations:(BOOL)readonly;
 
 #pragma mark - Get State API
 
