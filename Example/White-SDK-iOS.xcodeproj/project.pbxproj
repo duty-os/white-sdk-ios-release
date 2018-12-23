@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */; };
+		39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC312021CFB72D009525A2 /* WhiteStartViewController.m */; };
 		39EFC90C21291BA3000FC86F /* White-SDK-iOS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */; };
-		438FEAC9AF61AD7EA6130CC5 /* Pods_White_SDK_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914CE42C55626CA054C5EC6D /* Pods_White_SDK_iOS_Tests.framework */; };
-		59DF736B9BB4502AED3F7088 /* Pods_White_SDK_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2E6B3E5A202ACED988DEED /* Pods_White_SDK_iOS_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* WhiteAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* WhiteAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* WhiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* WhiteViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -25,6 +24,8 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		A3A60AE2A0F794DB40BC7642 /* libPods-White-SDK-iOS_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */; };
+		AAF229292246C46B72D895DA /* libPods-White-SDK-iOS_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC496C873A985DE372D6E643 /* libPods-White-SDK-iOS_Example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,9 +40,13 @@
 
 /* Begin PBXFileReference section */
 		08945AFE9663D55516327E2F /* Pods-White-SDK-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteStartViewController.h; sourceTree = "<group>"; };
+		39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteRoomViewController.h; sourceTree = "<group>"; };
+		39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteRoomViewController.m; sourceTree = "<group>"; };
+		39BC312021CFB72D009525A2 /* WhiteStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteStartViewController.m; sourceTree = "<group>"; };
 		39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "White-SDK-iOS.podspec"; path = "../White-SDK-iOS.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		5C2E6B3E5A202ACED988DEED /* Pods_White_SDK_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_White_SDK_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* White-SDK-iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "White-SDK-iOS_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,8 +57,6 @@
 		6003F59B195388D20070C39A /* White-SDK-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "White-SDK-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* WhiteAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhiteAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* WhiteAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhiteAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* WhiteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhiteViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* WhiteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhiteViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* White-SDK-iOS_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "White-SDK-iOS_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -63,10 +66,10 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		914CE42C55626CA054C5EC6D /* Pods_White_SDK_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_White_SDK_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20D4A07D3B766C81AF86178 /* Pods-White-SDK-iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E1E0ED0E32D39C7FCFA4EB5E /* Pods-White-SDK-iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		F9CAB54594A22721C04670AF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		FC496C873A985DE372D6E643 /* libPods-White-SDK-iOS_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEADABC83785E3856CE422A5 /* Pods-White-SDK-iOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,7 +81,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				59DF736B9BB4502AED3F7088 /* Pods_White_SDK_iOS_Example.framework in Frameworks */,
+				AAF229292246C46B72D895DA /* libPods-White-SDK-iOS_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +92,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				438FEAC9AF61AD7EA6130CC5 /* Pods_White_SDK_iOS_Tests.framework in Frameworks */,
+				A3A60AE2A0F794DB40BC7642 /* libPods-White-SDK-iOS_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +127,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				5C2E6B3E5A202ACED988DEED /* Pods_White_SDK_iOS_Example.framework */,
-				914CE42C55626CA054C5EC6D /* Pods_White_SDK_iOS_Tests.framework */,
+				FC496C873A985DE372D6E643 /* libPods-White-SDK-iOS_Example.a */,
+				0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,8 +139,10 @@
 				6003F59C195388D20070C39A /* WhiteAppDelegate.h */,
 				6003F59D195388D20070C39A /* WhiteAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				6003F5A5195388D20070C39A /* WhiteViewController.h */,
-				6003F5A6195388D20070C39A /* WhiteViewController.m */,
+				39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */,
+				39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */,
+				39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */,
+				39BC312021CFB72D009525A2 /* WhiteStartViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -209,7 +214,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				79F74A94E6D9ED5B66046B4F /* [CP] Copy Pods Resources */,
-				1211E4BA46C9C0743E2A5CFF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -318,26 +322,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1211E4BA46C9C0743E2A5CFF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
-				"${BUILT_PRODUCTS_DIR}/dsBridge/dsBridge.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/dsBridge.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		79F74A94E6D9ED5B66046B4F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -382,7 +366,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* WhiteAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* WhiteViewController.m in Sources */,
+				39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */,
+				39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

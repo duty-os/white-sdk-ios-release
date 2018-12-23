@@ -1,16 +1,19 @@
 PODS:
   - dsBridge (3.0.2)
-  - White-SDK-iOS (1.1.3):
+  - Masonry (1.1.0)
+  - White-SDK-iOS (1.3.13):
     - dsBridge (~> 3.0.2)
     - YYModel (~> 1.0.4)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
+  - Masonry
   - White-SDK-iOS (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - dsBridge
+    - Masonry
     - YYModel
 
 EXTERNAL SOURCES:
@@ -19,9 +22,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   dsBridge: e3f0be728d736724a24503a24b7f82b17acdbb23
-  White-SDK-iOS: ac42e7ed8606a7802753208be9266f38f66381b6
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  White-SDK-iOS: db8e3bee59b5b5a0f99d98917824cb03c88f823d
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 7b5b8f141280acfdc877151080bec56ff54df21a
+PODFILE CHECKSUM: 5310dfe3ac4643fb5ba66139c04e22cf9b3100aa
 
 COCOAPODS: 1.5.3

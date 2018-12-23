@@ -1,8 +1,8 @@
-use_frameworks!
+#use_frameworks!
 
 target 'White-SDK-iOS_Example' do
   pod 'White-SDK-iOS', :path => '../'
-
+  pod 'Masonry'
   target 'White-SDK-iOS_Tests' do
     inherit! :search_paths
 
