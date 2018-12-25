@@ -44,7 +44,8 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
-- (NSString *)resourceInterrupter:(NSString *)url;
+//暂未开放
+//- (NSString *)resourceInterrupter:(NSString *)url;
 
 @end
 
