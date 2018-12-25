@@ -7,13 +7,15 @@
 //
 
 #import "WhiteRoomViewController.h"
-#import <Masonry/Masonry.h>
 
-@interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate>
+@interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, UIPopoverPresentationControllerDelegate>
 @property (nonatomic, copy) NSString *sdkToken;
 @property (nonatomic, strong) WhiteSDK *sdk;
 @property (nonatomic, strong) WhiteBoardView *boardView;
 @end
+
+#import <Masonry/Masonry.h>
+#import "WhiteCommandListController.h"
 
 @implementation WhiteRoomViewController
 
@@ -48,11 +50,16 @@ static NSString * const kCustomEvent = @"custom";
 #pragma mark - BarItem
 - (void)setupShareBarItem
 {
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"分享", nil) style:UIBarButtonItemStylePlain target:self action:@selector(shareRoom:)];
-    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"自定义", nil) style:UIBarButtonItemStylePlain target:self action:@selector(customRoomEvent)];
-    UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"主播", nil) style:UIBarButtonItemStylePlain target:self action:@selector(registerBroadcaster)];
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"设置 API", nil) style:UIBarButtonItemStylePlain target:self action:@selector(settingAPI:)];
+    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"分享", nil) style:UIBarButtonItemStylePlain target:self action:@selector(shareRoom:)];
 
-    self.navigationItem.rightBarButtonItems = @[item1, item2, item3];
+    self.navigationItem.rightBarButtonItems = @[item1, item2];
+}
+
+- (void)settingAPI:(id)sender
+{
+    WhiteCommandListController *controller = [[WhiteCommandListController alloc] initWithRoom:self.room];
+    [self showPopoverViewController:controller sourceView:sender];
 }
 
 - (void)shareRoom:(id)sender
@@ -60,18 +67,6 @@ static NSString * const kCustomEvent = @"custom";
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[self.roomUuid ? :@""] applicationActivities:nil];
     activityVC.popoverPresentationController.sourceView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
     [self presentViewController:activityVC animated:YES completion:nil];
-}
-
-- (void)registerBroadcaster
-{
-    [self.room setViewMode:WhiteViewModeBroadcaster];
-}
-
-#pragma mark - Action
-- (void)customRoomEvent
-{
-    NSDictionary *dict = @{@"test": @"1234"};
-    [self.room dispatchMagixEvent:kCustomEvent payload:dict];
 }
 
 #pragma mark - Room Action
@@ -170,20 +165,33 @@ static NSString * const kCustomEvent = @"custom";
     }];
 }
 
-#pragma mark - Set API
-- (void)setTestingAPI
+#pragma mark - UIPopoverPresentationController & Delegate
+- (void)showPopoverViewController:(UIViewController *)vc sourceView:(id)sourceView
 {
-    [self.room setViewMode:WhiteViewModeBroadcaster];
-    
-//    WhiteMemberState *mState = [[WhiteMemberState alloc] init];
-//    mState.currentApplianceName = ApplianceRectangle;
-//    [self.room setMemberState:mState];
-    
-    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
-    pptPage.src = @"http://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
-    pptPage.width = 400;
-    pptPage.height = 600;
-    [self.room pushPptPages:@[pptPage]];
+    vc.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *present = vc.popoverPresentationController;
+    present.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    present.delegate = self;
+    if ([sourceView isKindOfClass:[UIView class]]) {
+        present.sourceView = sourceView;
+        present.sourceRect = [sourceView bounds];
+    } else if ([sourceView isKindOfClass:[UIBarButtonItem class]]) {
+        present.barButtonItem = sourceView;
+    } else {
+        present.sourceView = self.view;
+    }
+
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
+}
+
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
+{
+    return YES;
 }
 
 #pragma mark - Get State API

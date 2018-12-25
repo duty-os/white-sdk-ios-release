@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		397DCE5A21D25A2F0076B381 /* WhiteCommandListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */; };
 		39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */; };
 		39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC312021CFB72D009525A2 /* WhiteStartViewController.m */; };
 		39EFC90C21291BA3000FC86F /* White-SDK-iOS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */; };
@@ -42,6 +43,8 @@
 		08945AFE9663D55516327E2F /* Pods-White-SDK-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		397DCE5821D25A2E0076B381 /* WhiteCommandListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteCommandListController.h; sourceTree = "<group>"; };
+		397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteCommandListController.m; sourceTree = "<group>"; };
 		39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteStartViewController.h; sourceTree = "<group>"; };
 		39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteRoomViewController.h; sourceTree = "<group>"; };
 		39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteRoomViewController.m; sourceTree = "<group>"; };
@@ -139,10 +142,12 @@
 				6003F59C195388D20070C39A /* WhiteAppDelegate.h */,
 				6003F59D195388D20070C39A /* WhiteAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */,
-				39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */,
 				39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */,
 				39BC312021CFB72D009525A2 /* WhiteStartViewController.m */,
+				39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */,
+				39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */,
+				397DCE5821D25A2E0076B381 /* WhiteCommandListController.h */,
+				397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -366,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* WhiteAppDelegate.m in Sources */,
+				397DCE5A21D25A2F0076B381 /* WhiteCommandListController.m in Sources */,
 				39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */,
 				39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
