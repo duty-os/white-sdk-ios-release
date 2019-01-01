@@ -24,13 +24,21 @@ static NSString * const kCustomEvent = @"custom";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    /* FIXME: 此处 tonken 只做 demo 试用。
-              实际使用时，请从 console.herewhite.com 重新注册申请。
-              该 token 不应该保存在客户端中，所有涉及该 token 的请求，都应该放在服务器中。
-    */
-    self.sdkToken = @"WHITEcGFydG5lcl9pZD1DYzlFNTJhTVFhUU5TYmlHNWJjbkpmVThTNGlNVXlJVUNwdFAmc2lnPTE3Y2ZiYzg0ZGM5N2FkNDAxZmY1MTM0ODMxYTdhZTE2ZGQ3MTdmZjI6YWRtaW5JZD00JnJvbGU9bWluaSZleHBpcmVfdGltZT0xNTY2MDQwNjk4JmFrPUNjOUU1MmFNUWFRTlNiaUc1YmNuSmZVOFM0aU1VeUlVQ3B0UCZjcmVhdGVfdGltZT0xNTM0NDgzNzQ2Jm5vbmNlPTE1MzQ0ODM3NDYzMzYwMA";
+    /* FIXME:
+     请在 console.herewhite.com 注册并申请 Token，再进行接入。
+     该 token 不应该保存在客户端中，所有涉及该 token 的请求，应该放在服务器中。
+     */
+    self.sdkToken = @"";
     self.view.backgroundColor = [UIColor orangeColor];
-    if ([self.roomUuid length] > 0) {
+    
+    if ([self.sdkToken length] == 0) {
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sdk token 不合法", nil) message:NSLocalizedString(@"请在 console.herewhite.com 注册并申请 Token，再进行接入。", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertVC addAction:action];
+        [self presentViewController:alertVC animated:YES completion:nil];
+    } else if ([self.roomUuid length] > 0) {
         [self joinRoom];
     } else {
         [self createRoom];
