@@ -15,6 +15,8 @@ static NSString *WhiteCommandCustomEvent = @"WhiteCommandCustomEvent";
 
 @interface WhiteCommandListController : UITableViewController
 
+@property (nonatomic, strong, nullable) WhiteBoardView *boarderView;
+
 - (instancetype)initWithRoom:(WhiteRoom *)room;
 
 @end

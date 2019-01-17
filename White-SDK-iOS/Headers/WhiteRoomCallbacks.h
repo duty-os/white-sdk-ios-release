@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - ENUM
+
 typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
     WhiteRoomPhaseConnecting,           //正在连接
     WhiteRoomPhaseConnected,            //连接成功
@@ -24,8 +26,13 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 /** 白板网络连接状态回调事件 */
 - (void)firePhaseChanged:(WhiteRoomPhase)phase;
 
-/** 白板当前任意RoomState属性变量变化时，回调 */
-- (void)fireRoomStateChanged:(WhiteRoomState *)magixPhase;
+/**
+ 白板中RoomState属性，发生变化时，会触发该回调。
+ 注意：主动设置的 RoomState，不会触发该回调。
+ 目前有个别 state 内容，主动调用时，也会触发。后续版本会修复这个问题。
+ @param modifyState 发生变化的 RoomState 内容
+ */
+- (void)fireRoomStateChanged:(WhiteRoomState *)modifyState;
 
 - (void)fireBeingAbleToCommitChange:(BOOL)isAbleToCommit;
 
@@ -35,7 +42,7 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 /** 用户被远程服务器踢出房间，附带踢出原因 */
 - (void)fireKickedWithReason:(NSString *)reason;
 
-/** 用户错误事件捕获，附带用户 id，已经错误原因 */
+/** 用户错误事件捕获，附带用户 id，以及错误原因 */
 - (void)fireCatchErrorWhenAppendFrame:(NSUInteger)userId error:(NSString *)error;
 
 /**
@@ -44,13 +51,16 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
-//暂未开放
-//- (NSString *)resourceInterrupter:(NSString *)url;
+//暂未实现
+//- (NSString *)urlInterrupter:(NSString *)url;
 
 @end
+
+#pragma mark - WhiteRoomCallbacks
 
 @interface WhiteRoomCallbacks : NSObject
 
 @property (nonatomic, weak) id<WhiteRoomCallbackDelegate> delegate;
+
 
 @end

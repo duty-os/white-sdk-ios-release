@@ -19,16 +19,14 @@
 
 @implementation WhiteRoomViewController
 
-static NSString * const kCustomEvent = @"custom";
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    /* FIXME:
-     请在 console.herewhite.com 注册并申请 Token，再进行接入。
-     该 token 不应该保存在客户端中，所有涉及该 token 的请求，应该放在服务器中。
-     */
-    self.sdkToken = @"";
+    /* FIXME: 此处 tonken 只做 demo 试用。
+              实际使用时，请从 console.herewhite.com 重新注册申请。
+              该 token 不应该保存在客户端中，所有涉及该 token 的请求，都应该放在服务器中。
+    */
+    self.sdkToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"white-sdk-token"];
     self.view.backgroundColor = [UIColor orangeColor];
     
     if ([self.sdkToken length] == 0) {
@@ -47,12 +45,12 @@ static NSString * const kCustomEvent = @"custom";
 
 #pragma mark - Property
 /* 默认为self，主要为了 Unit Testing */
-- (id<WhiteRoomCallbackDelegate>)roomCallback
+- (id<WhiteRoomCallbackDelegate>)roomCallbackDelegate
 {
-    if (!_roomCallback) {
-        _roomCallback = self;
+    if (!_roomCallbackDelegate) {
+        _roomCallbackDelegate = self;
     }
-    return _roomCallback;
+    return _roomCallbackDelegate;
 }
 
 #pragma mark - BarItem
@@ -67,6 +65,7 @@ static NSString * const kCustomEvent = @"custom";
 - (void)settingAPI:(id)sender
 {
     WhiteCommandListController *controller = [[WhiteCommandListController alloc] initWithRoom:self.room];
+    controller.boarderView = self.boardView;
     [self showPopoverViewController:controller sourceView:sender];
 }
 
@@ -98,6 +97,8 @@ static NSString * const kCustomEvent = @"custom";
                 NSLog(NSLocalizedString(@"连接房间失败，room uuid:%@ roomToken:%@", nil), self.roomUuid, roomToken);
                 self.title = NSLocalizedString(@"创建失败", nil);
             }
+        } else if (self.roomBlock) {
+            self.roomBlock(nil, error);
         } else {
             NSLog(NSLocalizedString(@"创建房间失败，error:", nil), [error localizedDescription]);
             self.title = NSLocalizedString(@"创建失败", nil);
@@ -152,15 +153,17 @@ static NSString * const kCustomEvent = @"custom";
     }];
     
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:[WhiteSdkConfiguration defaultConfig]];
-    [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallback completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
+    [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
             [self setupShareBarItem];
             self.room = room;
-            [self.room addMagixEventListener:kCustomEvent];
+            [self.room addMagixEventListener:WhiteCommandCustomEvent];
             if (self.roomBlock) {
-                self.roomBlock(self.room);
+                self.roomBlock(self.room, nil);
             }
+        } else if (self.roomBlock) {
+            self.roomBlock(nil, error);
         } else {
             self.title = NSLocalizedString(@"加入失败", nil);
             UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"加入房间失败", nil) message:[NSString stringWithFormat:@"错误信息:%@", [error localizedDescription]] preferredStyle:UIAlertControllerStyleAlert];
@@ -237,12 +240,6 @@ static NSString * const kCustomEvent = @"custom";
 - (void)fireRoomStateChanged:(WhiteRoomState *)magixPhase;
 {
     NSLog(@"%s, %@", __func__, [magixPhase jsonString]);
-    if ([magixPhase.pptImages count] > 0) {
-        //传入ppt时，立刻跳到对应页
-        WhiteGlobalState *state = [[WhiteGlobalState alloc] init];
-        state.currentSceneIndex = [magixPhase.pptImages count] - 1;
-        [self.room setGlobalState:state];
-    }
 }
 
 - (void)fireBeingAbleToCommitChange:(BOOL)isAbleToCommit
@@ -270,9 +267,9 @@ static NSString * const kCustomEvent = @"custom";
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
 }
 
-- (NSString *)resourceInterrupter:(NSString *)url
+- (NSString *)urlInterrupter:(NSString *)url
 {
-    return url;
+    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
 }
 
 #pragma mark - Room Server Request

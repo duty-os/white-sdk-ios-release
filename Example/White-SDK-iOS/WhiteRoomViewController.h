@@ -9,7 +9,7 @@
 @import UIKit;
 #import "WhiteSDK.h"
 
-typedef void(^RoomBlock)(WhiteRoom *room);
+typedef void(^RoomBlock)(WhiteRoom *room, NSError *eroror);
 
 @interface WhiteRoomViewController : UIViewController
 
@@ -18,7 +18,7 @@ typedef void(^RoomBlock)(WhiteRoom *room);
 @property (nonatomic, strong) WhiteRoom *room;
 
 #pragma mark - Unit Testing
-@property (nonatomic, weak) id<WhiteRoomCallbackDelegate> roomCallback;
+@property (nonatomic, weak) id<WhiteRoomCallbackDelegate> roomCallbackDelegate;
 @property (nonatomic, copy) RoomBlock roomBlock;
 
 @end

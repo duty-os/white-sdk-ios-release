@@ -15,10 +15,10 @@
 
 @interface WhiteRoomState : WhiteObject
 
-@property (nonatomic, strong) WhiteGlobalState *globalState;
-@property (nonatomic, strong) WhiteMemberState *memberState;
-@property (nonatomic, strong) NSArray<WhiteRoomMember *> *WhiteRoomMembers;
-@property (nonatomic, strong) NSArray<NSString *> *pptImages;
-@property (nonatomic, strong) WhiteBroadcastState *broadcastState;
-@property (nonatomic, strong) WhiteLinearTransformationDescription *transform;
+@property (nonatomic, strong, nullable) WhiteGlobalState *globalState;
+@property (nonatomic, strong, nullable) WhiteMemberState *memberState;
+@property (nonatomic, strong, nullable) NSArray<WhiteRoomMember *> *WhiteRoomMembers;
+@property (nonatomic, strong, nullable) NSArray<NSString *> *pptImages;
+@property (nonatomic, strong, nullable) WhiteBroadcastState *broadcastState;
+@property (nonatomic, strong, nullable) WhiteLinearTransformationDescription *transform;
 @end

@@ -5,12 +5,12 @@
 //  Created by leavesster on 2018/8/15.
 //
 
-#import <dsBridge/dsBridge.h>
+#import <dsbridge/dsbridge.h>
 #import "WhiteRoom.h"
 
 @interface WhiteBoardView : DWKWebView
 
-@property (nonatomic, strong) WhiteRoom *room;
+@property (nonatomic, strong, nullable) WhiteRoom *room;
 
 - (instancetype)init;
 
