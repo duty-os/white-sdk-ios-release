@@ -109,9 +109,9 @@
  */
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result;
 
-/* 获取所有页面的信息 */
+/** 获取所有页面的信息 */
 - (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
-/* 获取当前视角模式 */
+/** 获取当前视角模式 */
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
 
 @end

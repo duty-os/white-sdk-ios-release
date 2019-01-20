@@ -51,8 +51,15 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
-//暂未实现
-//- (NSString *)urlInterrupter:(NSString *)url;
+
+@optional
+
+/*
+ 调用插入图片API时，可以通过此方法，对使用插入图片API(completeImageUploadWithUuid:src:) 中，传入的 src 进行修改。
+ 该方法会被频繁调用，执行应尽可能快返回；如果没有对应需求，最好不要实现该方法。
+ 如果需要该 API，最好使用最新的 SDK 初始化方法初始化 WhiteSDK。
+ */
+- (NSString *)urlInterrupter:(NSString *)url;
 
 @end
 

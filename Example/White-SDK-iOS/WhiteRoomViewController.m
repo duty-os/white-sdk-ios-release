@@ -267,6 +267,7 @@
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
 }
 
+//FIXME:没有对应需求，最好不要实现该方法，减少调用
 - (NSString *)urlInterrupter:(NSString *)url
 {
     return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";

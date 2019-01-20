@@ -8,6 +8,12 @@
 
 ---
 
+## [1.3.17] - 2019-01-20
+### Add
+-  增加 url 拦截 API `urlInterrupter:` ，方便提供私有图片 URL（插入图片 API，以及插入 ppt API 都会被拦截）。
+### Fixed
+- 获取当前用户视角状态API `getBroadcastStateWithResult:` 返回错误的枚举值
+
 ## [1.3.16] - 2019-01-19
 ### Add
 - 增加获取房间连接状态 API

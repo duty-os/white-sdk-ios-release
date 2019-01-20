@@ -72,11 +72,10 @@
     self.vc.roomCallbackDelegate = self;
     __unused UIView *view = [self.vc view];
     
-    XCTestExpectation *exp = [self expectationWithDescription:@"createRoom"];
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
 
     __weak typeof(self)weakSelf = self;
     self.vc.roomBlock = ^(WhiteRoom *room, NSError *error) {
-        XCTAssert(room);
         weakSelf.room = room;
         [exp fulfill];
     };
@@ -101,98 +100,114 @@
     XCTAssertNotNil(self.vc.room);
 }
 
-#pragma mark - Set API
-
-- (void)testSetViewMode
+- (void)testSetBroadcaster
 {
-    [self.room setViewMode:WhiteViewModeBroadcaster];
+    [self viewModeTest:WhiteViewModeBroadcaster];
 }
 
-- (void)testMemberState
+//单个用户无法成为观众
+//- (void)testSetFollower
+//{
+//    [self.room setViewMode:WhiteViewModeFollower];
+//    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+//    [self.room getBroadcastStateWithResult:^(WhiteBroadcastState *state) {
+//        XCTAssertTrue([state isKindOfClass:[WhiteBroadcastState class]]);
+//        XCTAssertEqual(state.viewMode, WhiteViewModeFollower);
+//        [exp fulfill];
+//    }];
+//
+//    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+//        if (error) {
+//            NSLog(@"%s error: %@", __FUNCTION__, error);
+//        }
+//    }];
+//}
+
+- (void)testSetFreedom
+{
+    [self viewModeTest:WhiteViewModeFreedom];
+}
+
+- (void)viewModeTest:(WhiteViewMode)viewMode
+{
+    [self.room setViewMode:viewMode];
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room getBroadcastStateWithResult:^(WhiteBroadcastState *state) {
+        XCTAssertTrue([state isKindOfClass:[WhiteBroadcastState class]]);
+        XCTAssertTrue(state.viewMode == viewMode);
+        [exp fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testSetMemberState
 {
     WhiteMemberState *mState = [[WhiteMemberState alloc] init];
     mState.currentApplianceName = ApplianceRectangle;
     [self.room setMemberState:mState];
+    
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room getMemberStateWithResult:^(WhiteMemberState *state) {
+        XCTAssertTrue([state isKindOfClass:[WhiteMemberState class]]);
+        XCTAssertTrue([state.currentApplianceName isEqualToString:mState.currentApplianceName]);
+        [exp fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
 }
 
-- (void)testGlobalState
-{
-    WhiteGlobalState *gState = [[WhiteGlobalState alloc] init];
-    [gState setCurrentSceneIndex:3];
-    [self.room setGlobalState:gState];
-}
-
-- (void)testPushPptPages
+- (void)testSetGlobalState
 {
     WhitePptPage *pptPage = [[WhitePptPage alloc] init];
     pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/image.png";
     pptPage.width = 600;
     pptPage.height = 600;
     [self.room pushPptPages:@[pptPage]];
-}
 
-#pragma mark - Get API testing
-
-- (void)testGetPptImagesWithResult
-{
-    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
-        XCTAssertTrue([pptPages isKindOfClass:[NSArray class]]);
-        NSLog(@"%@", pptPages);
-        [exp fulfill];
-    }];
+    WhiteGlobalState *gState = [[WhiteGlobalState alloc] init];
+    [gState setCurrentSceneIndex:1];
+    [self.room setGlobalState:gState];
     
-    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
-        }
-    }];
-}
-
-- (void)testGetGlobalState
-{
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     [self.room getGlobalStateWithResult:^(WhiteGlobalState *state) {
         XCTAssertTrue([state isKindOfClass:[WhiteGlobalState class]]);
-        NSLog(@"%@", [state jsonString]);
+        XCTAssertEqual(state.currentSceneIndex, 1);
         [exp fulfill];
     }];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@", error);
+            NSLog(@"%s error: %@", __FUNCTION__, error);
         }
     }];
 }
 
-- (void)testGetMemberState
+- (void)testPptImages
 {
+    WhitePptPage *ppt = [[WhitePptPage alloc] init];
+    ppt.src = @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
+    ppt.width = 600;
+    ppt.height = 600;
+    [self.room pushPptPages:@[ppt]];
+    
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getMemberStateWithResult:^(WhiteMemberState *state) {
-        XCTAssertTrue([state isKindOfClass:[WhiteMemberState class]]);
-        NSLog(@"%@", [state jsonString]);
+    [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
+        XCTAssertTrue([[pptPages lastObject] isEqualToString:ppt.src]);
         [exp fulfill];
     }];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@", error);
-        }
-    }];
-}
-
-- (void)testBroadcastState
-{
-    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getBroadcastStateWithResult:^(WhiteBroadcastState *state) {
-        XCTAssertTrue([state isKindOfClass:[WhiteBroadcastState class]]);
-        NSLog(@"%@", [state jsonString]);
-        [exp fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
+            NSLog(@"%s error: %@", __FUNCTION__, error);
         }
     }];
 }
@@ -202,15 +217,15 @@
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     [self.room getRoomMembersWithResult:^(NSArray<WhiteRoomMember *> *roomMembers) {
         for (WhiteRoomMember *member in roomMembers) {
-            NSLog(@"%@", [member jsonString]);
             XCTAssertTrue([member isKindOfClass:[WhiteRoomMember class]]);
+            NSLog(@"%s %@", __FUNCTION__, [member jsonString]);
         }
         [exp fulfill];
     }];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@", error);
+            NSLog(@"%s error: %@", __FUNCTION__, error);
         }
     }];
 }
@@ -223,7 +238,7 @@
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@", error);
+            NSLog(@"%s error: %@", __FUNCTION__, error);
         }
     }];
 }
