@@ -230,7 +230,7 @@
     }];
 }
 
-- (void)testRoomMemberFireMagixEvent
+- (void)testCustomEvent
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     NSDictionary *dict = @{@"test": @"1234"};

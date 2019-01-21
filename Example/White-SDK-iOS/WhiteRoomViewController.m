@@ -10,7 +10,9 @@
 
 @interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, UIPopoverPresentationControllerDelegate>
 @property (nonatomic, copy) NSString *sdkToken;
+@property (nonatomic, copy) NSString *roomToken;
 @property (nonatomic, strong) WhiteSDK *sdk;
+@property (nonatomic, assign, getter=isReconnecting) BOOL reconnecting;
 @property (nonatomic, strong) WhiteBoardView *boardView;
 @end
 
@@ -152,13 +154,16 @@
         make.left.bottom.right.equalTo(self.view);
     }];
     
-    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:[WhiteSdkConfiguration defaultConfig]];
-    [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
+    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:[WhiteSdkConfiguration defaultConfig] callbackDelegate:self.roomCallbackDelegate];
+    [self.sdk joinRoomWithUuid:self.roomUuid roomToken:roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
-            [self setupShareBarItem];
+
+            self.roomToken = roomToken;
             self.room = room;
             [self.room addMagixEventListener:WhiteCommandCustomEvent];
+            [self setupShareBarItem];
+            
             if (self.roomBlock) {
                 self.roomBlock(self.room, nil);
             }
@@ -235,6 +240,18 @@
 - (void)firePhaseChanged:(WhiteRoomPhase)phase
 {
     NSLog(@"%s, %ld", __FUNCTION__, (long)phase);
+    if (phase == WhiteRoomPhaseDisconnected && self.sdk && !self.isReconnecting) {
+        self.reconnecting = YES;
+        [self.sdk joinRoomWithUuid:self.roomUuid roomToken:self.roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
+            self.reconnecting = NO;
+            NSLog(@"reconnected");
+            if (error) {
+                NSLog(@"error:%@", [error localizedDescription]);
+            } else {
+                self.room = room;
+            }
+        }];
+    }
 }
 
 - (void)fireRoomStateChanged:(WhiteRoomState *)magixPhase;

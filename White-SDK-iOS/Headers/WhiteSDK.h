@@ -24,7 +24,7 @@
 /** 加入房间API
  网络出现问题时，白板会自行尝试重连操作，当重连3次失败了，会处于断开状态；此时可以手动调用该方法手动加入房间。
  */
-- (void)joinRoomWithUuid:(NSString *)uuid roomToken:(NSString *)roomToken completionHandler:(void (^)(BOOL, WhiteRoom *, NSError *))completionHander;
+- (void)joinRoomWithUuid:(NSString *)uuid roomToken:(NSString *)roomToken completionHandler:(void (^)(BOOL success, WhiteRoom *room, NSError *error))completionHander;
 
 - (void)joinRoomWithRoomUuid:(NSString *)roomUuid roomToken:(NSString *)roomToken callbacks:(id<WhiteRoomCallbackDelegate>)callbacks completionHandler:(void (^) (BOOL success, WhiteRoom *room, NSError *error))completionHander DEPRECATED_MSG_ATTRIBUTE("initWithBoardView:config:");
 

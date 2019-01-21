@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypeGetPpt,
     CommandTypeGetScene,
     CommandTypeGetRoomPhase,
+    CommandTypeDisconnect,
     CommandTypeReadonly,
     CommandTypeEnable,
     CommandTypePencil,
@@ -47,7 +48,7 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil)];
+    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
@@ -89,8 +90,8 @@ static NSString *kReuseCell = @"reuseCell";
             [self.room getBroadcastStateWithResult:^(WhiteBroadcastState *state) {
                 NSLog(@"broadcastState:%@", [state jsonString]);
             }];
-        }
             break;
+        }
         case CommandTypeCustomEvent:
             [self.room dispatchMagixEvent:WhiteCommandCustomEvent payload:@{WhiteCommandCustomEvent: @"test"}];
             break;
@@ -148,30 +149,33 @@ static NSString *kReuseCell = @"reuseCell";
             }];
             break;
         }
-        case CommandTypeReadonly:
+        case CommandTypeDisconnect:
         {
-            [self.room disableOperations:YES];
+            [self.room disconnect:^{
+                
+            }];
+            break;
         }
+        case CommandTypeReadonly:
+            [self.room disableOperations:YES];
             break;
         case CommandTypeEnable:
-        {
             [self.room disableOperations:NO];
-        }
             break;
         case CommandTypePencil:
         {
             WhiteMemberState *mState = [[WhiteMemberState alloc] init];
             mState.currentApplianceName = AppliancePencil;
             [self.room setMemberState:mState];
-        }
             break;
+        }
         case CommandTypeRectangle:
         {
             WhiteMemberState *mState = [[WhiteMemberState alloc] init];
             mState.currentApplianceName = ApplianceRectangle;
             [self.room setMemberState:mState];
-        }
             break;
+        }
         default:
             break;
     }
