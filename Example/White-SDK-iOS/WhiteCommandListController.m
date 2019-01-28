@@ -23,6 +23,8 @@ typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypeEnable,
     CommandTypePencil,
     CommandTypeRectangle,
+    CommandTypeColor,
+    CommandTypeCustomDevice,
 };
 
 @interface WhiteCommandListController ()
@@ -48,13 +50,13 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil)];
+    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"外部设备输入", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
 - (CGSize)preferredContentSize
 {
-    return CGSizeMake(150, self.commands.count * 44);
+    return CGSizeMake(150, MIN(self.commands.count, 6) * 44);
 }
 
 #pragma mark - Table view data source
@@ -174,6 +176,34 @@ static NSString *kReuseCell = @"reuseCell";
             WhiteMemberState *mState = [[WhiteMemberState alloc] init];
             mState.currentApplianceName = ApplianceRectangle;
             [self.room setMemberState:mState];
+            break;
+        }
+        case CommandTypeColor:
+        {
+            WhiteMemberState *mState = [[WhiteMemberState alloc] init];
+            mState.currentApplianceName = AppliancePencil;
+            mState.strokeColor = @[@200, @200, @200];
+            mState.strokeWidth = @10;
+            [self.room setMemberState:mState];
+            break;
+        }
+        case CommandTypeCustomDevice:
+        {
+            [self.room disableOperations:YES];
+            WhitePanEvent *panEvent = [[WhitePanEvent alloc] init];
+            panEvent.x = 100;
+            panEvent.y = 100;
+            [self.room externalDeviceEventDown:panEvent];
+            
+            int i = 0;
+            while (i < 20) {
+                panEvent.x = 100 + i * 3;
+                panEvent.y = 100 + i * 3;
+                [self.room externalDeviceEventMove:panEvent];
+                i++;
+            }
+            [self.room externalDeviceEventUp:panEvent];
+            [self.room disableOperations:NO];
             break;
         }
         default:

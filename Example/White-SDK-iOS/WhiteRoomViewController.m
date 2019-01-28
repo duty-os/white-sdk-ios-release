@@ -285,10 +285,10 @@
 }
 
 //FIXME:没有对应需求，最好不要实现该方法，减少调用
-- (NSString *)urlInterrupter:(NSString *)url
-{
-    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
-}
+//- (NSString *)urlInterrupter:(NSString *)url
+//{
+//    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
+//}
 
 #pragma mark - Room Server Request
 //FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 console.herewhite.com 获取的 token 发生泄露。

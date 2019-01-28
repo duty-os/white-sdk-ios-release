@@ -18,6 +18,7 @@
 #import "WhiteRoomState.h"
 #import "WhiteEvent.h"
 #import "WhiteScene.h"
+#import "WhitePanEvent.h"
 
 @class WhiteBoardView;
 
@@ -113,5 +114,16 @@
 - (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
 /** 获取当前视角模式 */
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
+
+#pragma mark - Experimental API
+
+/** 该 API 为实验性 API，不保证未来兼容性 */
+- (void)externalDeviceEventDown:(WhitePanEvent *)event;
+/** 该 API 为实验性 API，不保证未来兼容性 */
+- (void)externalDeviceEventMove:(WhitePanEvent *)event;
+/** 该 API 为实验性 API，不保证未来兼容性 */
+- (void)externalDeviceEventUp:(WhitePanEvent *)event;
+/** 该 API 为实验性 API，不保证未来兼容性 */
+- (void)externalDeviceEventLeave:(WhitePanEvent *)event;
 
 @end
