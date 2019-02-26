@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 @property (nonatomic, assign) WhiteDeviceType deviceType;
 /** default value: 0.1 */
 @property (nonatomic, assign) CGFloat zoomMinScale;
-/** default value: 0.1 */
+/** default value: 10 */
 @property (nonatomic, assign) CGFloat zoomMaxScale;
+
+@property (nonatomic, assign) BOOL enableDebug;
 @end

@@ -11,5 +11,6 @@
 
 + (instancetype)modelWithJSON:(id)json;
 - (NSString *)jsonString;
+- (NSDictionary *)jsonDict;
 
 @end

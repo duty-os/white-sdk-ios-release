@@ -154,7 +154,9 @@
         make.left.bottom.right.equalTo(self.view);
     }];
     
-    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:[WhiteSdkConfiguration defaultConfig] callbackDelegate:self.roomCallbackDelegate];
+    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
+    config.enableDebug = YES;
+    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:config callbackDelegate:self.roomCallbackDelegate];
     [self.sdk joinRoomWithUuid:self.roomUuid roomToken:roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
@@ -210,32 +212,6 @@
     return YES;
 }
 
-#pragma mark - Get State API
-- (void)getTestingAPI
-{
-    [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
-        NSLog(@"%@", pptPages);
-    }];
-    
-    [self.room getGlobalStateWithResult:^(WhiteGlobalState *state) {
-        NSLog(@"%@", [state jsonString]);
-    }];
-    
-    [self.room getMemberStateWithResult:^(WhiteMemberState *state) {
-        NSLog(@"%@", [state jsonString]);
-    }];
-    
-    [self.room getBroadcastStateWithResult:^(WhiteBroadcastState *state) {
-        NSLog(@"%@", [state jsonString]);
-    }];
-    
-    [self.room getRoomMembersWithResult:^(NSArray<WhiteRoomMember *> *roomMembers) {
-        for (WhiteRoomMember *m in roomMembers) {
-            NSLog(@"%@", [m jsonString]);
-        }
-    }];
-}
-
 #pragma mark - WhiteRoomCallbackDelegate
 - (void)firePhaseChanged:(WhiteRoomPhase)phase
 {
@@ -276,7 +252,7 @@
 
 - (void)fireCatchErrorWhenAppendFrame:(NSUInteger)userId error:(NSString *)error
 {
-    NSLog(@"%s, %luu %@", __func__,(unsigned long) (unsigned long)userId, error);
+    NSLog(@"%s, %lu %@", __func__, (unsigned long)userId, error);
 }
 
 - (void)fireMagixEvent:(WhiteEvent *)event
@@ -293,9 +269,11 @@
 #pragma mark - Room Server Request
 //FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 console.herewhite.com 获取的 token 发生泄露。
 
+static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
+
 - (void)createRoomWithResult:(void (^) (BOOL success, id response, NSError *error))result;
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://cloudcapiv3.herewhite.com/room?token=%@", self.sdkToken]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"room?token=%@"], self.sdkToken]]];
     NSMutableURLRequest *modifyRequest = [request mutableCopy];
     [modifyRequest setHTTPMethod:@"POST"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -325,7 +303,7 @@
  */
 - (void)getRoomTokenWithUuid:(NSString *)uuid Result:(void (^) (BOOL success, id response, NSError *error))result
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://cloudcapiv3.herewhite.com/room/join?uuid=%@&token=%@", uuid, self.sdkToken]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"/room/join?uuid=%@&token=%@"], uuid, self.sdkToken]]];
     NSMutableURLRequest *modifyRequest = [request mutableCopy];
     [modifyRequest setHTTPMethod:@"POST"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

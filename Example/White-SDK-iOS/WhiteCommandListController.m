@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypeFollower,
     CommandTypeCurrentViewMode,
     CommandTypeCustomEvent,
+    CommandTypeInsertNewScene,
     CommandTypeInsertPpt,
     CommandTypeInsertImage,
     CommandTypeGetPpt,
@@ -50,7 +51,7 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"外部设备输入", nil)];
+    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"插入新页面", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"外部设备输入", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
@@ -97,23 +98,19 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypeCustomEvent:
             [self.room dispatchMagixEvent:WhiteCommandCustomEvent payload:@{WhiteCommandCustomEvent: @"test"}];
             break;
+        case CommandTypeInsertNewScene:
         case CommandTypeInsertPpt:
         {
+            //v2.0 新 API
             WhitePptPage *pptPage = [[WhitePptPage alloc] init];
             pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
             pptPage.width = 400;
             pptPage.height = 600;
+            WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
             
-            //WhiteGlobalState PPT插入后，White SDK 会创建多个新页面（默认仍然停留在当前页）
-            [self.room pushPptPages:@[pptPage]];
-            
-            [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
-                WhiteGlobalState *state = [[WhiteGlobalState alloc] init];
-                state.currentSceneIndex = [pptPages count] - 1;
-                //主动调用者，自行切换页面。由于页面信息是全局状态，会立即同步给所有人
-                //其他人会在 WhiteRoomCallbackDelegate 回调中收到改动通知
-                [self.room setGlobalState:state];
-            }];
+            //插入新页面的 API，现在支持传入 ppt 参数（可选），所以插入PPT和插入新页面的 API，合并成了一个。
+            [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
+            [self.room setScencePath:@"/ppt/opt"];
             break;
         }
         case CommandTypeInsertImage:
@@ -128,8 +125,11 @@ static NSString *kReuseCell = @"reuseCell";
         }
         case CommandTypeGetPpt:
         {
-            [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
-                NSLog(@"pptImage:%@", pptPages);
+            //v2.0 新API，通过获取每个 scene，再去查询 ppt 属性，如果没有 ppt，则 ppt 属性会为空
+            [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
+                for (WhiteScene *s in scenes) {
+                    NSLog(@"ppt:%@", s.ppt.src);
+                }
             }];
             break;
         }
@@ -147,7 +147,7 @@ static NSString *kReuseCell = @"reuseCell";
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"当前连接状态", nil) message:[NSString stringWithFormat:NSLocalizedString(@"WhiteRoomPhase:%ld", nil), (long)phase] preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleCancel handler:nil];
                 [alertController addAction:action];
-                [self presentViewController:alertController animated:YES completion:nil];
+                [self.presentingViewController presentViewController:alertController animated:YES completion:nil];
             }];
             break;
         }

@@ -11,8 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhiteScene : WhiteObject
 
-@property (nonatomic, copy) NSString *key;
-@property (nonatomic, assign, getter=isEmpty) BOOL empty;
+- (instancetype)init;
+- (instancetype)initWithName:(nullable NSString *)name ppt:(nullable WhitePptPage *)ppt;
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSInteger componentsCount;
 @property (nonatomic, strong, readonly, nullable) WhitePptPage *ppt;
 @end
 

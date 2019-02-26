@@ -1,5 +1,5 @@
 PODS:
-  - dsBridge (3.0.2)
+  - dsBridge (3.0.6)
   - Masonry (1.1.0)
   - White-SDK-iOS (1.4.0-Experimental):
     - dsBridge (~> 3.0.2)
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  dsBridge: e3f0be728d736724a24503a24b7f82b17acdbb23
+  dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   White-SDK-iOS: 7e83e3873cedd488535ca1e903b2d08388f86993
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30

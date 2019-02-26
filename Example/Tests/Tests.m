@@ -165,45 +165,30 @@
     }];
 }
 
-- (void)testSetGlobalState
-{
-    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
-    pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/image.png";
-    pptPage.width = 600;
-    pptPage.height = 600;
-    [self.room pushPptPages:@[pptPage]];
-
-    WhiteGlobalState *gState = [[WhiteGlobalState alloc] init];
-    [gState setCurrentSceneIndex:1];
-    [self.room setGlobalState:gState];
-    
-    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getGlobalStateWithResult:^(WhiteGlobalState *state) {
-        XCTAssertTrue([state isKindOfClass:[WhiteGlobalState class]]);
-        XCTAssertEqual(state.currentSceneIndex, 1);
-        [exp fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%s error: %@", __FUNCTION__, error);
-        }
-    }];
-}
-
 - (void)testPptImages
 {
-    WhitePptPage *ppt = [[WhitePptPage alloc] init];
-    ppt.src = @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
-    ppt.width = 600;
-    ppt.height = 600;
-    [self.room pushPptPages:@[ppt]];
+    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
+    pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
+    pptPage.width = 400;
+    pptPage.height = 600;
+    WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
+    [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
+    [self.room setScencePath:@"/ppt/opt"];
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getPptImagesWithResult:^(NSArray<NSString *> *pptPages) {
-        XCTAssertTrue([[pptPages lastObject] isEqualToString:ppt.src]);
-        [exp fulfill];
-    }];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+        //FIXME:立即获取当前 scenes，状态未更新。
+        [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
+            NSLog(@"SceneState: %@", [state jsonString]);
+        }];
+        
+        [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
+            XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
+            [exp fulfill];
+        }];
+//    });
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {

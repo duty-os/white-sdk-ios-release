@@ -8,5 +8,4 @@
 #import "WhiteObject.h"
 
 @interface WhiteGlobalState : WhiteObject
-@property (nonatomic, assign) NSInteger currentSceneIndex;
 @end
