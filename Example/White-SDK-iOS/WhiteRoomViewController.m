@@ -8,7 +8,7 @@
 
 #import "WhiteRoomViewController.h"
 
-@interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, UIPopoverPresentationControllerDelegate>
+@interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, WhiteCommonCallbackDelegate, UIPopoverPresentationControllerDelegate>
 @property (nonatomic, copy) NSString *sdkToken;
 @property (nonatomic, copy) NSString *roomToken;
 @property (nonatomic, strong) WhiteSDK *sdk;
@@ -76,6 +76,7 @@
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[self.roomUuid ? :@""] applicationActivities:nil];
     activityVC.popoverPresentationController.sourceView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
     [self presentViewController:activityVC animated:YES completion:nil];
+    NSLog(@"%@", [NSString stringWithFormat:NSLocalizedString(@"房间 UUID: %@", nil), self.roomUuid]);
 }
 
 #pragma mark - Room Action
@@ -115,6 +116,11 @@
  */
 - (void)joinRoom
 {
+    NSString *copyPast = [UIPasteboard generalPasteboard].string;
+    if ([copyPast length] == 32 && !self.roomUuid) {
+        NSLog(@"%@", [NSString stringWithFormat:NSLocalizedString(@"粘贴板 UUID：%@", nil), copyPast]);
+        self.roomUuid = copyPast;
+    }
     self.title = NSLocalizedString(@"加入房间中...", nil);
     [self getRoomTokenWithUuid:self.roomUuid Result:^(BOOL success, id response, NSError *error) {
         if (success) {
@@ -156,7 +162,7 @@
     
     WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
     config.enableDebug = YES;
-    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:config callbackDelegate:self.roomCallbackDelegate];
+    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self];
     [self.sdk joinRoomWithUuid:self.roomUuid roomToken:roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
@@ -278,7 +284,7 @@ static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
     [modifyRequest setHTTPMethod:@"POST"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    NSDictionary *params = @{@"name": @"test", @"limit": @110, @"width": @1024, @"height": @768};
+    NSDictionary *params = @{@"name": @"test", @"limit": @110, @"mode": @"historied"};
     NSData *postData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
     [modifyRequest setHTTPBody:postData];
     

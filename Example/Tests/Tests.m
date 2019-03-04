@@ -177,18 +177,14 @@
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
+        NSLog(@"SceneState: %@", [state jsonString]);
+    }];
     
-        //FIXME:立即获取当前 scenes，状态未更新。
-        [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
-            NSLog(@"SceneState: %@", [state jsonString]);
-        }];
-        
-        [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
-            XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
-            [exp fulfill];
-        }];
-//    });
+    [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
+        XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
+        [exp fulfill];
+    }];
     
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {

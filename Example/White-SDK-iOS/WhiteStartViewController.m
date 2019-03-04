@@ -8,6 +8,7 @@
 
 #import "WhiteStartViewController.h"
 #import "WhiteRoomViewController.h"
+#import "WhitePlayerViewController.h"
 
 @interface WhiteStartViewController ()
 @property (nonatomic, strong) UITextField *inputV;
@@ -44,6 +45,11 @@
     [createBtn addTarget:self action:@selector(createRoom:) forControlEvents:UIControlEventTouchUpInside];
     [stackView addArrangedSubview:createBtn];
     
+    createBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [createBtn setTitle:NSLocalizedString(@"回放房间", nil) forState:UIControlStateNormal];
+    [createBtn addTarget:self action:@selector(replayRoom:) forControlEvents:UIControlEventTouchUpInside];
+    [stackView addArrangedSubview:createBtn];
+    
     for (UIView *view in stackView.arrangedSubviews) {
         [view setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         [view setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -69,6 +75,13 @@
 - (void)createRoom:(UIButton *)sender
 {
     WhiteRoomViewController *vc = [[WhiteRoomViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)replayRoom:(UIButton *)sender
+{
+    WhitePlayerViewController *vc = [[WhitePlayerViewController alloc] init];
+    vc.roomUuid = self.inputV.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
