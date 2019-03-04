@@ -22,7 +22,7 @@
 @property (nonatomic, strong) XCTestExpectation *exp;
 @end
 
-#import "WhiteCommandListController.h"
+#import "CommandListController.h"
 
 @implementation Tests
 

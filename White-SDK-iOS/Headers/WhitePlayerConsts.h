@@ -9,17 +9,17 @@
 #define WhitePlayerConsts_h
 
 typedef NS_ENUM(NSInteger, WhiteObserverMode) {
-    WhiteObserverModeDirectory,
-    WhiteObserverModeFreedom
+    WhiteObserverModeDirectory, //跟随模式
+    WhiteObserverModeFreedom    //自由模式
 };
 
 typedef NS_ENUM(NSInteger, WhitePlayerPhase) {
-    WhitePlayerPhaseWaitingFirstFrame,
-    WhitePlayerPhasePlaying,
-    WhitePlayerPhasePause,
-    WhitePlayerPhaseStopped,
-    WhitePlayerPhaseEnded,
-    WhitePlayerPhaseBuffering,
+    WhitePlayerPhaseWaitingFirstFrame,  //等待第一帧
+    WhitePlayerPhasePlaying,            //播放状态
+    WhitePlayerPhasePause,              //暂停状态
+    WhitePlayerPhaseStopped,            //停止
+    WhitePlayerPhaseEnded,              //播放结束
+    WhitePlayerPhaseBuffering,          //缓冲中
 };
 
 #endif /* WhitePlayerConsts_h */

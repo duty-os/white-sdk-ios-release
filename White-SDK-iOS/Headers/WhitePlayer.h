@@ -21,9 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)play;
 - (void)pause;
+//stop 后，player 资源会被释放。需要重新创建WhitePlayer实例，才可以重新播放
 - (void)stop;
-- (void)seekToScheduleTime:(NSInteger)beginTime;
+//跳转至特定时间
+- (void)seekToScheduleTime:(NSTimeInterval)beginTime;
+//设置查看模式
 - (void)setObserMode:(WhiteObserverMode)mode;
+//设置跟随的用户
 - (void)setFollowUserId:(NSInteger)userId;
 
 #pragma mark - get API

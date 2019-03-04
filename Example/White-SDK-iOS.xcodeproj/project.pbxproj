@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		397DCE5A21D25A2F0076B381 /* WhiteCommandListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */; };
-		39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */; };
-		39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC312021CFB72D009525A2 /* WhiteStartViewController.m */; };
+		39CC2DEE222D35F90030C03B /* WhiteBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */; };
+		39CC2DEF222D35F90030C03B /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DE7222D35F80030C03B /* StartViewController.m */; };
+		39CC2DF0222D35F90030C03B /* WhiteRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DE8222D35F80030C03B /* WhiteRoomViewController.m */; };
+		39CC2DF1222D35F90030C03B /* WhiteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DEA222D35F80030C03B /* WhiteUtils.m */; };
+		39CC2DF4222D36930030C03B /* CommandListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DF2222D36930030C03B /* CommandListController.m */; };
+		39CC2DF7222D369B0030C03B /* WhitePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DF5222D369B0030C03B /* WhitePlayerViewController.m */; };
 		39EFC90C21291BA3000FC86F /* White-SDK-iOS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -43,12 +46,18 @@
 		08945AFE9663D55516327E2F /* Pods-White-SDK-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		397DCE5821D25A2E0076B381 /* WhiteCommandListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteCommandListController.h; sourceTree = "<group>"; };
-		397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteCommandListController.m; sourceTree = "<group>"; };
-		39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteStartViewController.h; sourceTree = "<group>"; };
-		39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteRoomViewController.h; sourceTree = "<group>"; };
-		39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteRoomViewController.m; sourceTree = "<group>"; };
-		39BC312021CFB72D009525A2 /* WhiteStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteStartViewController.m; sourceTree = "<group>"; };
+		39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteBaseViewController.m; sourceTree = "<group>"; };
+		39CC2DE7222D35F80030C03B /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		39CC2DE8222D35F80030C03B /* WhiteRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteRoomViewController.m; sourceTree = "<group>"; };
+		39CC2DE9222D35F80030C03B /* WhiteUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteUtils.h; sourceTree = "<group>"; };
+		39CC2DEA222D35F80030C03B /* WhiteUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteUtils.m; sourceTree = "<group>"; };
+		39CC2DEB222D35F80030C03B /* WhiteBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteBaseViewController.h; sourceTree = "<group>"; };
+		39CC2DEC222D35F80030C03B /* WhiteRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteRoomViewController.h; sourceTree = "<group>"; };
+		39CC2DED222D35F90030C03B /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		39CC2DF2222D36930030C03B /* CommandListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandListController.m; sourceTree = "<group>"; };
+		39CC2DF3222D36930030C03B /* CommandListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandListController.h; sourceTree = "<group>"; };
+		39CC2DF5222D369B0030C03B /* WhitePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhitePlayerViewController.m; sourceTree = "<group>"; };
+		39CC2DF6222D369B0030C03B /* WhitePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhitePlayerViewController.h; sourceTree = "<group>"; };
 		39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "White-SDK-iOS.podspec"; path = "../White-SDK-iOS.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6003F58A195388D20070C39A /* White-SDK-iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "White-SDK-iOS_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -142,12 +151,18 @@
 				6003F59C195388D20070C39A /* WhiteAppDelegate.h */,
 				6003F59D195388D20070C39A /* WhiteAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				39BC311D21CFB72D009525A2 /* WhiteStartViewController.h */,
-				39BC312021CFB72D009525A2 /* WhiteStartViewController.m */,
-				39BC311E21CFB72D009525A2 /* WhiteRoomViewController.h */,
-				39BC311F21CFB72D009525A2 /* WhiteRoomViewController.m */,
-				397DCE5821D25A2E0076B381 /* WhiteCommandListController.h */,
-				397DCE5921D25A2F0076B381 /* WhiteCommandListController.m */,
+				39CC2DED222D35F90030C03B /* StartViewController.h */,
+				39CC2DE7222D35F80030C03B /* StartViewController.m */,
+				39CC2DEB222D35F80030C03B /* WhiteBaseViewController.h */,
+				39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */,
+				39CC2DEC222D35F80030C03B /* WhiteRoomViewController.h */,
+				39CC2DE8222D35F80030C03B /* WhiteRoomViewController.m */,
+				39CC2DF6222D369B0030C03B /* WhitePlayerViewController.h */,
+				39CC2DF5222D369B0030C03B /* WhitePlayerViewController.m */,
+				39CC2DF3222D36930030C03B /* CommandListController.h */,
+				39CC2DF2222D36930030C03B /* CommandListController.m */,
+				39CC2DE9222D35F80030C03B /* WhiteUtils.h */,
+				39CC2DEA222D35F80030C03B /* WhiteUtils.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -371,10 +386,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* WhiteAppDelegate.m in Sources */,
-				397DCE5A21D25A2F0076B381 /* WhiteCommandListController.m in Sources */,
-				39BC312221CFB72D009525A2 /* WhiteStartViewController.m in Sources */,
-				39BC312121CFB72D009525A2 /* WhiteRoomViewController.m in Sources */,
+				39CC2DF0222D35F90030C03B /* WhiteRoomViewController.m in Sources */,
+				39CC2DF4222D36930030C03B /* CommandListController.m in Sources */,
+				39CC2DF7222D369B0030C03B /* WhitePlayerViewController.m in Sources */,
+				39CC2DF1222D35F90030C03B /* WhiteUtils.m in Sources */,
+				39CC2DEF222D35F90030C03B /* StartViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				39CC2DEE222D35F90030C03B /* WhiteBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

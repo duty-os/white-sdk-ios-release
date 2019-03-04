@@ -9,30 +9,27 @@
 #import "WhiteRoomViewController.h"
 
 @interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, WhiteCommonCallbackDelegate, UIPopoverPresentationControllerDelegate>
-@property (nonatomic, copy) NSString *sdkToken;
+
 @property (nonatomic, copy) NSString *roomToken;
 @property (nonatomic, strong) WhiteSDK *sdk;
 @property (nonatomic, assign, getter=isReconnecting) BOOL reconnecting;
-@property (nonatomic, strong) WhiteBoardView *boardView;
 @end
 
 #import <Masonry/Masonry.h>
-#import "WhiteCommandListController.h"
+#import "CommandListController.h"
+#import "WhiteUtils.h"
 
 @implementation WhiteRoomViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    /* FIXME: 此处 tonken 只做 demo 试用。
-              实际使用时，请从 console.herewhite.com 重新注册申请。
-              该 token 不应该保存在客户端中，所有涉及该 token 的请求，都应该放在服务器中。
-    */
-    self.sdkToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"white-sdk-token"];
+# warning 请在 WhiteBaseViewController 中查看 Whiteboard 初始化注意事项。
+    NSString *sdkToken = [WhiteUtils sdkToken];
     self.view.backgroundColor = [UIColor orangeColor];
     
-    if ([self.sdkToken length] == 0) {
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sdk token 不合法", nil) message:NSLocalizedString(@"请在 console.herewhite.com 注册并申请 Token，再进行接入。", nil) preferredStyle:UIAlertControllerStyleAlert];
+    if ([sdkToken length] == 0) {
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sdk token 不合法", nil) message:NSLocalizedString(@"请在 console.herewhite.com 注册并申请 Token，并在 WhiteUtils sdkToken 方法中，填入 SDKToken 进行测试", nil) preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
@@ -45,8 +42,7 @@
     }
 }
 
-#pragma mark - Property
-/* 默认为self，主要为了 Unit Testing */
+#pragma mark - CallbackDelegate
 - (id<WhiteRoomCallbackDelegate>)roomCallbackDelegate
 {
     if (!_roomCallbackDelegate) {
@@ -66,7 +62,7 @@
 
 - (void)settingAPI:(id)sender
 {
-    WhiteCommandListController *controller = [[WhiteCommandListController alloc] initWithRoom:self.room];
+    CommandListController *controller = [[CommandListController alloc] initWithRoom:self.room];
     controller.boarderView = self.boardView;
     [self showPopoverViewController:controller sourceView:sender];
 }
@@ -89,7 +85,7 @@
 - (void)createRoom
 {
     self.title = NSLocalizedString(@"创建房间中...", nil);
-    [self createRoomWithResult:^(BOOL success, id response, NSError *error) {
+    [WhiteUtils createRoomWithResult:^(BOOL success, id response, NSError *error) {
         if (success) {
             NSString *roomToken = response[@"msg"][@"roomToken"];
             NSString *uuid = response[@"msg"][@"room"][@"uuid"];
@@ -122,7 +118,7 @@
         self.roomUuid = copyPast;
     }
     self.title = NSLocalizedString(@"加入房间中...", nil);
-    [self getRoomTokenWithUuid:self.roomUuid Result:^(BOOL success, id response, NSError *error) {
+    [WhiteUtils getRoomTokenWithUuid:self.roomUuid Result:^(BOOL success, id response, NSError *error) {
         if (success) {
             NSString *roomToken = response[@"msg"][@"roomToken"];
             [self joinRoomWithToken:roomToken];
@@ -140,30 +136,11 @@
 - (void)joinRoomWithToken:(NSString *)roomToken
 {
     self.title = NSLocalizedString(@"正在连接房间", nil);
-    self.boardView = [[WhiteBoardView alloc] init];
-    //FIXME:请提前将 WhiteBoardView 添加至视图栈中（生成 whiteSDK 前）。否则 iOS 12 真机无法执行正常执行sdk代码。
-    [self.view addSubview:self.boardView];
-    
-    #warning 需要手动兼容 iOS10 及其以下。
-    /*
-     FIXME: UIScrollView 自动偏移的问题
-        WhiteBoardView 内部有 UIScrollView，在 iOS 10及其以下时，如果 WhiteBoardView 是当前视图栈中第一个的话，会出现内容错位。
-        iOS 11 及其以上已做处理。
-    */
-    if (@available(iOS 11, *)) {
-    } else {
-        //可以参考此处处理。
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-    [self.boardView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom);
-        make.left.bottom.right.equalTo(self.view);
-    }];
     
     WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
     config.enableDebug = YES;
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self];
-    [self.sdk joinRoomWithUuid:self.roomUuid roomToken:roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
+    [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
 
@@ -266,69 +243,10 @@
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
 }
 
-//FIXME:没有对应需求，最好不要实现该方法，减少调用
-//- (NSString *)urlInterrupter:(NSString *)url
-//{
-//    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
-//}
-
-#pragma mark - Room Server Request
-//FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 console.herewhite.com 获取的 token 发生泄露。
-
-static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
-
-- (void)createRoomWithResult:(void (^) (BOOL success, id response, NSError *error))result;
+#pragma mark - WhiteRoomCallbackDelegate
+- (NSString *)urlInterrupter:(NSString *)url
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"room?token=%@"], self.sdkToken]]];
-    NSMutableURLRequest *modifyRequest = [request mutableCopy];
-    [modifyRequest setHTTPMethod:@"POST"];
-    [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    NSDictionary *params = @{@"name": @"test", @"limit": @110, @"mode": @"historied"};
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
-    [modifyRequest setHTTPBody:postData];
-    
-    NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:modifyRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error && result) {
-                result(NO, nil, error);
-            } else if (result) {
-                NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                result(YES, responseObject, nil);
-            }
-        });
-    }];
-    [task resume];
-}
-
-/**
- 向服务器获取对应 room uuid 所需要的房间 roomToken
- 
- @param uuid 房间 uuid
- @param result 服务器返回信息
- */
-- (void)getRoomTokenWithUuid:(NSString *)uuid Result:(void (^) (BOOL success, id response, NSError *error))result
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"/room/join?uuid=%@&token=%@"], uuid, self.sdkToken]]];
-    NSMutableURLRequest *modifyRequest = [request mutableCopy];
-    [modifyRequest setHTTPMethod:@"POST"];
-    [modifyRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:modifyRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error && result) {
-                result(NO, nil, error);
-            } else if (result) {
-                NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                if ([responseObject[@"code"] integerValue]  == 200) {
-                    result(YES, responseObject, nil);
-                } else {
-                    result(NO, responseObject, nil);
-                }
-            }
-        });
-    }];
-    [task resume];
+    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
 }
 
 @end

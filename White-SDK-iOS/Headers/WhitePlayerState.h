@@ -15,8 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhitePlayerState : WhiteObject
 
 @property (nonatomic, strong, readonly, nullable) WhiteGlobalState *globalState;
+/** 房间用户状态 */
 @property (nonatomic, strong, readonly, nullable) NSArray<WhiteRoomMember *> *roomMembers;
-@property (nonatomic, strong, readonly, nullable) WhitePlayerState *observerState;
+/** 用户观察状态 */
+@property (nonatomic, strong, readonly, nullable) WhiteObserverState *observerState;
 
 @end
 
