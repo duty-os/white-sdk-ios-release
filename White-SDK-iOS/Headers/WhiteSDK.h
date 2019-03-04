@@ -7,25 +7,39 @@
 
 #import <Foundation/Foundation.h>
 #import "WhiteRoom.h"
+#import "WhitePlayer.h"
+#import "WhiteCommonCallbacks.h"
 #import "WhiteRoomCallbacks.h"
+#import "WhitePlayerEvent.h"
+#import "WhitePlayerConfig.h"
 #import "WhiteBoardView.h"
 #import "WhiteSdkConfiguration.h"
 
-
+NS_ASSUME_NONNULL_BEGIN
 /**
- 单独实例，为了能够进行使用加入房间 API，进行重连房间操作，最好有当前 ViewController 持有。
+ 非单例，一个 SDK 实例绑定，为了能够进行使用加入房间 API，进行重连房间操作，最好有当前 ViewController 持有。
  */
 @interface WhiteSDK : NSObject
 
-- (instancetype)initWithBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config callbackDelegate:(id<WhiteRoomCallbackDelegate>)callbackDelegate;
+/** 推荐初始化方法 */
+- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback;
 
-- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config DEPRECATED_MSG_ATTRIBUTE("initWithBoardView:config:callbackDelegate:");
+- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config DEPRECATED_MSG_ATTRIBUTE("initWithWhiteBoardView:config:commonCallbackDelegate");
+/** 该 callback 对应的是 Room 的回调事件 */
+- (instancetype)initWithBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config callbackDelegate:(nullable id<WhiteRoomCallbackDelegate>)callbackDelegate DEPRECATED_MSG_ATTRIBUTE("initWithWhiteBoardView:config:commonCallbackDelegate");
 
-/** 加入房间API
- 网络出现问题时，白板会自行尝试重连操作，当重连3次失败了，会处于断开状态；此时可以手动调用该方法手动加入房间。
- */
-- (void)joinRoomWithUuid:(NSString *)uuid roomToken:(NSString *)roomToken completionHandler:(void (^)(BOOL success, WhiteRoom *room, NSError *error))completionHander;
+#pragma mark - CommonCallback
+/** 为空，则移除原来的 CommonCallbacks */
+- (void)setCommonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callbackDelegate;
 
-- (void)joinRoomWithRoomUuid:(NSString *)roomUuid roomToken:(NSString *)roomToken callbacks:(id<WhiteRoomCallbackDelegate>)callbacks completionHandler:(void (^) (BOOL success, WhiteRoom *room, NSError *error))completionHander DEPRECATED_MSG_ATTRIBUTE("initWithBoardView:config:");
+#pragma mark - Room API
+
+/** 重连时，使用以下任意两个 API，不需要传入 callbacks，否则重连成功前，无法接受到事件连接的回调 */
+- (void)joinRoomWithUuid:(NSString *)uuid roomToken:(NSString *)roomToken completionHandler:(void (^)(BOOL success, WhiteRoom *room, NSError *error))completionHandler;
+- (void)joinRoomWithRoomUuid:(NSString *)roomUuid roomToken:(NSString *)roomToken callbacks:(nullable id<WhiteRoomCallbackDelegate>)callbacks completionHandler:(void (^) (BOOL success, WhiteRoom *room, NSError *error))completionHandler;
+
+#pragma mark - Player
+- (void)createReplayerWithConfig:(WhitePlayerConfig *)config callbacks:(nullable id<WhitePlayerEventDelegate>)eventCallbacks completionHandler:(void (^) (BOOL success, WhitePlayer *player, NSError *error))completionHandler;
 
 @end
+NS_ASSUME_NONNULL_END

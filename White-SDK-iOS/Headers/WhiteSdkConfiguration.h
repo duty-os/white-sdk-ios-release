@@ -24,4 +24,6 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 @property (nonatomic, assign) CGFloat zoomMaxScale;
 
 @property (nonatomic, assign) BOOL enableDebug;
+@property (nonatomic, assign) BOOL enableInterrupterAPI;
+
 @end

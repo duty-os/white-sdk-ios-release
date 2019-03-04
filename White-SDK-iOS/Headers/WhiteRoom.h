@@ -8,11 +8,9 @@
 #import <Foundation/Foundation.h>
 #import "WhiteGlobalState.h"
 #import "WhiteMemberState.h"
-#import "WhiteTextareaBox.h"
 #import "WhiteImageInformation.h"
 #import "WhitePptPage.h"
 #import "WhiteRoomMember.h"
-#import "WhiteLinearTransformationDescription.h"
 #import "WhiteBroadcastState.h"
 #import "WhiteRoomCallbacks.h"
 #import "WhiteRoomState.h"
@@ -33,21 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Set API
 
 - (void)setGlobalState:(WhiteGlobalState *)modifyState DEPRECATED_MSG_ATTRIBUTE("globalState 目前没有可以更改的内容，切换scence页面，请使用setScencePath API");
-
-/**
- 切换至具体页面
-
- @param path 具体的页面路径
- 
- 当传入的页面路径有以下情况时，会导致调用该方法失败
- 
- 1. 路径不合法。请通过之前的章节确保页面路径符合规范。
- 2. 路径对应的页面不存在。
- 3. 路径对应的是页面组。注意页面组和页面是不一样的。
- 
- TODO:API 报错反馈
- */
-- (void)setScencePath:(NSString *)path;
 
 /** 目前主要用来切换教具 */
 - (void)setMemberState:(WhiteMemberState *)modifyState;
@@ -83,6 +66,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Scene API
 
+- (void)getSceneStateWithResult:(void (^) (WhiteSceneState *state))result;
+
+/** 获取当前目录下，所有页面的信息 */
+- (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
+
+/**
+ 切换至具体页面
+ 
+ @param path 具体的页面路径
+ 
+ 当传入的页面路径有以下情况时，会导致调用该方法失败
+ 
+ 1. 路径不合法。请通过之前的章节确保页面路径符合规范。
+ 2. 路径对应的页面不存在。
+ 3. 路径对应的是页面组。注意页面组和页面是不一样的。
+ */
+- (void)setScencePath:(NSString *)path;
+
 //TODO:需要先理解页面（场景）的概念，理解绝对路径和name
 
 /**
@@ -91,6 +92,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param dir scene 页面组名称，相当于目录
  @param scenes WhiteScence 实例；在生成 WhiteScence 时，可以同时配置 ppt
  @param index 选择在页面组，插入的位置。index 即为新 scence 的 index 位置。如果想要放在最末尾，可以传入 NSUIntegerMax。
+ 
+ 注意：scenes 实际上只是白板页面的配置项，scenes 都会生成新页面
  */
 - (void)putScenes:(NSString *)dir scenes:(NSArray<WhiteScene *> *)scenes index:(NSUInteger)index;
 
@@ -144,7 +147,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Get State API
 
 - (void)getGlobalStateWithResult:(void (^) (WhiteGlobalState *state))result;
-- (void)getSceneStateWithResult:(void (^) (WhiteSceneState *state))result;
 - (void)getMemberStateWithResult:(void (^) (WhiteMemberState *state))result;
 - (void)getRoomMembersWithResult:(void (^) (NSArray<WhiteRoomMember *> *roomMembers))result;
 - (void)getRoomPhaseWithResult:(void (^) (WhiteRoomPhase phase))result;
@@ -158,8 +160,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result DEPRECATED_MSG_ATTRIBUTE("使用 getScenesWithResult:");
 
-/** 获取所有页面的信息 */
-- (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
 /** 获取当前视角模式 */
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
 

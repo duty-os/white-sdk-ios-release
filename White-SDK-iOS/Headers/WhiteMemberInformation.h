@@ -10,8 +10,8 @@
 
 @interface WhiteMemberInformation : WhiteObject
 
-@property (nonatomic, assign) NSInteger id;
-@property (nonatomic, assign) NSString *nickName;
-@property (nonatomic, copy) NSString *currentApplianceName;
+@property (nonatomic, assign, readonly) NSInteger id;
+@property (nonatomic, assign, readonly) NSString *nickName;
+@property (nonatomic, copy, readonly) NSString *avatar;
 
 @end
