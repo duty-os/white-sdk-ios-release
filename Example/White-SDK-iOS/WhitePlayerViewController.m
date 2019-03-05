@@ -45,13 +45,6 @@
 }
 
 #pragma mark - CallbackDelegate
-- (id<WhiteCommonCallbackDelegate>)commonDelegate
-{
-    if (!_commonDelegate) {
-        _commonDelegate = self;
-    }
-    return _commonDelegate;
-}
 
 - (id<WhitePlayerEventDelegate>)eventDelegate
 {

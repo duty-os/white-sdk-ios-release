@@ -12,14 +12,12 @@
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^PlayBlock)(WhitePlayer *room, NSError *eroror);
 
-@interface WhitePlayerViewController : UIViewController
-@property (nonatomic, copy) NSString *roomUuid;
+@interface WhitePlayerViewController : WhiteBaseViewController
 
 #pragma mark - Unit Testing
 @property (nonatomic, copy) PlayBlock playBlock;
 
 #pragma mark - CallbackDelegate
-@property (nonatomic, weak) id<WhiteCommonCallbackDelegate> commonDelegate;
 @property (nonatomic, weak) id<WhitePlayerEventDelegate> eventDelegate;
 
 @end
