@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhiteUtils : NSObject
 
 + (NSString *)sdkToken;
-+ (void)createRoomWithResult:(void (^) (BOOL success, id response, NSError *error))result;
-+ (void)getRoomTokenWithUuid:(NSString *)uuid Result:(void (^) (BOOL success, id response, NSError *error))result;
++ (void)createRoomWithResult:(void (^) (BOOL success, id _Nullable response, NSError * _Nullable error))result;
++ (void)getRoomTokenWithUuid:(NSString *)uuid Result:(void (^) (BOOL success, id _Nullable response, NSError * _Nullable error))result;
 
 @end
 

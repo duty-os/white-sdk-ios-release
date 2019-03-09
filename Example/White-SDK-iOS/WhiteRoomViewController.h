@@ -9,16 +9,16 @@
 @import UIKit;
 #import "WhiteBaseViewController.h"
 
-typedef void(^RoomBlock)(WhiteRoom *room, NSError *eroror);
+typedef void(^RoomBlock)(WhiteRoom * _Nullable room, NSError * _Nullable eroror);
 
 @interface WhiteRoomViewController : WhiteBaseViewController
 
-@property (nonatomic, strong) WhiteRoom *room;
+@property (nonatomic, strong, nullable) WhiteRoom *room;
 
 #pragma mark - Unit Testing
-@property (nonatomic, copy) RoomBlock roomBlock;
+@property (nonatomic, copy, nullable) RoomBlock roomBlock;
 
 #pragma mark - CallbackDelegate
-@property (nonatomic, weak) id<WhiteRoomCallbackDelegate> roomCallbackDelegate;
+@property (nonatomic, weak, nullable) id<WhiteRoomCallbackDelegate> roomCallbackDelegate;
 
 @end

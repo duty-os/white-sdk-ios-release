@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhiteBaseViewController : UIViewController
 
-@property (nonatomic, copy) NSString *roomUuid;
+@property (nonatomic, copy, nullable) NSString *roomUuid;
 @property (nonatomic, strong) WhiteBoardView *boardView;
 
 #pragma mark - CallbackDelegate
-@property (nonatomic, weak) id<WhiteCommonCallbackDelegate> commonDelegate;
+@property (nonatomic, weak, nullable) id<WhiteCommonCallbackDelegate> commonDelegate;
 
 @end
 

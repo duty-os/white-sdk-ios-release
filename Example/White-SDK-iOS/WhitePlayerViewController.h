@@ -10,15 +10,15 @@
 #import "WhiteBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void(^PlayBlock)(WhitePlayer *room, NSError *eroror);
+typedef void(^PlayBlock)(WhitePlayer * _Nullable player, NSError * _Nullable eroror);
 
 @interface WhitePlayerViewController : WhiteBaseViewController
 
 #pragma mark - Unit Testing
-@property (nonatomic, copy) PlayBlock playBlock;
+@property (nonatomic, copy, nullable) PlayBlock playBlock;
 
 #pragma mark - CallbackDelegate
-@property (nonatomic, weak) id<WhitePlayerEventDelegate> eventDelegate;
+@property (nonatomic, weak, nullable) id<WhitePlayerEventDelegate> eventDelegate;
 
 @end
 

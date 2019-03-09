@@ -63,7 +63,6 @@
 - (void)settingAPI:(id)sender
 {
     CommandListController *controller = [[CommandListController alloc] initWithRoom:self.room];
-    controller.boarderView = self.boardView;
     [self showPopoverViewController:controller sourceView:sender];
 }
 
@@ -138,8 +137,13 @@
     self.title = NSLocalizedString(@"正在连接房间", nil);
     
     WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
-    config.enableDebug = YES;
-    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self];
+    
+    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
+    config.enableInterrupterAPI = YES;
+    config.debug = YES;
+    
+    
+    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
     [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
@@ -244,9 +248,13 @@
 }
 
 #pragma mark - WhiteRoomCallbackDelegate
+- (void)throwError:(NSError *)error
+{
+    NSLog(@"throwError: %@", error.userInfo);
+}
+
 - (NSString *)urlInterrupter:(NSString *)url
 {
     return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
 }
-
 @end
