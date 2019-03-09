@@ -9,6 +9,7 @@
 #import "WhiteGlobalState.h"
 #import "WhiteObserverState.h"
 #import "WhiteRoomMember.h"
+#import "WhiteSceneState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) NSArray<WhiteRoomMember *> *roomMembers;
 /** 用户观察状态 */
 @property (nonatomic, strong, readonly, nullable) WhiteObserverState *observerState;
+/** 场景状态 */
+@property (nonatomic, strong, readonly, nullable) WhiteSceneState *sceneState;
 
 @end
 

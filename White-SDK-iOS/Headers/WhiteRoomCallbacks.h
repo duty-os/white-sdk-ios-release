@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 
 /**
  白板自定义事件回调，
- 自定义事件参考: https://developer.herewhite.com/#/iOS_detail_api?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B6%88%E6%81%AF
+ 自定义事件参考文档，或者 RoomTests 代码
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 

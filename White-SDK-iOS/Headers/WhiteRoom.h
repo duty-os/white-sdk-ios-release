@@ -53,8 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  缩小放大白板
- @param scale 相对于原始大小的比例。
- TODO: 在文档中明确，scale 是相对原始大小的比例，还是相对于当前大小的比例。
+ @param scale 相对于原始大小的比例，而不是相对当前的缩放比例
  */
 - (void)zoomChange:(CGFloat)scale;
 
@@ -65,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)disableOperations:(BOOL)readonly;
 
 #pragma mark - Scene API
-
+/** 获取场景 State，具体信息可以查看 WhiteSceneState 类 */
 - (void)getSceneStateWithResult:(void (^) (WhiteSceneState *state))result;
 
 /** 获取当前目录下，所有页面的信息 */
@@ -82,15 +81,17 @@ NS_ASSUME_NONNULL_BEGIN
  2. 路径对应的页面不存在。
  3. 路径对应的是页面组。注意页面组和页面是不一样的。
  */
-- (void)setScencePath:(NSString *)path;
+- (void)setScenePath:(NSString *)path;
+/** 多一个回调，如果失败，会返回具体错误内容 */
+- (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
 
-//TODO:需要先理解页面（场景）的概念，理解绝对路径和name
+//TODO:请在文档站中，阅读理解页面（场景）的概念，理解绝对路径和name
 
 /**
  插入，或许新建多个页面
 
- @param dir scene 页面组名称，相当于目录
- @param scenes WhiteScence 实例；在生成 WhiteScence 时，可以同时配置 ppt
+ @param dir scene 页面组名称，相当于目录。
+ @param scenes WhiteScence 实例；在生成 WhiteScence 时，可以同时配置 ppt。
  @param index 选择在页面组，插入的位置。index 即为新 scence 的 index 位置。如果想要放在最末尾，可以传入 NSUIntegerMax。
  
  注意：scenes 实际上只是白板页面的配置项，scenes 都会生成新页面
@@ -109,7 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeScenes:(NSString *)dirOrPath;
 
-
 /**
  移动/重命名页面
 
@@ -123,7 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  1. 先使用 insertImage API，插入占位图
  2. 再通过 completeImageUploadWithUuid:src: 替换内容
- 详细内容，可以查看 https://developer.herewhite.com/#/iOS_detail_api?id=%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87
  */
 - (void)insertImage:(WhiteImageInformation *)imageInfo;
 
@@ -139,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertImage:(WhiteImageInformation *)imageInfo src:(NSString *)src;
 
 #pragma mark - Custom Event
-// 发送自定义事件，详细内容，可以查看 https://developer.herewhite.com/#/iOS_detail_api?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B6%88%E6%81%AF
+// 发送自定义事件，详细内容，可以查看文档，或者单元测试代码
 - (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
 - (void)addMagixEventListener:(NSString *)eventName;
 - (void)removeMagixEventListener:(NSString *)eventName;
@@ -150,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getMemberStateWithResult:(void (^) (WhiteMemberState *state))result;
 - (void)getRoomMembersWithResult:(void (^) (NSArray<WhiteRoomMember *> *roomMembers))result;
 - (void)getRoomPhaseWithResult:(void (^) (WhiteRoomPhase phase))result;
-
+- (void)getRoomStateWithResult:(void (^) (WhiteRoomState *state))result;
 /** 获取当前缩放比例 */
 - (void)getZoomScaleWithResult:(void (^) (CGFloat scale))result;
 

@@ -9,8 +9,10 @@
 #import "WhiteMemberInformation.h"
 
 @interface WhiteRoomMember : WhiteObject
-@property (nonatomic, assign) NSInteger memberId;
-@property (nonatomic, assign) BOOL isRtcConnected;
-@property (nonatomic, copy) NSString *currentApplianceName;
-@property (nonatomic, strong) WhiteMemberInformation *information;
+
+@property (nonatomic, copy, readonly) NSString *currentApplianceName;
+@property (nonatomic, assign, readonly) NSInteger memberId;
+@property (nonatomic, assign, readonly) BOOL isRtcConnected;
+@property (nonatomic, strong, readonly) WhiteMemberInformation *information;
+
 @end

@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhitePlayerEvent : NSObject
 
-@property (nonatomic, weak) id<WhitePlayerEventDelegate> delegate;
+@property (nonatomic, weak, nullable) id<WhitePlayerEventDelegate> delegate;
 
 @end
 

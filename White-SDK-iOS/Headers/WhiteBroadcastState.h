@@ -24,7 +24,9 @@ typedef NS_ENUM(NSInteger, WhiteViewMode) {
 };
 
 @interface WhiteBroadcastState : WhiteObject
-@property (nonatomic, assign) WhiteViewMode viewMode;
-@property (nonatomic, assign) NSInteger broadcasterId;
-@property (nonatomic, strong) WhiteMemberInformation *broadcasterInformation;
+
+@property (nonatomic, assign, readonly) WhiteViewMode viewMode;
+@property (nonatomic, assign, readonly) NSInteger broadcasterId;
+@property (nonatomic, strong, readonly) WhiteMemberInformation *broadcasterInformation;
+
 @end
