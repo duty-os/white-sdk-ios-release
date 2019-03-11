@@ -76,7 +76,6 @@
 /**
  1. 先使用 insertImage API，插入占位图
  2. 再通过 completeImageUploadWithUuid:src: 替换内容
- 详细内容，可以查看 https://developer.herewhite.com/#/iOS_detail_api?id=%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87
  */
 - (void)insertImage:(WhiteImageInformation *)imageInfo;
 
@@ -89,7 +88,7 @@
 - (void)completeImageUploadWithUuid:(NSString *)uuid src:(NSString *)src;
 
 #pragma mark - Custom Event
-// 发送自定义事件，详细内容，可以查看 https://developer.herewhite.com/#/iOS_detail_api?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B6%88%E6%81%AF
+// 发送自定义事件，详细内容，可以查看文档
 - (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
 - (void)addMagixEventListener:(NSString *)eventName;
 - (void)removeMagixEventListener:(NSString *)eventName;
@@ -116,6 +115,8 @@
 - (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
 
 #pragma mark - Experimental API
+
+//使用以下 API 时，请使用 disableOperations: 设置为已读模式
 
 /** 该 API 为实验性 API，不保证未来兼容性 */
 - (void)externalDeviceEventDown:(WhitePanEvent *)event;

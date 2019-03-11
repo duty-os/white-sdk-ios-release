@@ -76,6 +76,7 @@
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[self.roomUuid ? :@""] applicationActivities:nil];
     activityVC.popoverPresentationController.sourceView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
     [self presentViewController:activityVC animated:YES completion:nil];
+    NSLog(@"房间 UUID: %@", self.roomUuid);
 }
 
 #pragma mark - Room Action
@@ -154,7 +155,9 @@
         make.left.bottom.right.equalTo(self.view);
     }];
     
-    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:[WhiteSdkConfiguration defaultConfig] callbackDelegate:self.roomCallbackDelegate];
+    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
+    config.enableDebug = YES;
+    self.sdk = [[WhiteSDK alloc] initWithBoardView:self.boardView config:config callbackDelegate:self.roomCallbackDelegate];
     [self.sdk joinRoomWithUuid:self.roomUuid roomToken:roomToken completionHandler:^(BOOL success, WhiteRoom *room, NSError *error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);

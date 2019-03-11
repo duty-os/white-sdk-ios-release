@@ -29,7 +29,6 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 /**
  白板中RoomState属性，发生变化时，会触发该回调。
  注意：主动设置的 RoomState，不会触发该回调。
- 目前有个别 state 内容，主动调用时，也会触发。后续版本会修复这个问题。
  @param modifyState 发生变化的 RoomState 内容
  */
 - (void)fireRoomStateChanged:(WhiteRoomState *)modifyState;
@@ -47,12 +46,9 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 
 /**
  白板自定义事件回调，
- 自定义事件参考: https://developer.herewhite.com/#/iOS_detail_api?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B6%88%E6%81%AF
+ 自定义事件参考: 官网文档
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
-
-
-@optional
 
 /*
  调用插入图片API时，可以通过此方法，对使用插入图片API(completeImageUploadWithUuid:src:) 中，传入的 src 进行修改。

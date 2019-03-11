@@ -147,7 +147,7 @@ static NSString *kReuseCell = @"reuseCell";
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"当前连接状态", nil) message:[NSString stringWithFormat:NSLocalizedString(@"WhiteRoomPhase:%ld", nil), (long)phase] preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleCancel handler:nil];
                 [alertController addAction:action];
-                [self presentViewController:alertController animated:YES completion:nil];
+                [self.presentingViewController presentViewController:alertController animated:YES completion:nil];
             }];
             break;
         }
