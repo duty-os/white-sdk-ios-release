@@ -4,9 +4,7 @@
 [![License](https://img.shields.io/cocoapods/l/White-SDK-iOS.svg?style=flat)](https://cocoapods.org/pods/White-SDK-iOS)
 [![Platform](https://img.shields.io/cocoapods/p/White-SDK-iOS.svg?style=flat)](https://cocoapods.org/pods/White-SDK-iOS)
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+[文档](https://developer.herewhite.com/#/)
 
 ## Requirements
 
@@ -14,12 +12,13 @@ iOS 9+
 
 ## Installation
 
-White-SDK-iOS is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+在 podfile 中写入
 
 ```ruby
 pod 'White-SDK-iOS'
 ```
+
+*如果在2.0.0版本中，没有发现 WhitePlayer 类，请执行* `pod cache clean White-SDK-iOS` 清空本地缓存，删除 `Pods` 文件中的 `White-SDK-iOS` 重新执行 `pod install`
 
 ## License
 
