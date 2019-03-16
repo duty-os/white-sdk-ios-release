@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
 /*
- 该 API 迁移至 WhiteBaseCallback
+ 该 API 迁移至 WhiteCommonCallback
  */
 //- (NSString *)urlInterrupter:(NSString *)url;
 

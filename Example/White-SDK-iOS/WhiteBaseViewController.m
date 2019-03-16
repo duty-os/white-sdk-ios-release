@@ -45,6 +45,36 @@
     }];
 }
 
+#pragma mark -
+- (void)showPopoverViewController:(UIViewController *)vc sourceView:(id)sourceView
+{
+    vc.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *present = vc.popoverPresentationController;
+    present.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    present.delegate = (id<UIPopoverPresentationControllerDelegate>)self;
+    if ([sourceView isKindOfClass:[UIView class]]) {
+        present.sourceView = sourceView;
+        present.sourceRect = [sourceView bounds];
+    } else if ([sourceView isKindOfClass:[UIBarButtonItem class]]) {
+        present.barButtonItem = sourceView;
+    } else {
+        present.sourceView = self.view;
+    }
+    
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
+}
+
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
+{
+    return YES;
+}
+
+
 #pragma mark - CallbackDelegate
 - (id<WhiteCommonCallbackDelegate>)commonDelegate
 {

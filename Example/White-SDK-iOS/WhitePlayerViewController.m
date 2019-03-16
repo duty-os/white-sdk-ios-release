@@ -8,8 +8,9 @@
 
 #import "WhitePlayerViewController.h"
 #import "WhiteSDK.h"
+#import "PlayerCommandListController.h"
 
-@interface WhitePlayerViewController ()<WhiteCommonCallbackDelegate, WhitePlayerEventDelegate>
+@interface WhitePlayerViewController ()<WhiteCommonCallbackDelegate, WhitePlayerEventDelegate, UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) WhiteSDK *sdk;
 @property (nonatomic, nullable, strong) WhitePlayer *player;
 @end
@@ -21,8 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initPlayer];
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"重连", nil) style:UIBarButtonItemStylePlain target:self action:@selector(initPlayer)];
-    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"获取", nil) style:UIBarButtonItemStylePlain target:self action:@selector(getAPI)];
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"设置", nil) style:UIBarButtonItemStylePlain target:self action:@selector(settingAPI:)];
+    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"初始化", nil) style:UIBarButtonItemStylePlain target:self action:@selector(initPlayer)];
+
     self.navigationItem.rightBarButtonItems = @[item1, item2];
 }
 
@@ -30,8 +32,6 @@
 {
     WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
     config.debug = YES;
-    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
-    config.enableInterrupterAPI = YES;
     
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
     WhitePlayerConfig *playerConfig = [[WhitePlayerConfig alloc] initWithRoom:self.roomUuid];
@@ -43,34 +43,18 @@
             NSLog(@"创建回放房间失败 error:%@", [error localizedDescription]);
         } else {
             self.player = player;
-            NSLog(@"创建回放房间成功，开始回放");
-            [self.player seekToScheduleTime:0];
             [self.player play];
-            [self getAPI];
+            NSLog(@"创建回放房间成功，开始回放");
         }
     }];
 }
 
 #pragma mark -
 
-- (void)getAPI
+- (void)settingAPI:(id)sender
 {
-    [self getPlayerState];
-    [self getPlayerTimeInfo];
-}
-
-- (void)getPlayerTimeInfo
-{
-    [self.player getPlayerTimeInfoWithResult:^(WhitePlayerTimeInfo * _Nonnull info) {
-        NSLog(@"%@", info);
-    }];
-}
-
-- (void)getPlayerState
-{
-    [self.player getPlayerStateWithResult:^(WhitePlayerState * _Nonnull state) {
-        NSLog(@"%@", state);
-    }];
+    PlayerCommandListController *controller = [[PlayerCommandListController alloc] initWithPlayer:self.player];
+    [self showPopoverViewController:controller sourceView:sender];
 }
 
 #pragma mark - CallbackDelegate

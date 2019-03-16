@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - CallbackDelegate
 @property (nonatomic, weak, nullable) id<WhiteCommonCallbackDelegate> commonDelegate;
 
+- (void)showPopoverViewController:(UIViewController *)vc sourceView:(id)sourceView;
+
 @end
 
 NS_ASSUME_NONNULL_END

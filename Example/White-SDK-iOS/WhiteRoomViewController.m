@@ -16,7 +16,7 @@
 @end
 
 #import <Masonry/Masonry.h>
-#import "CommandListController.h"
+#import "RoomCommandListController.h"
 #import "WhiteUtils.h"
 
 @implementation WhiteRoomViewController
@@ -62,7 +62,7 @@
 
 - (void)settingAPI:(id)sender
 {
-    CommandListController *controller = [[CommandListController alloc] initWithRoom:self.room];
+    RoomCommandListController *controller = [[RoomCommandListController alloc] initWithRoom:self.room];
     [self showPopoverViewController:controller sourceView:sender];
 }
 
@@ -168,35 +168,6 @@
             [self presentViewController:alertVC animated:YES completion:nil];
         }
     }];
-}
-
-#pragma mark - UIPopoverPresentationController & Delegate
-- (void)showPopoverViewController:(UIViewController *)vc sourceView:(id)sourceView
-{
-    vc.modalPresentationStyle = UIModalPresentationPopover;
-    UIPopoverPresentationController *present = vc.popoverPresentationController;
-    present.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    present.delegate = self;
-    if ([sourceView isKindOfClass:[UIView class]]) {
-        present.sourceView = sourceView;
-        present.sourceRect = [sourceView bounds];
-    } else if ([sourceView isKindOfClass:[UIBarButtonItem class]]) {
-        present.barButtonItem = sourceView;
-    } else {
-        present.sourceView = self.view;
-    }
-
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
-{
-    return UIModalPresentationNone;
-}
-
-- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
-{
-    return YES;
 }
 
 #pragma mark - WhiteRoomCallbackDelegate

@@ -98,6 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)putScenes:(NSString *)dir scenes:(NSArray<WhiteScene *> *)scenes index:(NSUInteger)index;
 
+
+/**
+ 清除当前屏幕内容
+
+ @param retainPPT 是否保留 ppt
+ */
+- (void)cleanScene:(BOOL)retainPPT;
+
 /**
 
  当有

@@ -56,6 +56,10 @@
 
 - (void)tearDown
 {
+    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([nav isKindOfClass:[UINavigationController class]]) {
+        [nav popToRootViewControllerAnimated:YES];
+    }
     [super tearDown];
 }
 
@@ -224,7 +228,6 @@ static NSTimeInterval kTimeout = 30;
     [self.room setScenePath:@"/ppt/opt"];
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    
     [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
         NSLog(@"SceneState: %@", [state jsonString]);
     }];
@@ -249,6 +252,49 @@ static NSTimeInterval kTimeout = 30;
     info.height = 300;
     info.uuid = @"WhiteImageInformation";
     [self.room insertImage:info src:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg"];
+    
+    // 在回调urlInterrupt API 中收到回调，self.exp 就会释放
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testCleanSceneNoPpt
+{
+    [self cleanScene:NO];
+}
+
+- (void)testCleanSceneRetainPpt
+{
+    [self cleanScene:YES];
+}
+
+- (void)cleanScene:(BOOL)retainPPT
+{
+    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
+    pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
+    pptPage.width = 400;
+    pptPage.height = 600;
+    WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
+    [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
+    [self.room setScenePath:@"/ppt/opt"];
+    
+    [self.room cleanScene:retainPPT];
+    
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
+        WhiteScene *current = state.scenes[state.index];
+        if (retainPPT) {
+            XCTAssertTrue([current.ppt.src isEqualToString:pptPage.src]);
+            XCTAssertTrue(current.componentsCount == 1);
+        } else {
+            XCTAssertNil(current.ppt);
+            XCTAssertTrue(current.componentsCount == 0);
+        }
+        [exp fulfill];
+    }];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {

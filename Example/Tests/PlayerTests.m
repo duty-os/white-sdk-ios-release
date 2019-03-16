@@ -10,7 +10,7 @@
 #import <WhiteSDK.h>
 #import "WhitePlayerViewController.h"
 
-@interface PlayerTests : XCTestCase<WhitePlayerEventDelegate>
+@interface PlayerTests : XCTestCase<WhitePlayerEventDelegate, WhiteCommonCallbackDelegate>
 
 @property (nonatomic, strong) WhitePlayerViewController *vc;
 @property (nonatomic, strong) WhitePlayer *player;
@@ -35,21 +35,24 @@ static NSTimeInterval kTimeout = 30;
     self.vc = [[WhitePlayerViewController alloc] init];
     self.vc.roomUuid = @"1bd317e6fba74a69a81eccbd4c79db2c";
     self.vc.eventDelegate = self;
-    __unused UIView *view = [self.vc view];
+    self.vc.commonDelegate = self;
+
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
+    __weak typeof(self)weakSelf = self;
+    self.vc.playBlock = ^(WhitePlayer * _Nullable player, NSError * _Nullable eroror) {
+        id self = weakSelf;
+        weakSelf.player = player;
+        XCTAssertNotNil(player);
+        [exp fulfill];
+    };
+    
+    __unused UIView *view = [self.vc view];
     //需要模拟UI 界面操作，否则 player 无法进行播放
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     if ([nav isKindOfClass:[UINavigationController class]]) {
         [nav pushViewController:self.vc animated:YES];
     }
-    
-    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    
-    __weak typeof(self)weakSelf = self;
-    self.vc.playBlock = ^(WhitePlayer * _Nullable player, NSError * _Nullable eroror) {
-        weakSelf.player = player;
-        [exp fulfill];
-    };
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -61,6 +64,10 @@ static NSTimeInterval kTimeout = 30;
 - (void)tearDown
 {
     [super tearDown];
+    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([nav isKindOfClass:[UINavigationController class]]) {
+        [nav popToRootViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - Private
@@ -71,21 +78,16 @@ static NSTimeInterval kTimeout = 30;
 }
 
 #pragma mark - Player Testing
-- (void)testPlayer
-{
-    XCTAssertNotNil(self.player);
-}
 
 - (void)testPlay
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self setupPlayer];
-    
     __weak typeof(self)weakSelf = self;
     self.playBlock = ^{
         [weakSelf.exp fulfill];
     };
+    [self setupPlayer];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -98,14 +100,18 @@ static NSTimeInterval kTimeout = 30;
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self setupPlayer];
-    
-    [self.player pause];
     
     __weak typeof(self)weakSelf = self;
+    
+    self.playBlock = ^{
+        [weakSelf.player pause];
+    };
+    
     self.pauseBlock = ^{
         [weakSelf.exp fulfill];
     };
+    
+    [self setupPlayer];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -117,20 +123,21 @@ static NSTimeInterval kTimeout = 30;
 - (void)testSeekToScheduleTime
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    
-    [self setupPlayer];
-    
-    CGFloat seekTime = 0;
-    //需要先确保长度足够
-    [self.player seekToScheduleTime:seekTime];
-    [self.player play];
-    
+
+    CGFloat expTime = 5;
     __weak typeof(self)weakSelf = self;
     self.seekBlock = ^(NSTimeInterval time) {
-        id self = weakSelf;
-        XCTAssertTrue(time == seekTime);
-        [weakSelf.exp fulfill];
+        if (time == expTime) {
+            [weakSelf.exp fulfill];
+        } else if (time < expTime) {
+            id self = weakSelf;
+            XCTFail(@"seek 失败");
+        }
     };
+    
+    //先从后期到前面，避免自然 play 时触发到时间
+    [self.player seekToScheduleTime:expTime];
+    [self.player play];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -148,8 +155,6 @@ static NSTimeInterval kTimeout = 30;
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self setupPlayer];
-    
     [self.player setObserverMode:WhiteObserverModeFreedom];
     
     __weak typeof(self)weakSelf = self;
@@ -160,6 +165,8 @@ static NSTimeInterval kTimeout = 30;
             [weakSelf.exp fulfill];
         }];
     };
+    
+    [self setupPlayer];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -188,16 +195,16 @@ static NSTimeInterval kTimeout = 30;
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [self setupPlayer];
-    
     __weak typeof(self)weakSelf = self;
     self.loadFirstFrameBlock = ^{
         [weakSelf.player getPlayerStateWithResult:^(WhitePlayerState * _Nonnull state) {
             [exp fulfill];
         }];
     };
-     
-     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+    
+    [self setupPlayer];
+
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
         }
