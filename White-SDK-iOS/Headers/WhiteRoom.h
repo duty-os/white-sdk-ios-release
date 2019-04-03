@@ -153,13 +153,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Get State API
 
+/** 返回当前坐标点，在白板内部的坐标位置 */
+- (void)convertToPointInWorld:(WhitePanEvent *)point result:(void (^) (WhitePanEvent *convertPoint))result;
+
+/** 获取当前房间 GlobalState */
 - (void)getGlobalStateWithResult:(void (^) (WhiteGlobalState *state))result;
+/** 获取当前房间 WhiteMemberState:教具 */
 - (void)getMemberStateWithResult:(void (^) (WhiteMemberState *state))result;
+/** 获取当前房间 WhiteRoomMember：房间成员信息 */
 - (void)getRoomMembersWithResult:(void (^) (NSArray<WhiteRoomMember *> *roomMembers))result;
+/** 获取当前视角状态 */
+- (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
+/** 获取当前房间连接状态 */
 - (void)getRoomPhaseWithResult:(void (^) (WhiteRoomPhase phase))result;
-- (void)getRoomStateWithResult:(void (^) (WhiteRoomState *state))result;
 /** 获取当前缩放比例 */
 - (void)getZoomScaleWithResult:(void (^) (CGFloat scale))result;
+/** 获取当前房间状态，包含 globalState，教具，房间成员信息，缩放，SceneState，用户视角状态 */
+- (void)getRoomStateWithResult:(void (^) (WhiteRoomState *state))result;
 
 /**
  获取所有 ppt 图片，回调内容为所有 ppt 图片的地址。
@@ -167,18 +177,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result DEPRECATED_MSG_ATTRIBUTE("使用 getScenesWithResult:");
 
-/** 获取当前视角模式 */
-- (void)getBroadcastStateWithResult:(void (^) (WhiteBroadcastState *state))result;
-
 #pragma mark - Experimental API
 
-/** 该 API 为实验性 API，不保证未来兼容性 */
+/** 以下系列 API 为实验性 API，不能保证未来兼容性 */
 - (void)externalDeviceEventDown:(WhitePanEvent *)event;
-/** 该 API 为实验性 API，不保证未来兼容性 */
 - (void)externalDeviceEventMove:(WhitePanEvent *)event;
-/** 该 API 为实验性 API，不保证未来兼容性 */
 - (void)externalDeviceEventUp:(WhitePanEvent *)event;
-/** 该 API 为实验性 API，不保证未来兼容性 */
 - (void)externalDeviceEventLeave:(WhitePanEvent *)event;
 
 @end

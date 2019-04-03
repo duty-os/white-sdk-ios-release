@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'White-SDK-iOS'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = 'White iOS端 SDK 仓库。'
   s.description      = <<-DESC
    White 白板，使用White SDK 创建自己的互动白板
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
   s.vendored_libraries = 'White-SDK-iOS/libWhiteSDK.a'
-  
+
   s.resource_bundles = {
     'WhiteSDK' => ['White-SDK-iOS/Resource/*']
   }

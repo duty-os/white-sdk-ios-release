@@ -141,10 +141,18 @@
     //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
     config.enableInterrupterAPI = YES;
     config.debug = YES;
+    //打开用户头像显示信息
+    config.userCursor = YES;
     
     
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
-    [self.sdk joinRoomWithRoomUuid:self.roomUuid roomToken:roomToken callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
+    
+    //UserId 需要保证每个用户唯一，否则同一个 userId，最先加入的人，会被踢出房间。
+    WhiteMemberInformation *memberInfo = [[WhiteMemberInformation alloc] initWithUserId:@"1" name:@"tester" avatar:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"];
+    
+    WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken memberInfo:memberInfo];
+    
+    [self.sdk joinRoomWithConfig:roomConfig callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);
 

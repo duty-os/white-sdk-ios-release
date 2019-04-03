@@ -23,13 +23,12 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
 
 @optional
 
-/** 白板网络连接状态回调事件 */
+/** 房间网络连接状态回调事件 */
 - (void)firePhaseChanged:(WhiteRoomPhase)phase;
 
 /**
- 白板中RoomState属性，发生变化时，会触发该回调。
+ 房间中RoomState属性，发生变化时，会触发该回调。
  注意：主动设置的 RoomState，不会触发该回调。
- 目前有个别 state 内容，主动调用时，也会触发。后续版本会修复这个问题。
  @param modifyState 发生变化的 RoomState 内容
  */
 - (void)fireRoomStateChanged:(WhiteRoomState *)modifyState;

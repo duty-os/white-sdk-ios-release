@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypePencil,
     CommandTypeRectangle,
     CommandTypeColor,
+    CommandTypeConvertP,
     CommandTypeCustomDevice,
 };
 
@@ -52,7 +53,7 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"清屏", nil), NSLocalizedString(@"插入新页面", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"外部设备输入", nil)];
+    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"清屏", nil), NSLocalizedString(@"插入新页面", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"坐标转换", nil), NSLocalizedString(@"外部设备输入", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
@@ -191,6 +192,18 @@ static NSString *kReuseCell = @"reuseCell";
             mState.strokeColor = @[@200, @200, @200];
             mState.strokeWidth = @10;
             [self.room setMemberState:mState];
+            break;
+        }
+        case CommandTypeConvertP:
+        {
+            for (int i = 0; i < 5; i ++) {
+                WhitePanEvent *point = [[WhitePanEvent alloc] init];
+                point.x = [UIScreen mainScreen].bounds.size.width / 2;
+                point.y = i * 100;
+                [self.room convertToPointInWorld:point result:^(WhitePanEvent * _Nonnull convertPoint) {
+                    NSLog(@"covert:%@", [convertPoint jsonDict]);
+                }];
+            }
             break;
         }
         case CommandTypeCustomDevice:

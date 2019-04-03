@@ -14,6 +14,7 @@
 #import "WhitePlayerConfig.h"
 #import "WhiteBoardView.h"
 #import "WhiteSdkConfiguration.h"
+#import "WhiteRoomConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -37,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** 重连时，使用以下任意两个 API，不需要传入 callbacks，否则重连成功前，无法接受到事件连接的回调 */
 - (void)joinRoomWithUuid:(NSString *)uuid roomToken:(NSString *)roomToken completionHandler:(void (^)(BOOL success, WhiteRoom * _Nullable room, NSError * _Nullable error))completionHandler;
 - (void)joinRoomWithRoomUuid:(NSString *)roomUuid roomToken:(NSString *)roomToken callbacks:(nullable id<WhiteRoomCallbackDelegate>)callbacks completionHandler:(void (^) (BOOL success, WhiteRoom * _Nullable room, NSError * _Nullable error))completionHandler;
+
+- (void)joinRoomWithConfig:(WhiteRoomConfig *)config callbacks:(nullable id<WhiteRoomCallbackDelegate>)callbacks completionHandler:(void (^) (BOOL success, WhiteRoom * _Nullable room, NSError * _Nullable error))completionHandler;
 
 #pragma mark - Player
 - (void)createReplayerWithConfig:(WhitePlayerConfig *)config callbacks:(nullable id<WhitePlayerEventDelegate>)eventCallbacks completionHandler:(void (^) (BOOL success, WhitePlayer * _Nullable player, NSError * _Nullable error))completionHandler;

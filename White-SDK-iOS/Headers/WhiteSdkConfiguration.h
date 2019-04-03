@@ -26,6 +26,9 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 /** 设置后，web 会将大部分调用回调给SDK，SDK 会打印 web 中的 function，以及收到的参数 */
 @property (nonatomic, assign) BOOL debug;
 
+/** 显示操作用户头像(需要在加入房间时，配置用户信息) */
+@property (nonatomic, assign) BOOL userCursor;
+
 /**
   图片拦截功能。
   当开启图片拦截后
