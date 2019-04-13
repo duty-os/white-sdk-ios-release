@@ -19,8 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *nickName;
 /** 鼠标/手指 头像图片地址 */
 @property (nonatomic, copy, readonly, nullable) NSString *avatar;
-/** 用户 uuid，请保证唯一性 */
-@property (nonatomic, copy, readonly) NSString *userId;
+/**
+ 用户 uuid，请保证唯一性。否则同一个 UserId 用户，会踢掉。
+ 初始化时，一定要存在。
+ 但是系统返回时，暂时没有 userId 数据
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *userId;
 
 @end
 

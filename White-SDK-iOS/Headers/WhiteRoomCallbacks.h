@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
     WhiteRoomPhaseDisconnected,         //已断开连接
 };
 
-@class WhiteRoomState, WhiteEvent;
+@class WhiteRoomState, WhiteEvent, WhiteUpdateCursor;
 
 @protocol WhiteRoomCallbackDelegate <NSObject>
 
@@ -54,6 +54,9 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  该 API 迁移至 WhiteCommonCallback
  */
 //- (NSString *)urlInterrupter:(NSString *)url;
+
+/** 用户头像信息变化 */
+- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor;
 
 @end
 

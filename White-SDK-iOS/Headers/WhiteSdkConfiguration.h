@@ -30,6 +30,12 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 @property (nonatomic, assign) BOOL userCursor;
 
 /**
+ 提供用户头像变化信息，用以实现自定义头像功能(需要在加入房间时，配置用户信息)。
+ 为 YES 时，无视 userCursor 属性。
+ */
+@property (nonatomic, assign) BOOL customCursor;
+
+/**
   图片拦截功能。
   当开启图片拦截后
   回调由原来的 WhiteRoomCallbackDelegate 切换到了 SDK 的 WhiteCommonCallbackDelegate，中。

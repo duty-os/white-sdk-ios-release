@@ -145,7 +145,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** 封装上述两个 API */
 - (void)insertImage:(WhiteImageInformation *)imageInfo src:(NSString *)src;
 
-#pragma mark - Custom Event
+#pragma mark - 延时
+- (void)setTimeDelay:(NSTimeInterval)delay;
+@property (nonatomic, assign, readonly) NSTimeInterval delay;
+
+#pragma mark - 自定义事件
 // 发送自定义事件，详细内容，可以查看文档，或者单元测试代码
 - (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
 - (void)addMagixEventListener:(NSString *)eventName;

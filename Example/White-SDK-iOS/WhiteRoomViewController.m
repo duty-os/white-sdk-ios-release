@@ -143,6 +143,8 @@
     config.debug = YES;
     //打开用户头像显示信息
     config.userCursor = YES;
+    //SDK 只提供数据信息，不实现用户头像
+    //config.customCursor = YES;
     
     
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
@@ -226,6 +228,11 @@
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
 }
 
+- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor
+{
+    NSLog(@"cursorViewsUpdate: %@", [updateCursor jsonString]);
+}
+
 #pragma mark - WhiteRoomCallbackDelegate
 - (void)throwError:(NSError *)error
 {
@@ -236,4 +243,5 @@
 {
     return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
 }
+
 @end
