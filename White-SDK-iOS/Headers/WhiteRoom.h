@@ -90,6 +90,8 @@
 #pragma mark - Custom Event
 // 发送自定义事件，详细内容，可以查看文档
 - (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
+/** 兼容字符串payload */
+- (void)dispatchMagixEvent:(NSString *)eventName stringPayload:(NSString *)payload;
 - (void)addMagixEventListener:(NSString *)eventName;
 - (void)removeMagixEventListener:(NSString *)eventName;
 

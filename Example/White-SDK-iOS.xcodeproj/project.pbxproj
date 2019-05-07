@@ -333,7 +333,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/White-SDK-iOS/WhiteSDK.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -342,7 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-White-SDK-iOS_Example/Pods-White-SDK-iOS_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		95767747CC9BD0BA5FFA2638 /* [CP] Check Pods Manifest.lock */ = {
