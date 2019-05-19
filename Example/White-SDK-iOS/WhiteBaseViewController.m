@@ -71,7 +71,7 @@
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
 {
-    return YES;
+    return NO;
 }
 
 

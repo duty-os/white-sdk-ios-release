@@ -9,7 +9,7 @@
 #import "RoomCommandListController.h"
 
 typedef NS_ENUM(NSInteger, CommandType) {
-    CommandTypeBroadercast,
+    CommandTypeBroadcast,
     CommandTypeFollower,
     CommandTypeCurrentViewMode,
     CommandTypeCustomEvent,
@@ -84,7 +84,7 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.row) {
-        case CommandTypeBroadercast:
+        case CommandTypeBroadcast:
             [self.room setViewMode:WhiteViewModeBroadcaster];
             break;
         case CommandTypeFollower:
