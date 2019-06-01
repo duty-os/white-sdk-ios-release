@@ -33,8 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)seekToScheduleTime:(NSTimeInterval)beginTime;
 //设置查看模式
 - (void)setObserverMode:(WhiteObserverMode)mode;
-//设置跟随的用户
-- (void)setFollowUserId:(NSInteger)userId;
 
 #pragma mark - get API
 

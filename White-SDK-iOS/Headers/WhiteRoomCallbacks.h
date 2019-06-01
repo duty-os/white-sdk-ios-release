@@ -50,13 +50,13 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
-/*
- 该 API 迁移至 WhiteCommonCallback
- */
-//- (NSString *)urlInterrupter:(NSString *)url;
 
-/** 用户头像信息变化 */
-- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor;
+/**
+ 用户头像信息变化，该 API 已弃用，不再回调
+
+ @param updateCursor 回调信息
+ */
+- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor DEPRECATED_MSG_ATTRIBUTE("该 API 暂时不可用");
 
 @end
 

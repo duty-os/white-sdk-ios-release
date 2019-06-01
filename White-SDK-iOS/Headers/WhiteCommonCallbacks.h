@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)throwError:(NSError *)error;
 
 /*
- 启用改功能，需要在初始化 SDK 时，在 WhiteSDKConfig 设置 enableInterrupterAPI 为 YES; 初始化后，无法更改。
+ 启用该功能，需要在初始化 SDK 时，在 WhiteSDKConfig 设置 enableInterrupterAPI 为 YES; 初始化后，无法更改。
  之后，在调用插入图片API/插入scene 时，会回调该 API，允许拦截修改最后传入的图片地址。
  在回放中，也会持续调用。
 

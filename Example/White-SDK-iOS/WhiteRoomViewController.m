@@ -11,8 +11,8 @@
 @interface WhiteRoomViewController ()<WhiteRoomCallbackDelegate, WhiteCommonCallbackDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, copy) NSString *roomToken;
-@property (nonatomic, strong) WhiteSDK *sdk;
 @property (nonatomic, assign, getter=isReconnecting) BOOL reconnecting;
+
 @end
 
 #import <Masonry/Masonry.h>
@@ -24,7 +24,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-# warning 请在 WhiteBaseViewController 中查看 Whiteboard 初始化注意事项。
+    # warning 请在 WhiteBaseViewController 中查看 SDK 初始化代码，以及注意事项。
     NSString *sdkToken = [WhiteUtils sdkToken];
     self.view.backgroundColor = [UIColor orangeColor];
     
@@ -136,19 +136,6 @@
 {
     self.title = NSLocalizedString(@"正在连接房间", nil);
     
-    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
-    
-    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
-    config.enableInterrupterAPI = YES;
-    config.debug = YES;
-    //打开用户头像显示信息
-    config.userCursor = YES;
-    //SDK 只提供数据信息，不实现用户头像
-    //config.customCursor = YES;
-    
-    
-    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
-    
     //UserId 需要保证每个用户唯一，否则同一个 userId，最先加入的人，会被踢出房间。
     WhiteMemberInformation *memberInfo = [[WhiteMemberInformation alloc] initWithUserId:@"1" name:@"tester" avatar:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"];
     
@@ -231,17 +218,6 @@
 - (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor
 {
     NSLog(@"cursorViewsUpdate: %@", [updateCursor jsonString]);
-}
-
-#pragma mark - WhiteRoomCallbackDelegate
-- (void)throwError:(NSError *)error
-{
-    NSLog(@"throwError: %@", error.userInfo);
-}
-
-- (NSString *)urlInterrupter:(NSString *)url
-{
-    return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";
 }
 
 @end

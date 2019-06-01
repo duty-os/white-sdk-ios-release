@@ -18,8 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) WhiteGlobalState *globalState;
 /** 房间用户状态 */
 @property (nonatomic, strong, readonly, nullable) NSArray<WhiteRoomMember *> *roomMembers;
+///** 用户观察状态 */
+//@property (nonatomic, strong, readonly, nullable) WhiteObserverState *observerState;
 /** 用户观察状态 */
-@property (nonatomic, strong, readonly, nullable) WhiteObserverState *observerState;
+@property (nonatomic, assign, readonly) WhiteObserverMode observerMode;
 /** 场景状态 */
 @property (nonatomic, strong, readonly, nullable) WhiteSceneState *sceneState;
 

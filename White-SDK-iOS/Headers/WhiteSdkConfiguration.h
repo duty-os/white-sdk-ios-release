@@ -29,10 +29,7 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 /** 显示操作用户头像(需要在加入房间时，配置用户信息) */
 @property (nonatomic, assign) BOOL userCursor;
 
-/**
- 提供用户头像变化信息，用以实现自定义头像功能(需要在加入房间时，配置用户信息)。
- 为 YES 时，无视 userCursor 属性。
- */
+/** 2.0.3-ppt 开始，不再有回调 */
 @property (nonatomic, assign) BOOL customCursor;
 
 /**

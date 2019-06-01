@@ -18,34 +18,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupViews];
+    [self initSDK];
 }
 
-- (void)setupViews
-{
-    #warning WhiteboardView 初始化注意事项：
-    /**
-     请提前将 WhiteBoardView 添加至视图栈中（生成 whiteSDK 前）。否则 iOS 12 真机无法执行正常执行sdk代码。
-     */
+#pragma mark - WhiteBoardView
+- (void)setupViews {
+    // 1. 初始化 WhiteBoardView，
+    // FIXME: 请提前加入视图栈，否则 iOS12 上，SDK 无法正常初始化。
     self.boardView = [[WhiteBoardView alloc] init];
     [self.view addSubview:self.boardView];
+    
+    // 2. 为 WhiteBoardView 做 iOS10 及其以下兼容
     /*
-     需要手动兼容 iOS10 及其以下。
-     FIX UIScrollView 自动偏移的问题
-     WhiteBoardView 内部有 UIScrollView，在 iOS 10及其以下时，如果 WhiteBoardView 是当前视图栈中第一个的话，会出现内容错位。
-     iOS 11 及其以上已做处理。
+     WhiteBoardView 内部有 UIScrollView,
+     在 iOS 10及其以下时，如果 WhiteBoardView 是当前视图栈中第一个 UIScrollView 的话，会出现内容错位。
      */
     if (@available(iOS 11, *)) {
     } else {
-        //可以参考此处处理。
+        //可以参考此处处理
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+    
+    // 3. 使用 Masonry 进行 Autolayout 处理
     [self.boardView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_topLayoutGuideBottom);
         make.left.bottom.right.equalTo(self.view);
     }];
 }
 
-#pragma mark -
+#pragma mark - WhiteSDK
+- (void)initSDK {
+    // 4. 初始化 SDK 配置项，根据需求配置属性
+    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
+    
+    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
+    config.enableInterrupterAPI = YES;
+    config.debug = YES;
+    
+    //打开用户头像显示信息
+    config.userCursor = YES;
+    
+    // 5.初始化 SDK，传入 commomDelegate
+    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
+}
+
+#pragma mark - PopoverViewController
 - (void)showPopoverViewController:(UIViewController *)vc sourceView:(id)sourceView
 {
     vc.modalPresentationStyle = UIModalPresentationPopover;
@@ -74,7 +91,6 @@
     return NO;
 }
 
-
 #pragma mark - CallbackDelegate
 - (id<WhiteCommonCallbackDelegate>)commonDelegate
 {
@@ -84,5 +100,15 @@
     return _commonDelegate;
 }
 
+#pragma mark - WhiteCommonCallbackDelegate
+- (void)throwError:(NSError *)error
+{
+    NSLog(@"throwError: %@", error.userInfo);
+}
+
+- (NSString *)urlInterrupter:(NSString *)url
+{
+    return @"https://white-pan.oss-cn-shanghai.aliyuncs.com/124/image/beauty2.png";
+}
 
 @end

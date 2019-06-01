@@ -9,6 +9,9 @@
 #import "WhiteRoom.h"
 #import "WhitePlayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface WhiteBoardView : DWKWebView
 
 @property (nonatomic, strong, nullable) WhiteRoom *room;
@@ -17,3 +20,5 @@
 - (instancetype)init;
 
 @end
+
+NS_ASSUME_NONNULL_END

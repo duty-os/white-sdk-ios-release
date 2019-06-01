@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) NSString *roomUuid;
 @property (nonatomic, strong) WhiteBoardView *boardView;
+@property (nonatomic, strong) WhiteSDK *sdk;
 
 #pragma mark - CallbackDelegate
 @property (nonatomic, weak, nullable) id<WhiteCommonCallbackDelegate> commonDelegate;

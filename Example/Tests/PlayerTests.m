@@ -146,11 +146,6 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
-- (void)testSetFollowUserId
-{
-    //TODO:需要特殊白板
-}
-
 - (void)testSetObserverMode
 {
     self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
@@ -161,7 +156,7 @@ static NSTimeInterval kTimeout = 30;
     self.playBlock = ^{
         [weakSelf.player getPlayerStateWithResult:^(WhitePlayerState * _Nonnull state) {
             id self = weakSelf;
-            XCTAssertTrue(state.observerState.mode == WhiteObserverModeFreedom);
+            XCTAssertTrue(state.observerMode == WhiteObserverModeFreedom);
             [weakSelf.exp fulfill];
         }];
     };

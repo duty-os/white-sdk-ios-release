@@ -8,11 +8,12 @@
 
 #import "WhitePlayerViewController.h"
 #import "WhiteSDK.h"
+#import "WhiteUtils.h"
 #import "PlayerCommandListController.h"
 
 @interface WhitePlayerViewController ()<WhiteCommonCallbackDelegate, WhitePlayerEventDelegate, UIPopoverPresentationControllerDelegate>
-@property (nonatomic, strong) WhiteSDK *sdk;
 @property (nonatomic, nullable, strong) WhitePlayer *player;
+@property (nonatomic, nullable, strong) NSString *roomToken;
 @end
 
 #import <Masonry/Masonry.h>
@@ -21,11 +22,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initPlayer];
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"设置", nil) style:UIBarButtonItemStylePlain target:self action:@selector(settingAPI:)];
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"初始化", nil) style:UIBarButtonItemStylePlain target:self action:@selector(initPlayer)];
-
+    [self getRoomToken];
     self.navigationItem.rightBarButtonItems = @[item1, item2];
+}
+
+- (void)getRoomToken;
+{
+    [WhiteUtils getRoomTokenWithUuid:self.roomUuid Result:^(BOOL success, id  _Nullable response, NSError * _Nullable error) {
+        if (success) {
+            self.roomToken = response[@"msg"][@"roomToken"];
+            [self initPlayer];
+        } else {
+            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"获取 RoomToken 失败", nil) message:[NSString stringWithFormat:@"服务器信息:%@，系统错误信息:%@", [error localizedDescription], [response description]] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            [alertVC addAction:action];
+            [self presentViewController:alertVC animated:YES completion:nil];
+        }
+    }];
 }
 
 - (void)initPlayer
@@ -34,8 +51,8 @@
     config.debug = YES;
     
     self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
-    WhitePlayerConfig *playerConfig = [[WhitePlayerConfig alloc] initWithRoom:self.roomUuid];
-    playerConfig.audioUrl = @"https://ohuuyffq2.qnssl.com/98398e2c5a43d74321214984294c157e_60def9bac25e4a378235f6249cae63c1.m3u8";
+    WhitePlayerConfig *playerConfig = [[WhitePlayerConfig alloc] initWithRoom:self.roomUuid roomToken:self.roomToken];
+//    playerConfig.audioUrl = @"https://ohuuyffq2.qnssl.com/98398e2c5a43d74321214984294c157e_60def9bac25e4a378235f6249cae63c1.m3u8";
     [self.sdk createReplayerWithConfig:playerConfig callbacks:self.eventDelegate completionHandler:^(BOOL success, WhitePlayer * _Nonnull player, NSError * _Nonnull error) {
         if (self.playBlock) {
             self.playBlock(player, error);

@@ -11,10 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhitePlayerConfig : WhiteObject
 
-- (instancetype)initWithRoom:(NSString *)roomUuid;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithRoom:(NSString *)roomUuid roomToken:(NSString *)roomToken;
 
 /** 房间UUID，目前必须要有 */
 @property (nonatomic, copy) NSString *room;
+
+/** 房间token，目前必须要有 */
+@property (nonatomic, copy) NSString *roomToken;
 
 /** 分片 ID，可以跳转至特定的房间位置，目前可以不关心。 */
 @property (nonatomic, copy, nullable) NSString *slice;
