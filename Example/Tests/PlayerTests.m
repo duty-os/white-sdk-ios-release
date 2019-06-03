@@ -20,6 +20,7 @@
 @property (nonatomic, copy) void (^seekBlock)(NSTimeInterval time);
 @property (nonatomic, copy) dispatch_block_t playBlock;
 @property (nonatomic, copy) dispatch_block_t pauseBlock;
+@property (nonatomic, copy) void (^eventBlock)(WhiteEvent *event);
 
 @end
 
@@ -186,6 +187,11 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+- (void)testEvent
+{
+    //TODO: custom event testing
+}
+
 - (void)testGetPlayerState
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
@@ -265,6 +271,13 @@ static NSTimeInterval kTimeout = 30;
     NSLog(@"PlayerTest %s time:%f", __FUNCTION__, (double)time);
     if (self.seekBlock) {
         self.seekBlock(time);
+    }
+}
+
+- (void)fireMagixEvent:(WhiteEvent *)event
+{
+    if (self.eventBlock) {
+        self.eventBlock(event);
     }
 }
 

@@ -137,9 +137,9 @@
     self.title = NSLocalizedString(@"正在连接房间", nil);
     
     //UserId 需要保证每个用户唯一，否则同一个 userId，最先加入的人，会被踢出房间。
-    WhiteMemberInformation *memberInfo = [[WhiteMemberInformation alloc] initWithUserId:@"1" name:@"tester" avatar:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"];
+//    WhiteMemberInformation *memberInfo = [[WhiteMemberInformation alloc] initWithUserId:@"1" name:@"tester" avatar:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"];
     
-    WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken memberInfo:memberInfo];
+    WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken memberInfo:nil];
     
     [self.sdk joinRoomWithConfig:roomConfig callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {

@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 //设置查看模式
 - (void)setObserverMode:(WhiteObserverMode)mode;
 
+#pragma mark - custom event
+- (void)addMagixEventListener:(NSString *)eventName;
+- (void)removeMagixEventListener:(NSString *)eventName;
+
 #pragma mark - get API
 
 

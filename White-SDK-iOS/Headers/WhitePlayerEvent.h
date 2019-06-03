@@ -10,6 +10,8 @@
 #import "WhitePlayerState.h"
 #import "WhitePlayerConsts.h"
 #import "WhiteUpdateCursor.h"
+#import "WhiteEvent.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol WhitePlayerEventDelegate <NSObject>
@@ -32,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)errorWhenAppendFrame:(NSError *)error;
 /** 渲染时，出错 */
 - (void)errorWhenRender:(NSError *)error;
+/**
+ 白板自定义事件回调，
+ 自定义事件参考文档，或者 RoomTests 代码
+ */
+- (void)fireMagixEvent:(WhiteEvent *)event;
 /** 用户头像信息变化 */
 - (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor;
 
