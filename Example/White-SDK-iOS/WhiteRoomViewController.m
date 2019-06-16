@@ -40,6 +40,7 @@
     } else {
         [self createRoom];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidDismiss:) name:UIKeyboardDidHideNotification object:nil];
 }
 
 #pragma mark - CallbackDelegate
@@ -165,6 +166,18 @@
             [self presentViewController:alertVC animated:YES completion:nil];
         }
     }];
+}
+
+#pragma mark - Keyboard
+
+/**
+ 处理文字教具键盘隐藏时，内容偏移。
+ 可以
+ @param n 键盘通知
+ */
+- (void)keyboardDidDismiss:(NSNotification *)n
+{
+    [self.boardView.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
 #pragma mark - WhiteRoomCallbackDelegate

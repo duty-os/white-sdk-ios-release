@@ -23,11 +23,12 @@ typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypeDisconnect,
     CommandTypeReadonly,
     CommandTypeEnable,
+    CommandTypeText,
     CommandTypePencil,
     CommandTypeRectangle,
     CommandTypeColor,
     CommandTypeConvertP,
-    CommandTypeCustomDevice,
+    CommandTypeScale,
 };
 
 @interface RoomCommandListController ()
@@ -53,7 +54,7 @@ static NSString *kReuseCell = @"reuseCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"清屏", nil), NSLocalizedString(@"插入新页面", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"坐标转换", nil), NSLocalizedString(@"外部设备输入", nil)];
+    self.commands = @[NSLocalizedString(@"主播", nil), NSLocalizedString(@"观众", nil),  NSLocalizedString(@"当前视角状态", nil), NSLocalizedString(@"发送自定义事件", nil), NSLocalizedString(@"清屏", nil), NSLocalizedString(@"插入新页面", nil), NSLocalizedString(@"插入 PPT", nil), NSLocalizedString(@"插入图片", nil), NSLocalizedString(@"获取PPT", nil), NSLocalizedString(@"获取页面数据", nil), NSLocalizedString(@"获取连接状态", nil), NSLocalizedString(@"主动断连", nil), NSLocalizedString(@"只读", nil), NSLocalizedString(@"取消只读", nil), NSLocalizedString(@"文本", nil), NSLocalizedString(@"画笔", nil), NSLocalizedString(@"矩形", nil), NSLocalizedString(@"颜色", nil), NSLocalizedString(@"坐标转换", nil), NSLocalizedString(@"缩放", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
@@ -171,6 +172,13 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypeEnable:
             [self.room disableOperations:NO];
             break;
+        case CommandTypeText:
+        {
+            WhiteMemberState *mState = [[WhiteMemberState alloc] init];
+            mState.currentApplianceName = ApplianceText;
+            [self.room setMemberState:mState];
+            break;
+        }
         case CommandTypePencil:
         {
             WhiteMemberState *mState = [[WhiteMemberState alloc] init];
@@ -206,23 +214,15 @@ static NSString *kReuseCell = @"reuseCell";
             }
             break;
         }
-        case CommandTypeCustomDevice:
+        case CommandTypeScale:
         {
-            [self.room disableOperations:YES];
-            WhitePanEvent *panEvent = [[WhitePanEvent alloc] init];
-            panEvent.x = 100;
-            panEvent.y = 100;
-            [self.room externalDeviceEventDown:panEvent];
-            
-            int i = 0;
-            while (i < 20) {
-                panEvent.x = 100 + i * 3;
-                panEvent.y = 100 + i * 3;
-                [self.room externalDeviceEventMove:panEvent];
-                i++;
-            }
-            [self.room externalDeviceEventUp:panEvent];
-            [self.room disableOperations:NO];
+            [self.room getZoomScaleWithResult:^(CGFloat scale) {
+                if (scale != 1) {
+                    [self.room zoomChange:1];
+                } else {
+                    [self.room zoomChange:3];
+                }
+            }];
             break;
         }
         default:

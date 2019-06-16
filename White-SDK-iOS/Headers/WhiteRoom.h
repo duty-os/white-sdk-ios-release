@@ -181,14 +181,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result DEPRECATED_MSG_ATTRIBUTE("使用 getScenesWithResult:");
 
-#pragma mark - Experimental API
-
-/** 以下系列 API 为实验性 API，不能保证未来兼容性 */
-- (void)externalDeviceEventDown:(WhitePanEvent *)event;
-- (void)externalDeviceEventMove:(WhitePanEvent *)event;
-- (void)externalDeviceEventUp:(WhitePanEvent *)event;
-- (void)externalDeviceEventLeave:(WhitePanEvent *)event;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
  自定义事件参考文档，或者 RoomTests 代码
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
-/** 用户头像信息变化 */
-- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor;
 
 @end
 

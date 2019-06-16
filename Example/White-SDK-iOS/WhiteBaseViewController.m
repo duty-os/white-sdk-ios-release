@@ -88,7 +88,7 @@
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
 {
-    return NO;
+    return YES;
 }
 
 #pragma mark - CallbackDelegate

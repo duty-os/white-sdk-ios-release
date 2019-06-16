@@ -79,12 +79,16 @@ static NSTimeInterval kTimeout = 30;
 {
     WhiteMemberState *mState = [[WhiteMemberState alloc] init];
     mState.currentApplianceName = ApplianceRectangle;
+    mState.strokeColor = @[@12, @24, @36];
     [self.room setMemberState:mState];
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     [self.room getMemberStateWithResult:^(WhiteMemberState *state) {
         XCTAssertTrue([state isKindOfClass:[WhiteMemberState class]]);
         XCTAssertTrue([state.currentApplianceName isEqualToString:mState.currentApplianceName]);
+        for (NSInteger i=0; i < [state.strokeColor count]; i++) {
+            XCTAssertTrue([mState.strokeColor[i] isEqualToNumber:state.strokeColor[i]]);
+        }
         [exp fulfill];
     }];
     
@@ -130,13 +134,12 @@ static NSTimeInterval kTimeout = 30;
     CGFloat zoomScale = 5;
     [self.room zoomChange:0.5];
     [self.room zoomChange:zoomScale];
-    //zoom 是一个逐渐的过程，而不是瞬间，所以需要隔一段时间后进行查询
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.room getZoomScaleWithResult:^(CGFloat scale) {
-            XCTAssertTrue(scale == zoomScale);
-            [exp fulfill];
-        }];
-    });
+    
+    // 2.0.4 开始，可以瞬间获得
+    [self.room getZoomScaleWithResult:^(CGFloat scale) {
+        XCTAssertTrue(scale == zoomScale);
+        [exp fulfill];
+    }];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -149,6 +152,8 @@ static NSTimeInterval kTimeout = 30;
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     [self.room disableOperations:YES];
+    
+    // TODO: 增加获取 disableOperation 操作
     
     [exp fulfill];
     
@@ -169,20 +174,34 @@ static NSTimeInterval kTimeout = 30;
     pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
     pptPage.width = 400;
     pptPage.height = 600;
+    
+    //因为这个场景目录，只插入了一页
+    NSInteger index = 0;
+    
     WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
-    [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
+    [self.room putScenes:@"/ppt" scenes:@[scene] index:index];
     [self.room setScenePath:@"/ppt/opt"];
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter(group);
     [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
-        NSLog(@"SceneState: %@", [state jsonString]);
+        XCTAssertTrue([state.scenePath isEqualToString:@"/ppt/opt"]);
+        dispatch_group_leave(group);
     }];
     
+    dispatch_group_enter(group);
     [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
-        XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
-        [exp fulfill];
+        XCTAssertTrue([scenes[index].ppt.src isEqualToString:pptPage.src]);
+        dispatch_group_leave(group);
     }];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [exp fulfill];
+    });
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
