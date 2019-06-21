@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+__deprecated_msg("用户信息传递改为 NSDictionary 等可以转化为 JSON 或者 JSON 内元素的类型")
 @interface WhiteMemberInformation : WhiteObject
 
 - (instancetype)initWithUserId:(NSString *)userId name:(NSString *)nickName avatar:(NSString *)avatarUrl;

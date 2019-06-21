@@ -23,6 +23,51 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
+- (void)testWhiteEventConvertDict {
+    WhiteEvent *event = [[WhiteEvent alloc] init];
+    event.eventName = @"ee";
+    event.payload = @{@"k": @"v"};
+    NSDictionary *dict = [event jsonDict];
+    
+    WhiteEvent *event1 = [WhiteEvent modelWithJSON:dict];
+    XCTAssertTrue([event1.payload isEqual:event.payload]);
+    
+    event1.payload = @"";
+    XCTAssertFalse([event1.payload isEqual:event.payload]);
+}
+
+- (void)testWhiteEventConvertStr {
+    WhiteEvent *event = [[WhiteEvent alloc] init];
+    event.eventName = @"ee";
+    event.payload = @"313131";
+    NSDictionary *dict = [event jsonDict];
+    
+    WhiteEvent *event1 = [WhiteEvent modelWithJSON:dict];
+    XCTAssertTrue([self whiteEventEqual:event event:event1]);
+
+    event1.payload = @"";
+    XCTAssertFalse([self whiteEventEqual:event event:event1]);
+}
+
+- (void)testWhiteEventConvertNum {
+    WhiteEvent *event = [[WhiteEvent alloc] init];
+    event.eventName = @"ee";
+    NSInteger num = 333;
+    event.payload = @(num);
+    NSDictionary *dict = [event jsonDict];
+    
+    WhiteEvent *event1 = [WhiteEvent modelWithJSON:dict];
+    XCTAssertTrue([self whiteEventEqual:event event:event1]);
+    
+    event1.payload = @"";
+    XCTAssertFalse([self whiteEventEqual:event event:event1]);
+}
+
+- (BOOL)whiteEventEqual:(WhiteEvent *)event event:(WhiteEvent *)event1
+{
+    return [event.eventName isEqualToString:event1.eventName] && [event.payload isEqual:event1.payload];
+}
+
 - (void)testPlayConfigSecConvert
 {
     WhitePlayerConfig *pConfig = [[WhitePlayerConfig alloc] initWithRoom:@"room" roomToken:@"roomToken"];

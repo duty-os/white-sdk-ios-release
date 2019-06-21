@@ -1,7 +1,7 @@
 PODS:
   - dsBridge (3.0.6)
   - Masonry (1.1.0)
-  - White-SDK-iOS (2.0.5):
+  - White-SDK-iOS (2.1.0):
     - dsBridge (~> 3.0.2)
     - YYModel (~> 1.0.4)
   - YYModel (1.0.4)
@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  White-SDK-iOS: b10b00fceda3e3aa9a094c0f81728ce1c08b5a03
+  White-SDK-iOS: a0aaa8ef94d87552741aa4e77de04abca3e502a4
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
 PODFILE CHECKSUM: d34fa0b84410bb021b12d6322e40057128178b77

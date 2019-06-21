@@ -22,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface WhiteSDK : NSObject
 
+
++ (NSString *)version;
+
+
 /** 推荐初始化方法,commonCallback 为Room 与 Player 都支持的h callback */
 - (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback;
 

@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) WhiteRoom *room;
 @property (nonatomic, strong, nullable) WhitePlayer *player;
 
+/**
+ 禁用 SDK 本身对键盘偏移的处理
+ */
+@property (nonatomic, assign) BOOL disableKeyboardHandler;
+
 - (instancetype)init;
 
 @end
