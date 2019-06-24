@@ -50,14 +50,6 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
-
-/**
- 用户头像信息变化，该 API 已弃用，不再回调
-
- @param updateCursor 回调信息
- */
-- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor DEPRECATED_MSG_ATTRIBUTE("该 API 暂时不可用");
-
 @end
 
 #pragma mark - WhiteRoomCallbacks
