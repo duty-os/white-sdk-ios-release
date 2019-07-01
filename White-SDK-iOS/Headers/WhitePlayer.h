@@ -10,10 +10,11 @@
 #import "WhitePlayerState.h"
 #import "WhiteObserverState.h"
 #import "WhitePlayerTimeInfo.h"
+#import "WhiteDisplayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WhitePlayer : NSObject
+@interface WhitePlayer : WhiteDisplayer
 
 @property (nonatomic, copy, readonly) NSString *uuid;
 

@@ -15,7 +15,10 @@ static NSString *WhiteCommandCustomEvent = @"WhiteCommandCustomEvent";
 
 @interface RoomCommandListController : UITableViewController
 
+@property (nonatomic, copy, nullable) NSString *roomToken;
+
 - (instancetype)initWithRoom:(WhiteRoom *)room;
+
 
 @end
 

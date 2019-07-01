@@ -12,6 +12,8 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
     WhiteDeviceTypeDesktop,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface WhiteSdkConfiguration : WhiteObject
 
 + (instancetype)defaultConfig;
@@ -29,8 +31,11 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 /** 显示操作用户头像(需要在加入房间时，配置用户信息) */
 @property (nonatomic, assign) BOOL userCursor;
 
-/** 2.0.3-ppt 开始，不再有回调 */
-@property (nonatomic, assign) BOOL customCursor;
+
+/**
+ 转换服务时，字体文件映射字典
+ */
+@property (nonatomic, copy, nullable) NSDictionary *font;
 
 /**
   图片拦截功能。
@@ -41,3 +46,4 @@ typedef NS_ENUM(NSInteger, WhiteDeviceType) {
 @property (nonatomic, assign) BOOL enableInterrupterAPI;
 
 @end
+NS_ASSUME_NONNULL_END

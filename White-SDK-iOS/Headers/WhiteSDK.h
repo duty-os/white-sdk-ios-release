@@ -15,6 +15,8 @@
 #import "WhiteBoardView.h"
 #import "WhiteSdkConfiguration.h"
 #import "WhiteRoomConfig.h"
+#import "WhiteDisplayer.h"
+#import "WhiteConverter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**

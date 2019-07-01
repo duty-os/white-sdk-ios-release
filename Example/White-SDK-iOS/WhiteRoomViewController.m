@@ -57,13 +57,26 @@
 {
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"设置 API", nil) style:UIBarButtonItemStylePlain target:self action:@selector(settingAPI:)];
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"分享", nil) style:UIBarButtonItemStylePlain target:self action:@selector(shareRoom:)];
+    UIBarButtonItem *item3 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"pre", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pptPreviousStep)];
+    UIBarButtonItem *item4 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"next", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pptNextStep)];
+    
+    self.navigationItem.rightBarButtonItems = @[item1, item2, item3, item4];
+}
 
-    self.navigationItem.rightBarButtonItems = @[item1, item2];
+- (void)pptPreviousStep
+{
+    [self.room pptPreviousStep];
+}
+
+- (void)pptNextStep
+{
+    [self.room pptNextStep];
 }
 
 - (void)settingAPI:(id)sender
 {
     RoomCommandListController *controller = [[RoomCommandListController alloc] initWithRoom:self.room];
+    controller.roomToken = self.roomToken;
     [self showPopoverViewController:controller sourceView:sender];
 }
 
@@ -85,10 +98,15 @@
 - (void)createRoom
 {
     self.title = NSLocalizedString(@"创建房间中...", nil);
-    [WhiteUtils createRoomWithResult:^(BOOL success, id response, NSError *error) {
-        if (success) {
-            NSString *roomToken = response[@"msg"][@"roomToken"];
-            NSString *uuid = response[@"msg"][@"room"][@"uuid"];
+    [WhiteUtils createRoomWithCompletionHandler:^(NSString * _Nullable uuid, NSString * _Nullable roomToken, NSError * _Nullable error) {
+        if (error) {
+            if (self.roomBlock) {
+                self.roomBlock(nil, error);
+            } else {
+                NSLog(NSLocalizedString(@"创建房间失败，error:", nil), [error localizedDescription]);
+                self.title = NSLocalizedString(@"创建失败", nil);
+            }
+        } else {
             self.roomUuid = uuid;
             if (self.roomUuid && roomToken) {
                 [self joinRoomWithToken:roomToken];
@@ -96,11 +114,6 @@
                 NSLog(NSLocalizedString(@"连接房间失败，room uuid:%@ roomToken:%@", nil), self.roomUuid, roomToken);
                 self.title = NSLocalizedString(@"创建失败", nil);
             }
-        } else if (self.roomBlock) {
-            self.roomBlock(nil, error);
-        } else {
-            NSLog(NSLocalizedString(@"创建房间失败，error:", nil), [error localizedDescription]);
-            self.title = NSLocalizedString(@"创建失败", nil);
         }
     }];
 }
@@ -137,10 +150,8 @@
 {
     self.title = NSLocalizedString(@"正在连接房间", nil);
     
-    //UserId 需要保证每个用户唯一，否则同一个 userId，最先加入的人，会被踢出房间。
-//    WhiteMemberInformation *memberInfo = [[WhiteMemberInformation alloc] initWithUserId:@"1" name:@"tester" avatar:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"];
-    
-    WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken memberInfo:nil];
+    NSDictionary *payload = @{@"avatar": @"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"};
+    WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken userPayload:payload];
     
     [self.sdk joinRoomWithConfig:roomConfig callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {
@@ -226,11 +237,6 @@
 - (void)fireMagixEvent:(WhiteEvent *)event
 {
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
-}
-
-- (void)cursorViewsUpdate:(WhiteUpdateCursor *)updateCursor
-{
-    NSLog(@"cursorViewsUpdate: %@", [updateCursor jsonString]);
 }
 
 @end

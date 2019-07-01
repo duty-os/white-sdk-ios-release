@@ -9,7 +9,6 @@
 #import "WhiteObserverState.h"
 #import "WhitePlayerState.h"
 #import "WhitePlayerConsts.h"
-#import "WhiteUpdateCursor.h"
 #import "WhiteEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN

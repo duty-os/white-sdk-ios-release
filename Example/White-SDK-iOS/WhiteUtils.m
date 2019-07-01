@@ -22,7 +22,7 @@ static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
 }
 
 //FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 console.herewhite.com 获取的 token 发生泄露。
-+ (void)createRoomWithResult:(void (^) (BOOL success, id response, NSError *error))result;
++ (void)createRoomWithResult:(void (^) (BOOL success, id  _Nullable response, NSError * _Nullable error))result;
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"room?token=%@"], self.sdkToken]]];
     NSMutableURLRequest *modifyRequest = [request mutableCopy];
@@ -45,6 +45,19 @@ static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
         });
     }];
     [task resume];
+}
+
++ (void)createRoomWithCompletionHandler:(void (^) (NSString * _Nullable uuid, NSString * _Nullable roomToken, NSError * _Nullable error))completionHandler
+{
+    [self createRoomWithResult:^(BOOL success, id  _Nullable response, NSError * _Nullable error) {
+        if (success) {
+            NSString *roomToken = response[@"msg"][@"roomToken"];
+            NSString *uuid = response[@"msg"][@"room"][@"uuid"];
+            !completionHandler ? : completionHandler(uuid, roomToken, nil);
+        } else {
+            !completionHandler ? : completionHandler(nil, nil, error);
+        }
+    }];
 }
 
 /**
@@ -75,6 +88,18 @@ static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
         });
     }];
     [task resume];
+}
+
++ (void)getRoomTokenWithUuid:(NSString *)uuid completionHandler:(void (^)(NSString * _Nullable roomToken, NSError * _Nullable error))completionHandler
+{
+    [self getRoomTokenWithUuid:uuid Result:^(BOOL success, id  _Nullable response, NSError * _Nullable error) {
+        if (success) {
+            NSString *roomToken = response[@"msg"][@"roomToken"];
+            !completionHandler ? : completionHandler(roomToken, nil);
+        } else {
+            !completionHandler ? : completionHandler(nil, error);
+        }
+    }];
 }
 
 @end

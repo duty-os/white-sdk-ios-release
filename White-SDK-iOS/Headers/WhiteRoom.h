@@ -18,12 +18,13 @@
 #import "WhiteScene.h"
 #import "WhiteSceneState.h"
 #import "WhitePanEvent.h"
+#import "WhiteDisplayer.h"
 
 @class WhiteBoardView;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WhiteRoom : NSObject
+@interface WhiteRoom : WhiteDisplayer
 
 #pragma mark - Property
 @property (nonatomic, copy, readonly) NSString *uuid;
@@ -57,11 +58,32 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)zoomChange:(CGFloat)scale;
 
+#pragma mark - Operation
 /**
  进入只读模式，不响应用户任何手势
  @param readonly 是否进入只读模式
  */
 - (void)disableOperations:(BOOL)readonly;
+
+
+/**
+ 禁止视野移动
+
+ @param disableCameraTransform 是否禁止移动
+ */
+- (void)disableCameraTransform:(BOOL)disableCameraTransform;
+
+
+/**
+ 禁止用户的教具操作
+
+ @param disable 是否禁止教具操作
+ */
+- (void)disableDeviceInputs:(BOOL)disable;
+
+#pragma mark - PPT
+- (void)pptNextStep;
+- (void)pptPreviousStep;
 
 #pragma mark - Scene API
 /** 获取场景 State，具体信息可以查看 WhiteSceneState 类 */

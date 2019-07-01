@@ -8,4 +8,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const WhiteConstsErrorDomain;
+extern NSString * const WhiteConstsConvertDomain;
+
+
 extern NSTimeInterval const WhiteConstsTimeUnitRatio;

@@ -13,12 +13,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-#error 请在此处设置 SDKToken，以保证可以正常测试
+//#error 请在此处设置 SDKToken，以保证可以正常测试
     /* FIXME:
      请从 https://console.herewhite.com 重新注册申请。
      该 token 不应该保存在客户端中，所有涉及该 token 的请求，都应该放在服务器中。
      */
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"white-sdk-token"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"WHITEcGFydG5lcl9pZD1OZ3pwQWNBdlhiemJERW9NY0E0Z0V3RTUwbVZxM0NIbDJYV0Ymc2lnPWNiZWExOTMwNzc1NmQyNmU3N2U3M2Q0NWZjNTZiOGIwMWE2ZjU4NDI6YWRtaW5JZD0yMTYmcm9sZT1hZG1pbiZleHBpcmVfdGltZT0xNTg5ODMzNTQxJmFrPU5nenBBY0F2WGJ6YkRFb01jQTRnRXdFNTBtVnEzQ0hsMlhXRiZjcmVhdGVfdGltZT0xNTU4Mjc2NTg5Jm5vbmNlPTE1NTgyNzY1ODg4NDQwMA" forKey:@"white-sdk-token"];
 
     return YES;
 }
