@@ -15,7 +15,7 @@
     // Override point for customization after application launch.
 #error 请在此处设置 SDKToken，以保证可以正常测试
     /* FIXME:
-     请从 console.herewhite.com 重新注册申请。
+     请从 https://console.herewhite.com 重新注册申请。
      该 token 不应该保存在客户端中，所有涉及该 token 的请求，都应该放在服务器中。
      */
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"white-sdk-token"];
