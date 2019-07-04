@@ -45,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  如果白板窗口大小改变。应该重新调用该方法刷新尺寸
- //TODO:明确普通 layout 变化时，是否需要手动调用。
  */
 - (void)refreshViewSize;
 
@@ -55,8 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  缩小放大白板
  @param scale 相对于原始大小的比例，而不是相对当前的缩放比例
+ 
  */
-- (void)zoomChange:(CGFloat)scale;
+- (void)zoomChange:(CGFloat)scale DEPRECATED_MSG_ATTRIBUTE("moveCamera:");
 
 #pragma mark - Operation
 /**
@@ -106,6 +106,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setScenePath:(NSString *)path;
 /** 多一个回调，如果失败，会返回具体错误内容 */
 - (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
+
+
+/**
+ 切换上下页
+
+ @param index 目标场景 index。当前页面 index，可以通过 getSceneStateWithResult 获取
+ @param completionHandler 完成回调，如果失败，会在 error 中的 userInfo 显示错误信息，一般为数组越界
+ */
+- (void)setSceneIndex:(NSUInteger)index completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
 
 //TODO:请在文档站中，阅读理解页面（场景）的概念，理解绝对路径和name
 
