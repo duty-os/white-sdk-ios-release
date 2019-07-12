@@ -56,9 +56,9 @@ typedef NS_ENUM(NSInteger, ConvertType) {
 @property (nonatomic, copy, readonly, nullable) NSString *prefix;
 
 /**
- 静态 转换结果
+ 转换结果
  */
-@property (nonatomic, copy, readonly, nullable) NSArray<WhitePptPage *> *staticConversionFileList;
+@property (nonatomic, copy, readonly, nullable) NSArray<WhitePptPage *> *convertedFileList;
 @end
 
 /**

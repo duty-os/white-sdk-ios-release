@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		394E154C22D875F20070E610 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 394E154B22D875F20070E610 /* CHANGELOG.md */; };
 		39B37D032233FE5B005E2BA3 /* PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B37D012233FE5B005E2BA3 /* PlayerTests.m */; };
 		39B37D042233FE5B005E2BA3 /* RoomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B37D022233FE5B005E2BA3 /* RoomTests.m */; };
 		39CC2DEE222D35F90030C03B /* WhiteBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */; };
@@ -48,6 +49,7 @@
 		08945AFE9663D55516327E2F /* Pods-White-SDK-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-White-SDK-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-White-SDK-iOS_Tests/Pods-White-SDK-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		394E154B22D875F20070E610 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		39B37D012233FE5B005E2BA3 /* PlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerTests.m; sourceTree = "<group>"; };
 		39B37D022233FE5B005E2BA3 /* RoomTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomTests.m; sourceTree = "<group>"; };
 		39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteBaseViewController.m; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				39EFC90B21291BA3000FC86F /* White-SDK-iOS.podspec */,
+				394E154B22D875F20070E610 /* CHANGELOG.md */,
 				F9CAB54594A22721C04670AF /* README.md */,
 				213A8F9A8B80E833CF703658 /* LICENSE */,
 			);
@@ -294,6 +297,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -314,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				394E154C22D875F20070E610 /* CHANGELOG.md in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,

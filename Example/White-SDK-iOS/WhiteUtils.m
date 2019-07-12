@@ -21,7 +21,7 @@ static NSString *APIHost = @"https://cloudcapiv4.herewhite.com";
     return [[NSUserDefaults standardUserDefaults] stringForKey:@"white-sdk-token"];
 }
 
-//FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 console.herewhite.com 获取的 token 发生泄露。
+//FIXME:我们推荐将这两个请求，放在您的服务器端进行。防止您从 https://console.herewhite.com 获取的 token 发生泄露。
 + (void)createRoomWithResult:(void (^) (BOOL success, id  _Nullable response, NSError * _Nullable error))result;
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:[APIHost stringByAppendingPathComponent:@"room?token=%@"], self.sdkToken]]];
