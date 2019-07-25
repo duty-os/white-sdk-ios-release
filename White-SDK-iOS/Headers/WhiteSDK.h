@@ -6,25 +6,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WhiteRoom.h"
-#import "WhitePlayer.h"
+#import "WhiteDisplayer.h"
 #import "WhiteCommonCallbacks.h"
+#import "WhiteConfig.h"
+#import "WhiteRoom.h"
+#import "WhiteRoomConfig.h"
 #import "WhiteRoomCallbacks.h"
+#import "WhitePlayer.h"
 #import "WhitePlayerEvent.h"
 #import "WhitePlayerConfig.h"
 #import "WhiteBoardView.h"
 #import "WhiteSdkConfiguration.h"
-#import "WhiteRoomConfig.h"
-#import "WhiteDisplayer.h"
 #import "WhiteConverter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**
- 非单例，一个 SDK 实例绑定，为了能够进行使用加入房间 API，进行重连房间操作，最好有当前 ViewController 持有。
+ 非单例，一个 SDK 实例绑定，为了能够进行重连房间操作，最好由当前 ViewController 持有。
  */
 @interface WhiteSDK : NSObject
 
 
+/** White SDK 版本号 */
 + (NSString *)version;
 
 

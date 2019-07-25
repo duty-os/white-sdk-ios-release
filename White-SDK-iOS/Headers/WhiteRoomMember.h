@@ -6,13 +6,16 @@
 //
 
 #import "WhiteObject.h"
+#import "WhiteMemberState.h"
 #import "WhiteMemberInformation.h"
 
 @interface WhiteRoomMember : WhiteObject
 
-@property (nonatomic, copy, readonly) NSString *currentApplianceName;
+@property (nonatomic, copy, readonly) WhiteApplianceNameKey currentApplianceName DEPRECATED_MSG_ATTRIBUTE("使用 memberState.currentApplianceName 获取");
 /** 进入在该房间中时的序号 */
 @property (nonatomic, assign, readonly) NSInteger memberId;
+/** 对应用户的教具信息 */
+@property (nonatomic, strong, readonly) WhiteReadonlyMemberState *memberState;
 
 /**
  兼容旧版本， 从 iOS 2.1.0（Android 2.0.0，web 2.0.0）开始，使用 payload 字段

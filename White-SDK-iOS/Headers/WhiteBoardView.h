@@ -6,11 +6,10 @@
 //
 
 #import <dsbridge/dsbridge.h>
-#import "WhiteRoom.h"
-#import "WhitePlayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class WhiteRoom, WhitePlayer;
 
 @interface WhiteBoardView : DWKWebView
 

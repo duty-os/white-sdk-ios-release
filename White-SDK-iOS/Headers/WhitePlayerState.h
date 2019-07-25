@@ -6,24 +6,15 @@
 //
 
 #import "WhiteObject.h"
-#import "WhiteGlobalState.h"
-#import "WhiteObserverState.h"
-#import "WhiteRoomMember.h"
-#import "WhiteSceneState.h"
+#import "WhiteDisplayerState.h"
+#import "WhitePlayerConsts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WhitePlayerState : WhiteObject
+@interface WhitePlayerState : WhiteDisplayerState
 
-@property (nonatomic, strong, readonly, nullable) WhiteGlobalState *globalState;
-/** 房间用户状态 */
-@property (nonatomic, strong, readonly, nullable) NSArray<WhiteRoomMember *> *roomMembers;
-///** 用户观察状态 */
-//@property (nonatomic, strong, readonly, nullable) WhiteObserverState *observerState;
 /** 用户观察状态 */
 @property (nonatomic, assign, readonly) WhiteObserverMode observerMode;
-/** 场景状态 */
-@property (nonatomic, strong, readonly, nullable) WhiteSceneState *sceneState;
 
 @end
 

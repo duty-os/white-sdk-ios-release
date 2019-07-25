@@ -6,6 +6,8 @@
 //
 
 #import "WhiteObject.h"
+#import <UIKit/UIKit.h>
+
 
 @interface WhiteImageInformation : WhiteObject
 

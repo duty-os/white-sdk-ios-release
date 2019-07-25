@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WhiteObserverState.h"
 #import "WhitePlayerState.h"
 #import "WhitePlayerConsts.h"
 #import "WhiteEvent.h"

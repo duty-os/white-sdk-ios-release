@@ -6,6 +6,7 @@
 //
 
 #import "WhiteObject.h"
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, WhiteDeviceType) {
     WhiteDeviceTypeTouch,
@@ -25,23 +26,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** default value: 10 */
 @property (nonatomic, assign) CGFloat zoomMaxScale;
 
-/** 设置后，web 会将大部分调用回调给SDK，SDK 会打印 web 中的 function，以及收到的参数 */
+/** 设置后，SDK 会打印大部分 房间中的 function，以及收到的参数 */
 @property (nonatomic, assign) BOOL debug;
 
-/** 显示操作用户头像(需要在加入房间时，配置用户信息) */
+/** 显示操作用户头像(需要在加入房间时，配置 userPayload，并确保存在 avatar 字段) */
 @property (nonatomic, assign) BOOL userCursor;
-
-
-/**
- 转换服务时，字体文件映射字典
- */
+/** 文档转换服务后，字体文件映射关系 */
 @property (nonatomic, copy, nullable) NSDictionary *font;
 
 /**
-  图片拦截功能。
-  当开启图片拦截后
-  回调由原来的 WhiteRoomCallbackDelegate 切换到了 SDK 的 WhiteCommonCallbackDelegate，中。
-  以此保证，回放时，也能够正确拦截图片
+  图片拦截替换功能，实时房间与回放房间通用
+  当开启图片拦截后，最后显示图片时，会回调初始化 sdk 时，传入的 WhiteCommonCallbackDelegate 对象。
  */
 @property (nonatomic, assign) BOOL enableInterrupterAPI;
 

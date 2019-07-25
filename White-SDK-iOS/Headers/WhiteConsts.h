@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - Domain
+
 extern NSString * const WhiteConstsErrorDomain;
 extern NSString * const WhiteConstsConvertDomain;
 
-
+#pragma mark - Ratio
 extern NSTimeInterval const WhiteConstsTimeUnitRatio;

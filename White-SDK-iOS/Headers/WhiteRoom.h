@@ -26,21 +26,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhiteRoom : WhiteDisplayer
 
-#pragma mark - Property
+#pragma mark - 同步 API
+/** 房间 uuid */
 @property (nonatomic, copy, readonly) NSString *uuid;
+/** 全局状态 */
+@property (nonatomic, strong, readonly) WhiteGlobalState *globalState;
+/** 教具信息 */
+@property (nonatomic, strong, readonly) WhiteReadonlyMemberState *memberState;
+/** 白板在线成员信息 */
+@property (nonatomic, strong, readonly) NSArray<WhiteRoomMember *> *roomMembers;
+/** 视角状态信息，用户当前场景状态，主播信息 */
+@property (nonatomic, strong, readonly) WhiteBroadcastState *broadcastState;
+/** 缩放比例 */
+@property (nonatomic, assign, readonly) CGFloat scale;
+@property (nonatomic, strong, readonly) WhiteRoomState *state;
+/** 场景状态 */
+@property (nonatomic, strong, readonly) WhiteSceneState *sceneState;
+/** 连接状态 */
+@property (nonatomic, assign, readonly) WhiteRoomPhase phase;
 
-#pragma mark - Set API
+#pragma mark - action API
 
-- (void)setGlobalState:(WhiteGlobalState *)modifyState DEPRECATED_MSG_ATTRIBUTE("globalState 目前没有可以更改的内容，切换scence页面，请使用setScencePath API");
+/** 白板所有人共享的全局状态
+ 1.0 中切换 ppt 功能，请阅读文档站中 [场景管理] 更新 API，并使用setScencePath API
+ */
+- (void)setGlobalState:(WhiteGlobalState * )globalState;
 
 /** 目前主要用来切换教具 */
 - (void)setMemberState:(WhiteMemberState *)modifyState;
 
 /** 切换用户视角模式 */
 - (void)setViewMode:(WhiteViewMode)viewMode;
-
-- (void)setViewSizeWithWidth:(CGFloat)width height:(CGFloat)height DEPRECATED_MSG_ATTRIBUTE("use refreshViewSize");
-
 #pragma mark - action API
 
 /**
@@ -50,13 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 主动断开连接 */
 - (void)disconnect:(void (^) (void))completeHandler;
-
-/**
- 缩小放大白板
- @param scale 相对于原始大小的比例，而不是相对当前的缩放比例
- 
- */
-- (void)zoomChange:(CGFloat)scale DEPRECATED_MSG_ATTRIBUTE("moveCamera:");
 
 #pragma mark - Operation
 /**
@@ -84,78 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - PPT
 - (void)pptNextStep;
 - (void)pptPreviousStep;
-
-#pragma mark - Scene API
-/** 获取场景 State，具体信息可以查看 WhiteSceneState 类 */
-- (void)getSceneStateWithResult:(void (^) (WhiteSceneState *state))result;
-
-/** 获取当前目录下，所有页面的信息 */
-- (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
-
-/**
- 切换至具体页面
- 
- @param path 具体的页面路径
- 
- 当传入的页面路径有以下情况时，会导致调用该方法失败
- 
- 1. 路径不合法。请通过之前的章节确保页面路径符合规范。
- 2. 路径对应的页面不存在。
- 3. 路径对应的是页面组。注意页面组和页面是不一样的。
- */
-- (void)setScenePath:(NSString *)path;
-/** 多一个回调，如果失败，会返回具体错误内容 */
-- (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
-
-
-/**
- 切换上下页
-
- @param index 目标场景 index。当前页面 index，可以通过 getSceneStateWithResult 获取
- @param completionHandler 完成回调，如果失败，会在 error 中的 userInfo 显示错误信息，一般为数组越界
- */
-- (void)setSceneIndex:(NSUInteger)index completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
-
-//TODO:请在文档站中，阅读理解页面（场景）的概念，理解绝对路径和name
-
-/**
- 插入，或许新建多个页面
-
- @param dir scene 页面组名称，相当于目录。
- @param scenes WhiteScence 实例；在生成 WhiteScence 时，可以同时配置 ppt。
- @param index 选择在页面组，插入的位置。index 即为新 scence 的 index 位置。如果想要放在最末尾，可以传入 NSUIntegerMax。
- 
- 注意：scenes 实际上只是白板页面的配置项，scenes 都会生成新页面
- */
-- (void)putScenes:(NSString *)dir scenes:(NSArray<WhiteScene *> *)scenes index:(NSUInteger)index;
-
-
-/**
- 清除当前屏幕内容
-
- @param retainPPT 是否保留 ppt
- */
-- (void)cleanScene:(BOOL)retainPPT;
-
-/**
-
- 当有
- /ppt/page0
- /ppt/page1
- 传入 "/ppt/page0" 时，则只删除对应页面。
- 传入 "/ppt" 时，会将两个页面一起移除。
-
- @param dirOrPath 页面具体路径，或者为页面组路径
- */
-- (void)removeScenes:(NSString *)dirOrPath;
-
-/**
- 移动/重命名页面
-
- @param source 想要移动的页面的绝对路径
- @param target 目标路径。如果是文件夹，则将 source 移入；否则，移动的同时重命名。
- */
-- (void)moveScene:(NSString *)source target:(NSString *)target;
 
 #pragma mark - Image API
 
@@ -191,6 +128,87 @@ NS_ASSUME_NONNULL_BEGIN
 /** 返回当前坐标点，在白板内部的坐标位置 */
 - (void)convertToPointInWorld:(WhitePanEvent *)point result:(void (^) (WhitePanEvent *convertPoint))result;
 
+@end
+
+
+#pragma mark - 场景管理 API
+/** 白板场景（多页面）API，为了更好理解本部分 API，请先阅读 [文档站](https://developer.herewhite.com/) 中 [场景管理] 部分概念介绍 */
+@interface WhiteRoom (Scene)
+
+/** 获取场景 State，具体信息可以查看 WhiteSceneState 类 */
+- (void)getSceneStateWithResult:(void (^) (WhiteSceneState *state))result;
+
+/** 获取当前目录下，所有页面的信息 */
+- (void)getScenesWithResult:(void (^) (NSArray<WhiteScene *> *scenes))result;
+
+/**
+ 切换至具体页面
+ 
+ @param path 具体的页面路径
+ 
+ 当传入的页面路径有以下情况时，会导致调用该方法失败
+ 
+ 1. 路径不合法。请通过之前的章节确保页面路径符合规范。
+ 2. 路径对应的页面不存在。
+ 3. 路径对应的是页面组。注意页面组和页面是不一样的。
+ */
+- (void)setScenePath:(NSString *)path;
+/** 多一个回调，如果失败，会返回具体错误内容 */
+- (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
+
+/**
+ 切换上下页
+ 
+ @param index 目标场景 index。当前页面 index，可以通过 getSceneStateWithResult 获取
+ @param completionHandler 完成回调，如果失败，会在 error 中的 userInfo 显示错误信息，一般为数组越界
+ */
+- (void)setSceneIndex:(NSUInteger)index completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
+
+/**
+ 插入，或许新建多个页面
+ 
+ @param dir scene 页面组名称，相当于目录。
+ @param scenes WhiteScence 实例；在生成 WhiteScence 时，可以同时配置 ppt。
+ @param index 选择在页面组，插入的位置。index 即为新 scence 的 index 位置。如果想要放在最末尾，可以传入 NSUIntegerMax。
+ 
+ 注意：scenes 实际上只是白板页面的配置项，scenes 都会生成新页面
+ */
+- (void)putScenes:(NSString *)dir scenes:(NSArray<WhiteScene *> *)scenes index:(NSUInteger)index;
+
+/**
+ 清除当前屏幕内容
+ 
+ @param retainPPT 是否保留 ppt
+ */
+- (void)cleanScene:(BOOL)retainPPT;
+
+/**
+ 
+ 当有
+ /ppt/page0
+ /ppt/page1
+ 传入 "/ppt/page0" 时，则只删除对应页面。
+ 传入 "/ppt" 时，会将两个页面一起移除。
+ 
+ @param dirOrPath 页面具体路径，或者为页面组路径
+ */
+- (void)removeScenes:(NSString *)dirOrPath;
+
+/**
+ 移动/重命名页面
+ 
+ @param source 想要移动的页面的绝对路径
+ @param target 目标路径。如果是文件夹，则将 source 移入；否则，移动的同时重命名。
+ */
+- (void)moveScene:(NSString *)source target:(NSString *)target;
+
+@end
+
+
+#pragma mark - 异步 API
+/** 该部分 API，均为异步获取。可以使用同步 property 直接获取新数据 */
+@interface WhiteRoom (Asynchronous)
+
 /** 获取当前房间 GlobalState */
 - (void)getGlobalStateWithResult:(void (^) (WhiteGlobalState *state))result;
 /** 获取当前房间 WhiteMemberState:教具 */
@@ -205,6 +223,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getZoomScaleWithResult:(void (^) (CGFloat scale))result;
 /** 获取当前房间状态，包含 globalState，教具，房间成员信息，缩放，SceneState，用户视角状态 */
 - (void)getRoomStateWithResult:(void (^) (WhiteRoomState *state))result;
+
+@end
+
+#pragma mark - 弃用方法
+@interface WhiteRoom (Deprecated)
+
+- (void)setViewSizeWithWidth:(CGFloat)width height:(CGFloat)height DEPRECATED_MSG_ATTRIBUTE("use refreshViewSize");
+
+/**
+ 缩小放大白板
+ @param scale 相对于原始大小的比例，而不是相对当前的缩放比例
+ 
+ */
+- (void)zoomChange:(CGFloat)scale DEPRECATED_MSG_ATTRIBUTE("moveCamera:");
 
 /**
  获取所有 ppt 图片，回调内容为所有 ppt 图片的地址。

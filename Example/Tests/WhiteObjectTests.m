@@ -9,6 +9,16 @@
 #import <XCTest/XCTest.h>
 #import <WhiteSDK.h>
 
+@interface CustomGlobalTestClass : WhiteGlobalState
+@property (nonatomic, strong) NSString *name;
+@end
+
+@implementation CustomGlobalTestClass
+
+@end
+
+
+
 @interface WhiteObjectTests : XCTestCase
 
 @end
@@ -92,6 +102,57 @@
     
     XCTAssertNil(dict[@"duration"]);
     XCTAssertNil(dict[@"beginTimestamp"]);
+}
+
+- (void)testCustomGlobalState
+{
+    [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
+    
+    // 不能直接初始化复制，直接从字典生成一个
+    NSDictionary *dict = @{@"globalState": @{@"name": @"value"}};
+    WhiteDisplayerState *result = [WhiteDisplayerState modelWithJSON:dict];
+    
+    XCTAssertNotNil(result.globalState);
+    XCTAssertTrue([result.globalState isKindOfClass:[CustomGlobalTestClass class]]);
+    XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
+}
+
+- (void)testCustomGlobalStateInRoom
+{
+    [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
+    
+    // 不能直接初始化复制，直接从字典生成一个
+    NSDictionary *dict = @{@"globalState": @{@"name": @"value"}};
+    WhiteRoomState *result = [WhiteRoomState modelWithJSON:dict];
+    
+    XCTAssertNotNil(result.globalState);
+    XCTAssertTrue([result.globalState isKindOfClass:[CustomGlobalTestClass class]]);
+    XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
+}
+
+- (void)testCustomGlobalStateInReplayer
+{
+    [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
+    
+    // 不能直接初始化复制，直接从字典生成一个
+    NSDictionary *dict = @{@"globalState": @{@"name": @"value"}};
+    WhitePlayerState *result = [WhitePlayerState modelWithJSON:dict];
+    
+    XCTAssertNotNil(result.globalState);
+    XCTAssertTrue([result.globalState isKindOfClass:[CustomGlobalTestClass class]]);
+    XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
+}
+
+- (void)testMemberState
+{
+    WhiteMemberState *memberState = [[WhiteMemberState alloc] init];
+    memberState.strokeWidth = @1;
+    NSDictionary *dict1 = [memberState jsonDict];
+    
+    WhiteReadonlyMemberState *readonlyState = [WhiteReadonlyMemberState modelWithJSON:dict1];
+    
+    XCTAssertNotNil(readonlyState);
+    XCTAssertNotNil(readonlyState.strokeWidth);
 }
 
 @end

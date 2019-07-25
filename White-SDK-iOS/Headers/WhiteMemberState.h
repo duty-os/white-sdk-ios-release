@@ -7,7 +7,7 @@
 
 #import "WhiteObject.h"
 
-typedef NSString * WhiteApplianceNameKey;
+typedef NSString * WhiteApplianceNameKey NS_STRING_ENUM;
 
 extern WhiteApplianceNameKey const AppliancePencil;
 extern WhiteApplianceNameKey const ApplianceSelector;
@@ -16,12 +16,26 @@ extern WhiteApplianceNameKey const ApplianceEllipse;
 extern WhiteApplianceNameKey const ApplianceRectangle;
 extern WhiteApplianceNameKey const ApplianceEraser;
 
-@interface WhiteMemberState : WhiteObject
+@interface WhiteReadonlyMemberState : WhiteObject
+
 /** 教具，初始教具为pencil，无默认值 */
-@property (nonatomic, copy) WhiteApplianceNameKey currentApplianceName;
+@property (nonatomic, copy, readonly) WhiteApplianceNameKey currentApplianceName;
 /** 传入格式为[@(0-255),@(0-255),@(0-255)]的RGB */
-@property (nonatomic, copy) NSArray<NSNumber *> *strokeColor;
+@property (nonatomic, copy, readonly) NSArray<NSNumber *> *strokeColor;
 /** 画笔粗细 */
-@property (nonatomic, strong) NSNumber *strokeWidth;
-@property (nonatomic, strong) NSNumber *textSize;
+@property (nonatomic, strong, readonly) NSNumber *strokeWidth;
+/** 字体大小 */
+@property (nonatomic, strong, readonly) NSNumber *textSize;
+@end
+
+
+@interface WhiteMemberState : WhiteReadonlyMemberState
+/** 教具，初始教具为pencil，无默认值 */
+@property (nonatomic, copy, readwrite) WhiteApplianceNameKey currentApplianceName;
+/** 传入格式为[@(0-255),@(0-255),@(0-255)]的RGB */
+@property (nonatomic, copy, readwrite) NSArray<NSNumber *> *strokeColor;
+/** 画笔粗细 */
+@property (nonatomic, strong, readwrite) NSNumber *strokeWidth;
+/** 字体大小 */
+@property (nonatomic, strong, readwrite) NSNumber *textSize;
 @end

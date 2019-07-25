@@ -6,20 +6,23 @@
 //
 
 
-#import "WhiteObject.h"
-#import "WhiteGlobalState.h"
+#import "WhiteDisplayerState.h"
 #import "WhiteMemberState.h"
-#import "WhiteSceneState.h"
-#import "WhiteRoomMember.h"
 #import "WhiteBroadcastState.h"
 
-@interface WhiteRoomState : WhiteObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong, nullable, readonly) WhiteGlobalState *globalState;
-@property (nonatomic, strong, nullable, readonly) WhiteMemberState *memberState;
-@property (nonatomic, strong, nullable, readonly) WhiteSceneState *sceneState;
-@property (nonatomic, strong, nullable, readonly) NSArray<WhiteRoomMember *> *roomMembers;
-@property (nonatomic, strong, nullable, readonly) WhiteBroadcastState *broadcastState;
+@interface WhiteRoomState : WhiteDisplayerState
+
+/** 当前用户的教具状态 */
+@property (nonatomic, strong, readonly) WhiteReadonlyMemberState *memberState;
+
+/** 视野信息 */
+@property (nonatomic, strong, readonly) WhiteBroadcastState *broadcastState;
+
+/** 缩放比例 */
 @property (nonatomic, strong, nullable, readonly) NSNumber *zoomScale;
 
 @end
+
+NS_ASSUME_NONNULL_END

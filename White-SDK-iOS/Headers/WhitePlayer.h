@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "WhitePlayerConsts.h"
 #import "WhitePlayerState.h"
-#import "WhiteObserverState.h"
 #import "WhitePlayerTimeInfo.h"
 #import "WhiteDisplayer.h"
 
@@ -17,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhitePlayer : WhiteDisplayer
 
 @property (nonatomic, copy, readonly) NSString *uuid;
+@property (nonatomic, assign, readonly) WhitePlayerPhase phase;
+/** 当 phase 处于 WhitePlayerPhaseWaitingFirstFrame 时，房间处于为开始状态，state 为空 */
+@property (nonatomic, strong, readonly) WhitePlayerState *state;
+@property (nonatomic, strong, readonly) WhitePlayerTimeInfo *timeInfo;
 
 #pragma mark - action API
 
@@ -39,8 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addMagixEventListener:(NSString *)eventName;
 - (void)removeMagixEventListener:(NSString *)eventName;
 
-#pragma mark - get API
+@end
 
+
+/** 异步 API */
+@interface WhitePlayer (Asynchronous)
+
+#pragma mark - get API
 
 /**
  目前：初始状态为 WhitePlayerPhaseWaitingFirstFrame

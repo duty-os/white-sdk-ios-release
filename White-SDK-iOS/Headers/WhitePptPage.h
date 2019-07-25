@@ -5,6 +5,7 @@
 //  Created by leavesster on 2018/8/15.
 //
 
+#import <UIKit/UIkit.h>
 #import "WhiteObject.h"
 
 @interface WhitePptPage : WhiteObject

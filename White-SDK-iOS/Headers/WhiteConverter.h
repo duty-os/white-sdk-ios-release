@@ -46,12 +46,6 @@ typedef NS_ENUM(NSInteger, ConverterStatus) {
      无法创建新转换服务
      */
     ConverterStatusCheckFail,
-    /**
-     服务器转换完成，请求动态转换结果时，出现问题
-     重启查询服务，查询结果
-     无法创建新转换服务
-     */
-    ConverterStatusGetDynamicFail,
     /** 等待下次查询转换服务状态，无法创建新转换服务 */
     ConverterStatusWaitingForNextCheck,
     /** 查询服务超时，已停止检查，可以手动重启查询服务，无法创建新转换服务 */
@@ -77,8 +71,6 @@ typedef NS_ENUM(NSInteger, ConverterErrorCode) {
     ConverterErrorCodeCheckFail   = 20004,
     /** 查询时间，超过timeout时间 */
     ConverterErrorCodeCheckTimeout= 20005,
-    /** 向服务器查询动态转换输出内容时，失败；具体请查看 error userInfo 信息 */
-    ConverterErrorCodeGetDynamicFail= 20006,
 };
 
 @interface WhiteConverter : NSObject
