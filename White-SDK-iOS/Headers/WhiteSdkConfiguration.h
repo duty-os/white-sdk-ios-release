@@ -40,5 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL enableInterrupterAPI;
 
+
+/**
+ disableReportLog: BOOL
+ 是否关闭日志上传功能
+ */
+@property (nonatomic, strong) NSDictionary *loggerOptions;
+
 @end
 NS_ASSUME_NONNULL_END
