@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *uuid;
 @property (nonatomic, assign, readonly) WhitePlayerPhase phase;
-/** 当 phase 处于 WhitePlayerPhaseWaitingFirstFrame 时，房间处于为开始状态，state 为空 */
-@property (nonatomic, strong, readonly) WhitePlayerState *state;
+/** 当 phase 处于 WhitePlayerPhaseWaitingFirstFrame 时，房间处于为开始状态，state 为 nil */
+@property (nonatomic, strong, readonly, nullable) WhitePlayerState *state;
 @property (nonatomic, strong, readonly) WhitePlayerTimeInfo *timeInfo;
 
 #pragma mark - action API
@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  跳转到特定时间戳
- FIXME:目前，带音频时，不能 seek 到0以外的时间
-
  @param beginTime 开始时间（秒）
  */
 - (void)seekToScheduleTime:(NSTimeInterval)beginTime;

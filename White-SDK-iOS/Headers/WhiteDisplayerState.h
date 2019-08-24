@@ -24,13 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)setCustomGlobalStateClass:(Class)clazz;
 
 /** 全局状态参数，所有成员都可以修改 */
-@property (nonatomic, strong, readonly) WhiteGlobalState *globalState;
+@property (nonatomic, strong, readonly, nullable) WhiteGlobalState *globalState;
 
 /** 白板在线用户列表 */
-@property (nonatomic, strong, readonly) NSArray<WhiteRoomMember *> *roomMembers;
+@property (nonatomic, strong, readonly, nullable) NSArray<WhiteRoomMember *> *roomMembers;
 
 /** 场景页面状态 */
-@property (nonatomic, strong, readonly) WhiteSceneState *sceneState;
+@property (nonatomic, strong, readonly, nullable) WhiteSceneState *sceneState;
 
 @end
 

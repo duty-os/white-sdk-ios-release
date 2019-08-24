@@ -15,13 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhiteRoomState : WhiteDisplayerState
 
 /** 当前用户的教具状态 */
-@property (nonatomic, strong, readonly) WhiteReadonlyMemberState *memberState;
+@property (nonatomic, strong, readonly, nullable) WhiteReadonlyMemberState *memberState;
 
 /** 视野信息 */
-@property (nonatomic, strong, readonly) WhiteBroadcastState *broadcastState;
+@property (nonatomic, strong, readonly, nullable) WhiteBroadcastState *broadcastState;
 
 /** 缩放比例 */
-@property (nonatomic, strong, nullable, readonly) NSNumber *zoomScale;
+@property (nonatomic, strong, readonly, nullable) NSNumber *zoomScale;
 
 @end
 

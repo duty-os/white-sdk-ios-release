@@ -70,7 +70,7 @@ static NSString *kReuseCell = @"reuseCell";
 
 - (CGSize)preferredContentSize
 {
-    return CGSizeMake(150, MIN(self.commands.count, 6) * 44);
+    return CGSizeMake(150, MIN(self.commands.count, 10) * 44);
 }
 
 #pragma mark - Table view data source
@@ -244,7 +244,7 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypeDisconnect:
         {
             [self.room disconnect:^{
-                
+                NSLog(@"房间已断连，如需加入房间，请使用 SDK API，新建 WhiteRoom 实例加入");
             }];
             break;
         }
@@ -299,11 +299,9 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypeScale:
         {
             [self.room getZoomScaleWithResult:^(CGFloat scale) {
-                if (scale != 1) {
-                    [self.room zoomChange:1];
-                } else {
-                    [self.room zoomChange:3];
-                }
+                WhiteCameraConfig *camerConfgi = [[WhiteCameraConfig alloc] init];
+                camerConfgi.scale = scale == 1 ? @5 : @1;
+                [self.room moveCamera:camerConfgi];
             }];
             break;
         }

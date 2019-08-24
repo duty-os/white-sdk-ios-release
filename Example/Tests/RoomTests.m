@@ -373,6 +373,21 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+- (void)testDisconnect
+{
+    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    [self.room disconnect:^{
+        [self.exp fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
 #pragma mark - WhiteRoomCallbackDelegate
 - (void)firePhaseChanged:(WhiteRoomPhase)phase
 {

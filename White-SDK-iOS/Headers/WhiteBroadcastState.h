@@ -23,18 +23,27 @@ typedef NS_ENUM(NSInteger, WhiteViewMode) {
     WhiteViewModeBroadcaster,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface WhiteBroadcasterInformation : WhiteObject
 /** 该用户在白板中的数字 */
 @property (nonatomic, assign, readonly) NSNumber *id;
 /** 该用户在加入白板时，带入的用户信息 */
-@property (nonatomic, assign, readonly) id payload;
+@property (nonatomic, assign, readonly, nullable) id payload;
 
 @end
 
 @interface WhiteBroadcastState : WhiteObject
 
 @property (nonatomic, assign, readonly) WhiteViewMode viewMode;
-@property (nonatomic, assign, readonly) NSInteger broadcasterId;
-@property (nonatomic, strong, readonly) WhiteBroadcasterInformation *broadcasterInformation;
+
+/**
+ 当前主播 memberId，早期版本 broadcasterId 为 0时，不存在主播。
+ 2.4.7 版本开始，没有主播时，该字段不存在
+ */
+@property (nonatomic, assign, nullable, readonly) NSNumber *broadcasterId;
+@property (nonatomic, strong, nullable, readonly) WhiteBroadcasterInformation *broadcasterInformation;
 
 @end
+
+NS_ASSUME_NONNULL_END

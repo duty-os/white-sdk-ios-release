@@ -17,6 +17,7 @@
 typedef NS_ENUM(NSInteger, CommandType) {
     CommandTypePlay,
     CommandTypePause,
+    CommondTypeStop,
     CommandTypeSeek,
     CommandTypeInfo,
 };
@@ -34,7 +35,7 @@ static NSString *kReuseCell = @"reuseCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.commands = @[NSLocalizedString(@"播放", nil), NSLocalizedString(@"暂停", nil),  NSLocalizedString(@"快进", nil), NSLocalizedString(@"获取信息", nil)];
+    self.commands = @[NSLocalizedString(@"播放", nil), NSLocalizedString(@"暂停", nil), NSLocalizedString(@"停止", nil),  NSLocalizedString(@"快进", nil), NSLocalizedString(@"获取信息", nil)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kReuseCell];
 }
 
@@ -72,10 +73,13 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypePause:
             [self.player pause];
             break;
+        case CommondTypeStop:
+            [self.player stop];
+            break;
         case CommandTypeSeek:
         {
             //seek后，保持原始状态
-            [self.player seekToScheduleTime:5];
+            [self.player seekToScheduleTime:0];
             [self.player play];
             break;
         }

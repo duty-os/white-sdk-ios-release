@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 同步 API
 /** 房间 uuid */
 @property (nonatomic, copy, readonly) NSString *uuid;
-/** 全局状态 */
+/** 全局状态，由于遗留问题，目前该 API，不支持 customGlobalState，如需获取 customGlobalState，请使用 room.state.globalState */
 @property (nonatomic, strong, readonly) WhiteGlobalState *globalState;
 /** 教具信息 */
 @property (nonatomic, strong, readonly) WhiteReadonlyMemberState *memberState;
@@ -209,7 +209,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** 该部分 API，均为异步获取。可以使用同步 property 直接获取新数据 */
 @interface WhiteRoom (Asynchronous)
 
-/** 获取当前房间 GlobalState */
+/**
+ 获取当前房间 GlobalState， 该 API不支持自定义 GlobalState。
+ 通过 + (BOOL)setCustomGlobalStateClass:(Class)clazz 设置自定义状态后，如需异步获取，可以通过 getRoomStateWithResult 获取 自定义 GlobalState。
+ */
 - (void)getGlobalStateWithResult:(void (^) (WhiteGlobalState *state))result;
 /** 获取当前房间 WhiteMemberState:教具 */
 - (void)getMemberStateWithResult:(void (^) (WhiteMemberState *state))result;
@@ -236,13 +239,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param scale 相对于原始大小的比例，而不是相对当前的缩放比例
  
  */
-- (void)zoomChange:(CGFloat)scale DEPRECATED_MSG_ATTRIBUTE("moveCamera:");
+- (void)zoomChange:(CGFloat)scale DEPRECATED_MSG_ATTRIBUTE("use moveCamera:");
 
 /**
  获取所有 ppt 图片，回调内容为所有 ppt 图片的地址。
  @param result 如果当前页面，没有插入过 PPT，则该页面会返回一个空字符串
  */
-- (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result DEPRECATED_MSG_ATTRIBUTE("使用 getScenesWithResult:");
+- (void)getPptImagesWithResult:(void (^) (NSArray<NSString *> *pptPages))result DEPRECATED_MSG_ATTRIBUTE("use getScenesWithResult:");
 
 @end
 
