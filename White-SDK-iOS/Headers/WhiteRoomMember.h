@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) WhiteApplianceNameKey currentApplianceName DEPRECATED_MSG_ATTRIBUTE("使用 memberState.currentApplianceName 获取");
 
-/** 当前用户在该房间中时的序号，为从 1 开始的自增数字（0 已被占用） */
+/** 当前用户在该房间中时的序号，为从 0 开始的自增数字 */
 @property (nonatomic, assign, readonly) NSInteger memberId;
 
 /** 对应用户的教具信息 */
