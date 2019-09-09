@@ -6,6 +6,7 @@
 //
 
 #import "WhiteObject.h"
+#import "WhiteCameraBound.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,8 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** 传入持续时间（秒），当播放到对应位置时，就不会再播放。如果不设置，则从开始时间，一直播放到房间结束。 */
 @property (nonatomic, strong, nullable) NSNumber *duration;
 
-/** m3u8地址，暂不支持视频。设置后，会与白板同步播放 */
+/** m3u8地址，暂不支持显示视频画面。设置后，会与白板同步播放 */
 @property (nonatomic, strong, nullable) NSString *audioUrl;
+
+/** 视野范围 */
+//@property (nonatomic, strong, nullable) WhiteCameraBound *cameraBound;
 
 @end
 

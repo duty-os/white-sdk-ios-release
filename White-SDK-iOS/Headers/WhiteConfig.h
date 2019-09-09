@@ -8,11 +8,11 @@
 #import "WhiteObject.h"
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, AnimationMode) {
+typedef NS_ENUM(NSInteger, WhiteAnimationMode) {
     /** 带动画，默认 */
-    AnimationModeContinuous,
+    WhiteAnimationModeContinuous,
     /** 瞬间切换 */
-    AnimationModeImmediately,
+    WhiteAnimationModeImmediately,
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,8 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** 缩放比例，白板视觉中心与白板的投影距离 */
 @property (nonatomic, strong, nullable) NSNumber *scale;
 
-/** 切换时，动画显示方式，默认 AnimationModeContinuous */
-@property (nonatomic, assign) AnimationMode animationMode;
+/** 切换时，动画显示方式，默认 WhiteAnimationModeContinuous */
+@property (nonatomic, assign) WhiteAnimationMode animationMode;
 
 @end
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mode 切换时，动画显示方式
  @return 白板视野
  */
-- (instancetype)initWithInitialPosition:(CGFloat)width height:(CGFloat)height animation:(AnimationMode)mode;
+- (instancetype)initWithInitialPosition:(CGFloat)width height:(CGFloat)height animation:(WhiteAnimationMode)mode;
 
 /**
  自由设置白板视野
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mode 切换时，动画显示方式
  @return 白板视野
  */
-- (instancetype)initWithOriginX:(CGFloat)originX originY:(CGFloat)originY width:(CGFloat)width height:(CGFloat)height animation:(AnimationMode)mode;
+- (instancetype)initWithOriginX:(CGFloat)originX originY:(CGFloat)originY width:(CGFloat)width height:(CGFloat)height animation:(WhiteAnimationMode)mode;
 
 /** 白板视觉矩形，左上角在白板内部坐标 X 轴的位置 */
 @property (nonatomic, assign) CGFloat originX;
@@ -96,8 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** 白板水平方向视野高度，在白板内部坐标 Y 周的单位 */
 @property (nonatomic, assign) CGFloat height;
 
-/** 白板进行视觉变换时动画方式，默认 AnimationModeContinuous */
-@property (nonatomic, assign) AnimationMode animationMode;
+/** 白板进行视觉变换时动画方式，默认 WhiteAnimationModeContinuous */
+@property (nonatomic, assign) WhiteAnimationMode animationMode;
 
 @end
 

@@ -18,6 +18,7 @@
 #import "WhiteBoardView.h"
 #import "WhiteSdkConfiguration.h"
 #import "WhiteConverter.h"
+#import "WhiteCameraBound.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**

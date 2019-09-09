@@ -11,6 +11,7 @@
 @interface PlayerCommandListController ()
 
 @property (nonatomic, strong) NSArray<NSString *> *commands;
+@property (nonatomic, weak) WhitePlayer *player;
 
 @end
 

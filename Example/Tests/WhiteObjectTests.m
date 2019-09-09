@@ -33,6 +33,7 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
+#pragma mark - WhiteEvent
 - (void)testWhiteEventConvertDict {
     WhiteEvent *event = [[WhiteEvent alloc] init];
     event.eventName = @"ee";
@@ -73,11 +74,7 @@
     XCTAssertFalse([self whiteEventEqual:event event:event1]);
 }
 
-- (BOOL)whiteEventEqual:(WhiteEvent *)event event:(WhiteEvent *)event1
-{
-    return [event.eventName isEqualToString:event1.eventName] && [event.payload isEqual:event1.payload];
-}
-
+#pragma mark - PlayConfig
 - (void)testPlayConfigSecConvert
 {
     WhitePlayerConfig *pConfig = [[WhitePlayerConfig alloc] initWithRoom:@"room" roomToken:@"roomToken"];
@@ -104,7 +101,8 @@
     XCTAssertNil(dict[@"beginTimestamp"]);
 }
 
-- (void)testCustomGlobalState
+#pragma mark - GlobalState
+- (void)testCustomGlobalStateInDisplayerState
 {
     [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
     
@@ -117,7 +115,7 @@
     XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
 }
 
-- (void)testCustomGlobalStateInRoom
+- (void)testCustomGlobalStateInRoomState
 {
     [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
     
@@ -130,7 +128,7 @@
     XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
 }
 
-- (void)testCustomGlobalStateInReplayer
+- (void)testCustomGlobalStateInPlayerState
 {
     [WhiteDisplayerState setCustomGlobalStateClass:[CustomGlobalTestClass class]];
     
@@ -143,6 +141,7 @@
     XCTAssertTrue([[(CustomGlobalTestClass *)result.globalState name] isEqualToString:@"value"]);
 }
 
+#pragma mark - MemberState
 - (void)testMemberState
 {
     WhiteMemberState *memberState = [[WhiteMemberState alloc] init];
@@ -153,6 +152,13 @@
     
     XCTAssertNotNil(readonlyState);
     XCTAssertNotNil(readonlyState.strokeWidth);
+}
+
+#pragma mark - Private
+
+- (BOOL)whiteEventEqual:(WhiteEvent *)event event:(WhiteEvent *)event1
+{
+    return [event.eventName isEqualToString:event1.eventName] && [event.payload isEqual:event1.payload];
 }
 
 @end

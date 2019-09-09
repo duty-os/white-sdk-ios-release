@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** default value: Touch。native 端，无需关注该属性。 */
 @property (nonatomic, assign) WhiteDeviceType deviceType;
+
 /** default value: 0.1 */
 @property (nonatomic, assign) CGFloat zoomMinScale;
 /** default value: 10 */
@@ -31,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 显示操作用户头像(需要在加入房间时，配置 userPayload，并确保存在 avatar 字段) */
 @property (nonatomic, assign) BOOL userCursor;
-/** 文档转换服务后，字体文件映射关系 */
+/** 文档转网页中字体文件映射关系 */
 @property (nonatomic, copy, nullable) NSDictionary *font;
 
 /**
@@ -40,10 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL enableInterrupterAPI;
 
-
 /**
- disableReportLog: BOOL
- 是否关闭日志上传功能
+ 字段 disableReportLog: BOOL
+ 关闭日志上传功能，默认开启
  */
 @property (nonatomic, strong) NSDictionary *loggerOptions;
 

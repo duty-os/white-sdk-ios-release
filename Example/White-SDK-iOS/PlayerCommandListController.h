@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPlayer:(WhitePlayer *)player;
 
-@property (nonatomic, strong) WhitePlayer *player;
 
 @end
 

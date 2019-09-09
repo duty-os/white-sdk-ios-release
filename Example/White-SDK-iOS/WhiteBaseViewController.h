@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WhiteBaseViewController : UIViewController
 
+/** for Unit Testing */
+- (instancetype)initWithSdkConfig:(WhiteSdkConfiguration *)sdkConfig;
+
 @property (nonatomic, copy, nullable) NSString *roomUuid;
 @property (nonatomic, strong) WhiteBoardView *boardView;
 @property (nonatomic, strong) WhiteSDK *sdk;

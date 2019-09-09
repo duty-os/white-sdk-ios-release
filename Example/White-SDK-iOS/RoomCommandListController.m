@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, CommandType) {
 @interface RoomCommandListController ()
 
 @property (nonatomic, strong) NSArray<NSString *> *commands;
-@property (nonatomic, strong) WhiteRoom *room;
+@property (nonatomic, weak) WhiteRoom *room;
 @property (nonatomic, assign, getter=isReadonly) BOOL readonly;
 
 @end
@@ -104,7 +104,7 @@ static NSString *kReuseCell = @"reuseCell";
         case CommandTypeMoveCamera:
         {
             WhiteCameraConfig *config = [[WhiteCameraConfig alloc] init];
-            config.animationMode = AnimationModeImmediately;
+            config.animationMode = WhiteAnimationModeImmediately;
             config.centerX = @10;
             config.centerY = @10;
             [self.room moveCamera:config];

@@ -22,7 +22,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.vc = [[WhiteRoomViewController alloc] init];
+    self.vc = [[WhiteRoomViewController alloc] initWithSdkConfig:[self testingConfig]];
     self.vc.roomCallbackDelegate = self;
     self.vc.commonDelegate = self;
     __unused UIView *view = [self.vc view];
@@ -61,6 +61,22 @@
         [nav popToRootViewControllerAnimated:YES];
     }
     [super tearDown];
+}
+
+#pragma mark - Prepare
+
+- (WhiteSdkConfiguration *)testingConfig;
+{
+    // 4. 初始化 SDK 配置项，根据需求配置属性
+    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
+    
+    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
+    config.enableInterrupterAPI = YES;
+    config.debug = YES;
+    
+    //打开用户头像显示信息
+    config.userCursor = YES;
+    return config;
 }
 
 #pragma mark - Consts
@@ -127,15 +143,46 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+
+/**
+ 旧 API 兼容性测试，请使用新 API moveCamera:
+ */
 - (void)testZoomChange
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
 
     CGFloat zoomScale = 5;
+    
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     [self.room zoomChange:0.5];
     [self.room zoomChange:zoomScale];
+#pragma GCC diagnostic pop
+
+    [self.room getZoomScaleWithResult:^(CGFloat scale) {
+        XCTAssertTrue(scale == zoomScale);
+        [exp fulfill];
+    }];
     
-    // 2.0.4 开始，可以瞬间获得
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testCameraScale
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
+    CGFloat zoomScale = 5;
+    
+    WhiteCameraConfig *config = [[WhiteCameraConfig alloc] init];
+    config.scale = @(zoomScale);
+    config.animationMode = WhiteAnimationModeContinuous;
+    
+    [self.room moveCamera:config];
+    
     [self.room getZoomScaleWithResult:^(CGFloat scale) {
         XCTAssertTrue(scale == zoomScale);
         [exp fulfill];

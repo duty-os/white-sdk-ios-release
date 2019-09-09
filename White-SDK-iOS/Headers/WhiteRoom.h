@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - action API
 
 /** 白板所有人共享的全局状态
- 1.0 中切换 ppt 功能，请阅读文档站中 [场景管理] 更新 API，并使用setScencePath API
+ 1.0 中用于切换 ppt 。请阅读文档站中 [场景管理] 更新 API，并使用setScencePath API
  */
 - (void)setGlobalState:(WhiteGlobalState * )globalState;
 

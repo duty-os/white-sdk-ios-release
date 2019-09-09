@@ -10,10 +10,18 @@
 #import <Masonry/Masonry.h>
 
 @interface WhiteBaseViewController ()<WhiteCommonCallbackDelegate>
-
+@property (nonatomic, strong, nonnull) WhiteSdkConfiguration *sdkConfig;
 @end
 
 @implementation WhiteBaseViewController
+
+- (instancetype)initWithSdkConfig:(WhiteSdkConfiguration *)sdkConfig
+{
+    if (self = [super init]) {
+        _sdkConfig = sdkConfig;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,19 +69,26 @@
 }
 
 #pragma mark - WhiteSDK
+- (WhiteSdkConfiguration *)sdkConfig
+{
+    if (!_sdkConfig) {
+        // 4. 初始化 SDK 配置项，根据需求配置属性
+        WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
+        
+        //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
+        //    config.enableInterrupterAPI = YES;
+        config.debug = YES;
+        
+        //打开用户头像显示信息
+        config.userCursor = YES;
+        _sdkConfig = config;
+    }
+    return _sdkConfig;
+}
+
 - (void)initSDK {
-    // 4. 初始化 SDK 配置项，根据需求配置属性
-    WhiteSdkConfiguration *config = [WhiteSdkConfiguration defaultConfig];
-    
-    //如果不需要拦截图片API，则不需要开启，页面内容较为复杂时，可能会有性能问题
-//    config.enableInterrupterAPI = YES;
-    config.debug = YES;
-    
-    //打开用户头像显示信息
-    config.userCursor = YES;
-    
     // 5.初始化 SDK，传入 commomDelegate
-    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:config commonCallbackDelegate:self.commonDelegate];
+    self.sdk = [[WhiteSDK alloc] initWithWhiteBoardView:self.boardView config:self.sdkConfig commonCallbackDelegate:self.commonDelegate];
 }
 
 #pragma mark - PopoverViewController
