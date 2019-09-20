@@ -14,8 +14,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhiteDisplayer : NSObject
 
 /**
- 会被转换成十六进制色值，目前不支持透明度设置，只会传递色值。
- 该属性只修改用户本地显示，不会被同步。
+ 修改白板背景色 API。
+ 如需在显示 WhiteBoardView 时，就改变颜色，请遵循以下步骤：
+ 
+ 1. 先设置 whiteboardView 实例属性 opaque 为 NO。
+ 2. 设置 WhiteboardView backgroundColr
+ 3. 在成功初始化实时房间或者回放房间后，通过该 API 再次设置 backgroundColor
+ 4. 将 WhiteBoardView opaque 属性，恢复为 YES。（由于该 API 异步生效，建议使用延迟 API 恢复）
+ 
+ opaque 为 NO 时，iOS 系统会进行颜色合成计算。比较影响性能。
+ 所以建议使用该 API 替换。
  */
 @property (nonatomic, strong) UIColor *backgroundColor;
 
