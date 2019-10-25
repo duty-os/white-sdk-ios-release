@@ -181,6 +181,16 @@
 
 #pragma mark - Keyboard
 
+- (void)setRectangle {
+    [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
+        if (state.scenes) {
+            WhitePptPage *ppt = state.scenes[state.index].ppt;
+            WhiteRectangleConfig *rectangle = [[WhiteRectangleConfig alloc] initWithInitialPosition:ppt.width height:ppt.height];
+            [self.room moveCameraToContainer:rectangle];
+        }
+    }];
+}
+
 /**
  处理文字教具键盘隐藏时，内容偏移。
  可以
@@ -237,6 +247,11 @@
 - (void)fireMagixEvent:(WhiteEvent *)event
 {
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
+}
+
+- (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events
+{
+    NSLog(@"%s", __func__);
 }
 
 @end

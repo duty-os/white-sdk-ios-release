@@ -124,7 +124,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 自定义事件
 // 发送自定义事件，详细内容，可以查看文档，或者单元测试代码
 - (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
+/** 低频自定义事件注册 */
 - (void)addMagixEventListener:(NSString *)eventName;
+/**
+ * 高频自定义事件注册
+ * @param eventName 自定义事件名称
+ * @param millseconds 间隔回调频率，毫秒。最低 500ms，低于该值都会被强制设置为 500ms
+*/
+- (void)addHighFrequencyEventListener:(NSString *)eventName fireInterval:(NSUInteger)millseconds;
 - (void)removeMagixEventListener:(NSString *)eventName;
 
 #pragma mark - Get State API

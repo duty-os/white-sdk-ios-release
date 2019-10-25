@@ -116,7 +116,17 @@
 
 - (void)scheduleTimeChanged:(NSTimeInterval)time
 {
-    NSLog(@"player %s time:%f", __FUNCTION__, (double)time);
+//    NSLog(@"player %s time:%f", __FUNCTION__, (double)time);
+}
+
+- (void)fireMagixEvent:(WhiteEvent *)event;
+{
+    NSLog(@"%s", __func__);
+}
+
+- (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events;
+{
+    NSLog(@"%s", __func__);
 }
 
 #pragma mark - WhiteCommonCallback

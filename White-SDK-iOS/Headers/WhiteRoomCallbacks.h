@@ -49,6 +49,11 @@ typedef NS_ENUM(NSInteger, WhiteRoomPhase) {
  */
 - (void)fireMagixEvent:(WhiteEvent *)event;
 
+/**
+ 高频自定义事件一次性回调
+ */
+- (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events;
+
 @end
 
 #pragma mark - WhiteRoomCallbacks
