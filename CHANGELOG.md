@@ -3,6 +3,8 @@
 部分未对外发布的小版本以及改动，未一一列出。
 
 ---
+## [2.4.13] - 2019-10-28
+- 修复 [2.4.12] 造成的 iOS 9 崩溃问题
 ## [2.4.12] - 2019-10-25
 - 增加高频自订事件回调 API（详情见 WhiteRoom 以及 WhitePlayer 中的 addHighFrequencyEventListener）
 - 优化动态ppt

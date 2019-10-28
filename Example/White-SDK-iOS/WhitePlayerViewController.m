@@ -63,6 +63,7 @@
         } else {
             self.player = player;
             [self.player play];
+            [self.player addHighFrequencyEventListener:@"a" fireInterval:1000];
             NSLog(@"创建回放房间成功，开始回放");
         }
     }];
@@ -126,7 +127,7 @@
 
 - (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events;
 {
-    NSLog(@"%s", __func__);
+    NSLog(@"%s %@", __func__, events);
 }
 
 #pragma mark - WhiteCommonCallback
