@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getPhaseWithResult:(void (^)(WhitePlayerPhase phase))result;
 
+- (void)refreshViewSize;
 /**
  当 phase 状态为 WhitePlayerPhaseWaitingFirstFrame
  回调得到的数据是空的
