@@ -27,8 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WhiteRoom : WhiteDisplayer
 
 #pragma mark - 同步 API
-/** 当前用户在白板上的序号 id，从 0 开始。
- 与 RoomMember 中的 memberId 作用相同
+/** 当前用户在白板上的序号 id。
+ 从 0 开始，与 RoomMember 中的 memberId 相同
  */
 @property (nonatomic, strong, readonly) NSNumber *observerId;
 /** 房间 uuid */
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - action API
 
 /** 白板所有人共享的全局状态
- 1.0 中用于切换 ppt 。请阅读文档站中 [场景管理] 更新 API，并使用setScencePath API
+ 1.0 用户请阅读文档站中 [场景管理] 更新 API，使用setScencePath API
  */
 - (void)setGlobalState:(WhiteGlobalState * )globalState;
 
@@ -65,11 +65,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  如果白板窗口大小改变。应该重新调用该方法刷新尺寸
+ 查看父类 WhiteDisplayer 类中方法
  */
-- (void)refreshViewSize;
+//- (void)refreshViewSize;
 
 /** 主动断开连接 */
-- (void)disconnect:(void (^) (void))completeHandler;
+- (void)disconnect:(void (^ _Nullable) (void))completeHandler;
 
 #pragma mark - Operation
 /**
@@ -78,14 +79,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)disableOperations:(BOOL)readonly;
 
-
 /**
  禁止视野移动
 
  @param disableCameraTransform 是否禁止移动
  */
 - (void)disableCameraTransform:(BOOL)disableCameraTransform;
-
 
 /**
  禁止用户的教具操作
@@ -107,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertImage:(WhiteImageInformation *)imageInfo;
 
 /**
- 替换占位图中的内容
+ 替换占位图中的内容，如不需要占位符显示，可以直接使用 insertImage:src: API
 
  @param uuid insertImage API 中，imageInfo 传入的图片 uuid
  @param src 图片的网络地址
@@ -122,22 +121,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSTimeInterval delay;
 
 #pragma mark - 自定义事件
-// 发送自定义事件，详细内容，可以查看文档，或者单元测试代码
-- (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
-/** 低频自定义事件注册 */
-- (void)addMagixEventListener:(NSString *)eventName;
 /**
- * 高频自定义事件注册
- * @param eventName 自定义事件名称
- * @param millseconds 间隔回调频率，毫秒。最低 500ms，低于该值都会被强制设置为 500ms
-*/
-- (void)addHighFrequencyEventListener:(NSString *)eventName fireInterval:(NSUInteger)millseconds;
-- (void)removeMagixEventListener:(NSString *)eventName;
-
-#pragma mark - Get State API
-
-/** 返回当前坐标点，在白板内部的坐标位置 */
-- (void)convertToPointInWorld:(WhitePanEvent *)point result:(void (^) (WhitePanEvent *convertPoint))result;
+ 发送自定义事件，详细内容，可以查看文档，或者单元测试代码，
+ 注册，移除自定义事件 API，在 WhiteDisplayer 父类中
+ */
+- (void)dispatchMagixEvent:(NSString *)eventName payload:(NSDictionary *)payload;
 
 @end
 
@@ -165,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setScenePath:(NSString *)path;
 /** 多一个回调，如果失败，会返回具体错误内容 */
-- (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
+- (void)setScenePath:(NSString *)dirOrPath completionHandler:(void (^ _Nullable)(BOOL success, NSError * _Nullable error))completionHandler;
 
 /**
  切换上下页
@@ -173,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param index 目标场景 index。当前页面 index，可以通过 getSceneStateWithResult 获取
  @param completionHandler 完成回调，如果失败，会在 error 中的 userInfo 显示错误信息，一般为数组越界
  */
-- (void)setSceneIndex:(NSUInteger)index completionHandler:(void (^)(BOOL success, NSError * _Nullable error))completionHandler;
+- (void)setSceneIndex:(NSUInteger)index completionHandler:(void (^ _Nullable)(BOOL success, NSError * _Nullable error))completionHandler;
 
 /**
  插入，或许新建多个页面

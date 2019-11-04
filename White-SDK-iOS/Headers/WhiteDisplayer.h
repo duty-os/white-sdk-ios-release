@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "WhiteConfig.h"
 #import "WhiteCameraBound.h"
+#import "WhitePanEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +27,24 @@ NS_ASSUME_NONNULL_BEGIN
  所以建议使用该 API 替换。
  */
 @property (nonatomic, strong) UIColor *backgroundColor;
+
+#pragma mark - 通用 API
+
+/**  如果白板窗口大小改变。应该重新调用该方法刷新尺寸 */
+- (void)refreshViewSize;
+/** 返回当前坐标点，在白板内部的坐标位置 */
+- (void)convertToPointInWorld:(WhitePanEvent *)point result:(void (^) (WhitePanEvent *convertPoint))result;
+
+#pragma mark -
+/** 低频自定义事件注册 */
+- (void)addMagixEventListener:(NSString *)eventName;
+/**
+ * 高频自定义事件注册
+ * @param eventName 自定义事件名称
+ * @param millseconds 间隔回调频率，毫秒。最低 500ms，低于该值都会被强制设置为 500ms
+*/
+- (void)addHighFrequencyEventListener:(NSString *)eventName fireInterval:(NSUInteger)millseconds;
+- (void)removeMagixEventListener:(NSString *)eventName;
 
 #pragma mark - 视角
 /**

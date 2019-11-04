@@ -10,10 +10,12 @@
 #import <WhiteSDK.h>
 #import "WhiteRoomViewController.h"
 
+typedef void(^InterrupterBlock)(NSString *url);
+
 @interface RoomTests : XCTestCase<WhiteRoomCallbackDelegate, WhiteCommonCallbackDelegate>
 @property (nonatomic, strong) WhiteRoomViewController *vc;
 @property (nonatomic, strong) WhiteRoom *room;
-@property (nonatomic, strong) XCTestExpectation *exp;
+@property (nonatomic, copy) InterrupterBlock interrupterBlock;
 @end
 
 
@@ -25,22 +27,19 @@
     self.vc = [[WhiteRoomViewController alloc] initWithSdkConfig:[self testingConfig]];
     self.vc.roomCallbackDelegate = self;
     self.vc.commonDelegate = self;
-    __unused UIView *view = [self.vc view];
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
 
     __weak typeof(self)weakSelf = self;
     self.vc.roomBlock = ^(WhiteRoom *room, NSError *error) {
-        typeof(self)self = weakSelf;
-        if (room) {
-            weakSelf.room = room;
-        } else {
-            XCTFail(@"房间创建失败");
-        }
+        typeof(weakSelf)self = weakSelf;
+        weakSelf.room = room;
+        XCTAssertNotNil(room);
         [exp fulfill];
     };
     
     //部分API，需要 Webview 在视图栈中
+    __unused UIView *view = [self.vc view];
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     if ([nav isKindOfClass:[UINavigationController class]]) {
         [nav pushViewController:self.vc animated:YES];
@@ -85,11 +84,7 @@ static NSString * const kTestingCustomEventName = @"TestingCustomEventName";
 static NSTimeInterval kTimeout = 30;
 #define CustomEventPayload @{@"test": @"1234"}
 
-#pragma mark - Testing
-- (void)testRoom
-{
-    XCTAssertNotNil(self.vc.room);
-}
+#pragma mark - setting
 
 - (void)testSetMemberState
 {
@@ -145,7 +140,7 @@ static NSTimeInterval kTimeout = 30;
 
 
 /**
- 旧 API 兼容性测试，请使用新 API moveCamera:
+ 旧 API 兼容性测试。正常请使用新 API moveCamera:
  */
 - (void)testZoomChange
 {
@@ -171,6 +166,8 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+#pragma mark - Camera
+
 - (void)testCameraScale
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
@@ -195,14 +192,17 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+#pragma mark - disable API
 - (void)testDisableOperations
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     [self.room disableOperations:YES];
     
-    // TODO: 增加获取 disableOperation 操作
-    
-    [exp fulfill];
+    [self.vc.boardView evaluateJavaScript:@"room.disableOperations" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if ([result boolValue]) {
+            [exp fulfill];
+        }
+    }];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
@@ -211,6 +211,101 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+- (void)testRestoreDisableOperations
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room disableOperations:YES];
+    [self.room disableOperations:NO];
+
+    [self.vc.boardView evaluateJavaScript:@"room.disableOperations" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if (![result boolValue]) {
+            [exp fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+
+- (void)testDisableDeviceInputs
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room disableDeviceInputs:YES];
+
+    [self.vc.boardView evaluateJavaScript:@"room.disableDeviceInputs" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if ([result boolValue]) {
+            [exp fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testRestoreDisableDeviceInputs
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room disableDeviceInputs:YES];
+    [self.room disableDeviceInputs:NO];
+
+    [self.vc.boardView evaluateJavaScript:@"room.disableDeviceInputs" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if (![result boolValue]) {
+            [exp fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testDisableCameraTransform
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room disableCameraTransform:YES];
+
+    [self.vc.boardView evaluateJavaScript:@"room.disableCameraTransform" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if ([result boolValue]) {
+            [exp fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testRestoreDisableCameraTransform
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room disableCameraTransform:YES];
+    [self.room disableCameraTransform:NO];
+
+    [self.vc.boardView evaluateJavaScript:@"room.disableCameraTransform" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if (![result boolValue]) {
+            [exp fulfill];
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+#pragma mark - Scene API
 
 /**
  put and setScene
@@ -268,7 +363,7 @@ static NSTimeInterval kTimeout = 30;
     
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    //传入错误的路径，获取错误回调
+    //传入错误的路径(正确路径应该以 "/" 开始)，获取错误回调
     [self.room setScenePath:@"ppt/opt" completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (error) {
             NSLog(@"setScenePath fail");
@@ -276,50 +371,6 @@ static NSTimeInterval kTimeout = 30;
         }
     }];
     
-    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%s error: %@", __FUNCTION__, error);
-        }
-    }];
-}
-
-- (void)testPptImages
-{
-    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
-    pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
-    pptPage.width = 400;
-    pptPage.height = 600;
-    WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
-    [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
-    [self.room setScenePath:@"/ppt/opt"];
-    
-    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
-        NSLog(@"SceneState: %@", [state jsonString]);
-    }];
-    
-    [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
-        XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
-        [exp fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%s error: %@", __FUNCTION__, error);
-        }
-    }];
-}
-
-- (void)testInsertImage
-{
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    WhiteImageInformation *info = [[WhiteImageInformation alloc] init];
-    info.width = 200;
-    info.height = 300;
-    info.uuid = @"WhiteImageInformation";
-    [self.room insertImage:info src:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg"];
-    
-    // 在回调urlInterrupt API 中收到回调，self.exp 就会释放
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"%s error: %@", __FUNCTION__, error);
@@ -369,6 +420,57 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+#pragma mark - Image
+
+- (void)testScenesImages
+{
+    WhitePptPage *pptPage = [[WhitePptPage alloc] init];
+    pptPage.src = @"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg";
+    pptPage.width = 400;
+    pptPage.height = 600;
+    WhiteScene *scene = [[WhiteScene alloc] initWithName:@"opt" ppt:pptPage];
+    [self.room putScenes:@"/ppt" scenes:@[scene] index:0];
+    [self.room setScenePath:@"/ppt/opt"];
+    
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.room getSceneStateWithResult:^(WhiteSceneState * _Nonnull state) {
+        NSLog(@"SceneState: %@", [state jsonString]);
+    }];
+    
+    [self.room getScenesWithResult:^(NSArray<WhiteScene *> * _Nonnull scenes) {
+        XCTAssertTrue([[scenes lastObject].ppt.src isEqualToString:pptPage.src]);
+        [exp fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+- (void)testInsertImage
+{
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    WhiteImageInformation *info = [[WhiteImageInformation alloc] init];
+    info.width = 200;
+    info.height = 300;
+    info.uuid = @"WhiteImageInformation";
+    [self.room insertImage:info src:@"https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg"];
+    
+    self.interrupterBlock = ^(NSString *url) {
+        [exp fulfill];
+    };
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%s error: %@", __FUNCTION__, error);
+        }
+    }];
+}
+
+#pragma mark - Get
+
 - (void)testGetRoomMember
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
@@ -377,6 +479,7 @@ static NSTimeInterval kTimeout = 30;
             XCTAssertTrue([member isKindOfClass:[WhiteRoomMember class]]);
             NSLog(@"%s %@", __FUNCTION__, [member jsonString]);
         }
+        XCTAssertTrue([roomMembers count] == 1);
         [exp fulfill];
     }];
     
@@ -405,27 +508,13 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
-- (void)testCustomEvent
+#pragma mark - disconnect
+- (void)testDisconnectCallback
 {
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    NSDictionary *dict = CustomEventPayload;
-    
-    [self.room addMagixEventListener:kTestingCustomEventName];
-    [self.room dispatchMagixEvent:kTestingCustomEventName payload:dict];
-    
-    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%s error: %@", __FUNCTION__, error);
-        }
-    }];
-}
-
-- (void)testDisconnect
-{
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [self.room disconnect:^{
-        [self.exp fulfill];
+        [exp fulfill];
     }];
     
     [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
@@ -444,11 +533,6 @@ static NSTimeInterval kTimeout = 30;
 - (void)fireRoomStateChanged:(WhiteRoomState *)magixPhase;
 {
     NSLog(@"%s, %@", __func__, [magixPhase jsonString]);
-}
-
-- (void)fireBeingAbleToCommitChange:(BOOL)isAbleToCommit
-{
-    NSLog(@"%s, %d", __func__, isAbleToCommit);
 }
 
 - (void)fireDisconnectWithError:(NSString *)error
@@ -471,10 +555,15 @@ static NSTimeInterval kTimeout = 30;
     XCTAssertTrue([event.eventName isEqualToString:kTestingCustomEventName]);
     XCTAssertTrue([event.payload isEqualToDictionary:CustomEventPayload]);
     NSLog(@"fireMagixEvent: %@", [event jsonString]);
-    [self.exp fulfill];
 }
 
-#pragma mark - WhiteRoomCallbackDelegate
+- (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events
+{
+    XCTAssertNotNil(events);
+    NSLog(@"fireHighFrequencyEvent: %lu", (unsigned long)[events count]);
+}
+
+#pragma mark - WhiteCommonCallbackDelegate
 - (void)throwError:(NSError *)error
 {
     NSLog(@"throwError: %@", error.userInfo);
@@ -482,8 +571,8 @@ static NSTimeInterval kTimeout = 30;
 
 - (NSString *)urlInterrupter:(NSString *)url
 {
-    if (self.exp) {
-        [self.exp fulfill];
+    if (self.interrupterBlock) {
+        self.interrupterBlock(url);
     }
     return url;
 }

@@ -35,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL disableOperations;
 
 /**
+ 禁止橡皮擦擦除所有图片，默认 NO，即允许橡皮擦擦除图片。
+ */
+@property (nonatomic, assign) BOOL disableEraseImage;
+
+/**
  视野范围限制
  */
 //@property (nonatomic, strong, nullable) WhiteCameraBound *cameraBound;

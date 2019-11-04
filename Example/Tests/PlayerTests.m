@@ -15,12 +15,12 @@
 @property (nonatomic, strong) WhitePlayerViewController *vc;
 @property (nonatomic, strong) WhitePlayer *player;
 
-@property (nonatomic, strong) XCTestExpectation *exp;
 @property (nonatomic, copy) dispatch_block_t loadFirstFrameBlock;
 @property (nonatomic, copy) void (^seekBlock)(NSTimeInterval time);
 @property (nonatomic, copy) dispatch_block_t playBlock;
 @property (nonatomic, copy) dispatch_block_t pauseBlock;
 @property (nonatomic, copy) void (^eventBlock)(WhiteEvent *event);
+@property (nonatomic, copy) void (^eventsBlock)(NSArray<WhiteEvent *> *events);
 
 @end
 
@@ -28,13 +28,14 @@
 @implementation PlayerTests
 #pragma mark - Const
 static NSTimeInterval kTimeout = 30;
+static NSString * const kTestingCustomEventName = @"TestingCustomEventName";
 
 #pragma mark - Test
 - (void)setUp
 {
     [super setUp];
     self.vc = [[WhitePlayerViewController alloc] init];
-    self.vc.roomUuid = @"1bd317e6fba74a69a81eccbd4c79db2c";
+    self.vc.roomUuid = @"8457ec86fbd24668b2e7a36795473150";
     self.vc.eventDelegate = self;
     self.vc.commonDelegate = self;
 
@@ -49,7 +50,6 @@ static NSTimeInterval kTimeout = 30;
     };
     
     __unused UIView *view = [self.vc view];
-    //需要模拟UI 界面操作，否则 player 无法进行播放
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     if ([nav isKindOfClass:[UINavigationController class]]) {
         [nav pushViewController:self.vc animated:YES];
@@ -78,15 +78,14 @@ static NSTimeInterval kTimeout = 30;
     [self.player play];
 }
 
-#pragma mark - Player Testing
+#pragma mark - Player Control
 
 - (void)testPlay
 {
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    __weak typeof(self)weakSelf = self;
     self.playBlock = ^{
-        [weakSelf.exp fulfill];
+        [exp fulfill];
     };
     [self setupPlayer];
     
@@ -99,9 +98,8 @@ static NSTimeInterval kTimeout = 30;
 
 - (void)testPause
 {
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    
-    
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+
     __weak typeof(self)weakSelf = self;
     
     self.playBlock = ^{
@@ -109,7 +107,7 @@ static NSTimeInterval kTimeout = 30;
     };
     
     self.pauseBlock = ^{
-        [weakSelf.exp fulfill];
+        [exp fulfill];
     };
     
     [self setupPlayer];
@@ -123,20 +121,20 @@ static NSTimeInterval kTimeout = 30;
 
 - (void)testSeekToScheduleTime
 {
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    
     CGFloat expTime = 5;
     __weak typeof(self)weakSelf = self;
     self.seekBlock = ^(NSTimeInterval time) {
         if (time == expTime) {
-            [weakSelf.exp fulfill];
+            [exp fulfill];
         } else if (time < expTime) {
             id self = weakSelf;
             XCTFail(@"seek 失败");
         }
     };
     
-    //先从后期到前面，避免自然 play 时触发到时间
+    //FIXME:如果带音视频的回放，初始化player，不先播放一次的话，无法 seek
     [self.player seekToScheduleTime:expTime];
     [self.player play];
     
@@ -147,10 +145,45 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+#pragma mark - Event
+- (void)testEvent {
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.player addMagixEventListener:kTestingCustomEventName];
+    
+    [self setupPlayer];
+    self.eventBlock = ^(WhiteEvent *event) {
+        [exp fulfill];
+    };
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }];
+}
+
+- (void)testFrequencyEvents {
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+    [self.player addHighFrequencyEventListener:kTestingCustomEventName fireInterval:500];
+    
+    [self setupPlayer];
+    self.eventsBlock = ^(NSArray<WhiteEvent *> *events) {
+        [exp fulfill];
+    };
+    
+    [self waitForExpectationsWithTimeout:kTimeout handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }];
+}
+
+#pragma mark - Set
+
 - (void)testSetObserverMode
 {
-    self.exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
-    
+    XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
+
     [self.player setObserverMode:WhiteObserverModeFreedom];
     
     __weak typeof(self)weakSelf = self;
@@ -158,7 +191,7 @@ static NSTimeInterval kTimeout = 30;
         [weakSelf.player getPlayerStateWithResult:^(WhitePlayerState * _Nonnull state) {
             id self = weakSelf;
             XCTAssertTrue(state.observerMode == WhiteObserverModeFreedom);
-            [weakSelf.exp fulfill];
+            [exp fulfill];
         }];
     };
     
@@ -171,6 +204,7 @@ static NSTimeInterval kTimeout = 30;
     }];
 }
 
+#pragma mark - Get
 - (void)testGetPhase
 {
     XCTestExpectation *exp = [self expectationWithDescription:NSStringFromSelector(_cmd)];
@@ -185,11 +219,6 @@ static NSTimeInterval kTimeout = 30;
             NSLog(@"%@", error);
         }
     }];
-}
-
-- (void)testEvent
-{
-    //TODO: custom event testing
 }
 
 - (void)testGetPlayerState
@@ -276,12 +305,23 @@ static NSTimeInterval kTimeout = 30;
 
 - (void)fireMagixEvent:(WhiteEvent *)event
 {
+    XCTAssertNotNil(event);
+    NSLog(@"fireMagixEvent: %@", event);
     if (self.eventBlock) {
         self.eventBlock(event);
     }
 }
 
-#pragma mark - WhiteCommonCallback
+- (void)fireHighFrequencyEvent:(NSArray<WhiteEvent *>*)events
+{
+    XCTAssertNotNil(events);
+    NSLog(@"fireHighFrequencyEvent: %lu", (unsigned long)[events count]);
+    if (self.eventsBlock) {
+        self.eventsBlock(events);
+    }
+}
+
+#pragma mark - WhiteCommonCallbackDelegate
 - (NSString *)urlInterrupter:(NSString *)url
 {
     return @"https://white-pan-cn.oss-cn-hangzhou.aliyuncs.com/124/image/image.png";

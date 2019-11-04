@@ -36,16 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 //设置查看模式
 - (void)setObserverMode:(WhiteObserverMode)mode;
 
-#pragma mark - custom event
-/** 低频自定义事件注册 */
-- (void)addMagixEventListener:(NSString *)eventName;
-/**
- * 高频自定义事件注册
- * @param eventName 自定义事件名称
- * @param millseconds 间隔回调频率，毫秒。最低 500ms，低于该值都会被强制设置为 500ms
-*/
-- (void)addHighFrequencyEventListener:(NSString *)eventName fireInterval:(NSUInteger)millseconds;
-- (void)removeMagixEventListener:(NSString *)eventName;
 @end
 
 
@@ -61,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getPhaseWithResult:(void (^)(WhitePlayerPhase phase))result;
 
-- (void)refreshViewSize;
 /**
  当 phase 状态为 WhitePlayerPhaseWaitingFirstFrame
  回调得到的数据是空的

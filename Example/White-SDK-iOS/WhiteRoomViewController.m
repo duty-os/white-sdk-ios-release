@@ -125,11 +125,11 @@
  */
 - (void)joinRoom
 {
-    NSString *copyPast = [UIPasteboard generalPasteboard].string;
-    if ([copyPast length] == 32 && !self.roomUuid) {
-        NSLog(@"%@", [NSString stringWithFormat:NSLocalizedString(@"粘贴板 UUID：%@", nil), copyPast]);
-        self.roomUuid = copyPast;
-    }
+//    NSString *copyPast = [UIPasteboard generalPasteboard].string;
+//    if ([copyPast length] == 32 && !self.roomUuid) {
+//        NSLog(@"%@", [NSString stringWithFormat:NSLocalizedString(@"粘贴板 UUID：%@", nil), copyPast]);
+//        self.roomUuid = copyPast;
+//    }
     self.title = NSLocalizedString(@"加入房间中...", nil);
     [WhiteUtils getRoomTokenWithUuid:self.roomUuid Result:^(BOOL success, id response, NSError *error) {
         if (success) {
@@ -152,7 +152,7 @@
     
     NSDictionary *payload = @{@"avatar": @"https://white-pan.oss-cn-shanghai.aliyuncs.com/40/image/mask.jpg"};
     WhiteRoomConfig *roomConfig = [[WhiteRoomConfig alloc] initWithUuid:self.roomUuid roomToken:roomToken userPayload:payload];
-    
+//    roomConfig.disableEraseImage = YES;
     [self.sdk joinRoomWithConfig:roomConfig callbacks:self.roomCallbackDelegate completionHandler:^(BOOL success, WhiteRoom * _Nonnull room, NSError * _Nonnull error) {
         if (success) {
             self.title = NSLocalizedString(@"我的白板", nil);

@@ -33,8 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** 显示操作用户头像(需要在加入房间时，配置 userPayload，并确保存在 avatar 字段) */
 @property (nonatomic, assign) BOOL userCursor;
 /** 文档转网页中字体文件映射关系 */
-@property (nonatomic, copy, nullable) NSDictionary *font;
+@property (nonatomic, copy, nullable) NSDictionary *fonts;
 
+/** 是否预加载动态 ppt 资源，默认否 */
+@property (nonatomic, assign) BOOL preloadDynamicPPT;
 /**
   图片拦截替换功能，实时房间与回放房间通用
   当开启图片拦截后，最后显示图片时，会回调初始化 sdk 时，传入的 WhiteCommonCallbackDelegate 对象。
