@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		394E154C22D875F20070E610 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 394E154B22D875F20070E610 /* CHANGELOG.md */; };
+		396A2A682375766F00F7C227 /* DisplayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A2A672375766F00F7C227 /* DisplayerTests.m */; };
+		396A2A6A2375768300F7C227 /* WhiteObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 396A2A692375768300F7C227 /* WhiteObjectTests.m */; };
 		39B37D032233FE5B005E2BA3 /* PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B37D012233FE5B005E2BA3 /* PlayerTests.m */; };
 		39B37D042233FE5B005E2BA3 /* RoomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B37D022233FE5B005E2BA3 /* RoomTests.m */; };
 		39CC2DEE222D35F90030C03B /* WhiteBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */; };
@@ -50,6 +52,8 @@
 		0DE0E3299DAD4F8102D3949D /* libPods-White-SDK-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-White-SDK-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213A8F9A8B80E833CF703658 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		394E154B22D875F20070E610 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		396A2A672375766F00F7C227 /* DisplayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayerTests.m; sourceTree = "<group>"; };
+		396A2A692375768300F7C227 /* WhiteObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteObjectTests.m; sourceTree = "<group>"; };
 		39B37D012233FE5B005E2BA3 /* PlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerTests.m; sourceTree = "<group>"; };
 		39B37D022233FE5B005E2BA3 /* RoomTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomTests.m; sourceTree = "<group>"; };
 		39CC2DE6222D35F80030C03B /* WhiteBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteBaseViewController.m; sourceTree = "<group>"; };
@@ -194,6 +198,8 @@
 		6003F5B5195388D20070C39A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				396A2A692375768300F7C227 /* WhiteObjectTests.m */,
+				396A2A672375766F00F7C227 /* DisplayerTests.m */,
 				39B37D012233FE5B005E2BA3 /* PlayerTests.m */,
 				39B37D022233FE5B005E2BA3 /* RoomTests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
@@ -414,8 +420,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				396A2A6A2375768300F7C227 /* WhiteObjectTests.m in Sources */,
 				39B37D042233FE5B005E2BA3 /* RoomTests.m in Sources */,
 				39B37D032233FE5B005E2BA3 /* PlayerTests.m in Sources */,
+				396A2A682375766F00F7C227 /* DisplayerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

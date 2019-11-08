@@ -32,7 +32,7 @@ extern WhiteApplianceNameKey const ApplianceEraser;
 @interface WhiteMemberState : WhiteReadonlyMemberState
 /** 教具，初始教具为pencil，无默认值 */
 @property (nonatomic, copy, readwrite) WhiteApplianceNameKey currentApplianceName;
-/** 传入格式为[@(0-255),@(0-255),@(0-255)]的RGB */
+/** 传入格式为[@(0-255),@(0-255),@(0-255)]的RGB，均为整型。 */
 @property (nonatomic, copy, readwrite) NSArray<NSNumber *> *strokeColor;
 /** 画笔粗细 */
 @property (nonatomic, strong, readwrite) NSNumber *strokeWidth;
