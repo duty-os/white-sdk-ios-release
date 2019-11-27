@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'White-SDK-iOS'
-  s.version          = '2.4.17'
+  s.version          = '2.4.18'
   s.summary          = 'White iOS端 SDK 仓库。'
   s.description      = <<-DESC
   由于早期版本问题，2.1.0 兼容 API，但是无法支持与低版本互联。
