@@ -6,6 +6,8 @@
 
 [文档](https://developer.herewhite.com/#/)
 
+当前项目已经不再更新，后续维护，已转移至 [开源版本 SDK](https://github.com/netless-io/Whiteboard-iOS)。
+
 ## Requirements
 
 iOS 9+
